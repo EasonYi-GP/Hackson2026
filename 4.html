@@ -504,58 +504,81 @@
         function renderTables(tables, color) {
             const container = document.getElementById('members-grid');
             container.innerHTML = '';
-            // Compact Layout: Reduced gap and padding
-            container.className = "flex flex-col gap-3 pb-2"; 
+            // Grid Layout for 200px wide table cards
+            container.className = "grid grid-cols-2 md:grid-cols-3 gap-4 pb-2"; 
 
             tables.forEach((table) => {
-                // Generate Members HTML
-                const membersHTML = table.members.map(u => {
+                // Each table shows up to 3 users
+                const displayMembers = table.members.slice(0, 3);
+                if (displayMembers.length === 0) return;
+                
+                // Check if all members in table are selected
+                const allSelected = displayMembers.every(m => selectedMemberIds.has(m.id));
+                const someSelected = displayMembers.some(m => selectedMemberIds.has(m.id));
+                const tableSelectedClass = allSelected ? `ring-2 ring-${color}-400` : (someSelected ? `ring-1 ring-${color}-400/50` : '');
+                
+                // Generate member items HTML
+                const memberItems = displayMembers.map(u => {
                     const isSelected = selectedMemberIds.has(u.id);
-                    // Compact Styles
-                    const selectedClass = isSelected ? `ring-1 ring-${color}-400 bg-white/10` : 'bg-white/5 border-white/5';
+                    const memberSelectedClass = isSelected ? `bg-${color}-600/80` : 'bg-slate-700/60';
+                    const checkIcon = isSelected ? `<span class="text-${color}-200 text-xs">✓</span>` : `<span class="text-slate-400 text-xs">○</span>`;
                     
                     return `
-                    <div id="card-${u.id}" onclick="toggleMember('${u.id}', '${table.id}')" class="${selectedClass} hover:bg-white/10 border rounded-lg p-2 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden">
-                        <!-- Checkbox Overlay: Compact -->
-                        <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded border border-white/30 flex items-center justify-center transition-colors ${isSelected ? `bg-${color}-500 border-${color}-500` : ''}">
-                             ${isSelected ? '<i class="fa-solid fa-check text-[8px] text-white"></i>' : ''}
+                        <div onclick="event.stopPropagation(); toggleMember('${u.id}', '${table.id}')" 
+                             class="${memberSelectedClass} hover:bg-${color}-500/80 rounded-full px-2 py-0.5 flex items-center gap-1 cursor-pointer transition-all">
+                            ${checkIcon}
+                            <span class="text-white text-xs font-medium truncate max-w-[60px]">${u.name}</span>
                         </div>
-
-                        <div class="relative shrink-0">
-                            <!-- Compact Img -->
-                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${u.img}&backgroundColor=b6e3f4" class="w-8 h-8 rounded-full bg-slate-700 transition hover:scale-110">
-                            <div class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-900 rounded-full box-content"></div>
+                    `;
+                });
+                
+                // If 3+ members, split into 2 rows (2 on first row, rest on second)
+                let membersHTML = '';
+                if (displayMembers.length >= 3) {
+                    membersHTML = `
+                        <div class="flex gap-1 justify-center flex-wrap">
+                            ${memberItems.slice(0, 2).join('')}
                         </div>
-                        <div class="overflow-hidden min-w-0 flex-1 pr-4">
-                            <div class="font-bold text-xs text-white truncate">
-                                ${u.name}
-                            </div>
-                            <div class="text-[9px] text-${color}-400 truncate opacity-80 mt-0.5">
-                                ${u.status}
-                            </div>
+                        <div class="flex gap-1 justify-center flex-wrap">
+                            ${memberItems.slice(2).join('')}
                         </div>
-                    </div>`;
-                }).join('');
-
-                // Table Block: Compact
+                    `;
+                } else {
+                    membersHTML = `
+                        <div class="flex gap-1 justify-center flex-wrap">
+                            ${memberItems.join('')}
+                        </div>
+                    `;
+                }
+                
+                // Table Card: 200px wide with chair icon, table name, and users
                 container.innerHTML += `
-                    <div class="bg-slate-900/40 rounded-xl p-3 border border-white/5">
-                        <div class="flex items-center justify-between mb-2">
-                            <h4 class="text-xs font-bold text-slate-300 flex items-center gap-2">
-                                <i class="fa-solid fa-table text-gray-500"></i> ${table.name}
-                            </h4>
-                            <label class="flex items-center gap-1.5 cursor-pointer group hover:bg-white/5 px-2 py-0.5 rounded transition-colors">
-                                <span class="text-[9px] text-slate-500 group-hover:text-white transition-colors uppercase font-bold tracking-wider">All</span>
-                                <input type="checkbox" id="check-${table.id}" onchange="toggleTable('${table.id}')" class="w-3.5 h-3.5 rounded border-gray-600 bg-transparent text-${color}-500 focus:ring-0 cursor-pointer">
-                            </label>
+                    <div id="table-card-${table.id}" 
+                         class="bg-slate-900/60 border-slate-700/50 ${tableSelectedClass} hover:bg-slate-800/90 border rounded-2xl transition-all group relative overflow-hidden flex flex-col items-center justify-between py-3 px-2" 
+                         style="width: 200px; min-height: 160px;">
+                        
+                        <!-- Header: Chair Icon + Select All -->
+                        <div class="flex items-center justify-between w-full px-1">
+                            <div class="table-icon text-2xl">🪑</div>
+                            <div onclick="toggleTable('${table.id}')" 
+                                 class="text-xs text-slate-400 hover:text-white cursor-pointer px-2 py-0.5 rounded hover:bg-white/10 transition-colors"
+                                 title="选择全桌">
+                                ${allSelected ? '✓全选' : '全选'}
+                            </div>
                         </div>
-                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                        
+                        <!-- Table Name -->
+                        <div class="text-base font-bold text-white">
+                            ${table.name}
+                        </div>
+                        
+                        <!-- Users List -->
+                        <div class="flex flex-col gap-1 w-full items-center">
                             ${membersHTML}
                         </div>
                     </div>
                 `;
             });
-            syncTableCheckboxes();
         }
 
         // --- Interaction Logic ---
@@ -579,54 +602,42 @@
             } else {
                 selectedMemberIds.add(memberId);
             }
-            updateCardStyle(memberId);
-            syncTableCheckboxes();
+            // Re-render tables to update UI
+            const data = tribes[currentTribeKey];
+            renderTables(data.tables, data.color);
             updateSelectionUI();
         }
 
         function toggleTable(tableId) {
             const data = tribes[currentTribeKey];
             const table = data.tables.find(t => t.id === tableId);
-            const checkbox = document.getElementById(`check-${tableId}`);
-            const isChecked = checkbox.checked;
+            if (!table) return;
             
-            table.members.forEach(m => {
-                if (isChecked) selectedMemberIds.add(m.id);
-                else selectedMemberIds.delete(m.id);
-                updateCardStyle(m.id);
+            // Check if all members are currently selected
+            const displayMembers = table.members.slice(0, 3);
+            const allSelected = displayMembers.every(m => selectedMemberIds.has(m.id));
+            
+            // Toggle: if all selected, deselect all; otherwise select all
+            displayMembers.forEach(m => {
+                if (allSelected) {
+                    selectedMemberIds.delete(m.id);
+                } else {
+                    selectedMemberIds.add(m.id);
+                }
             });
+            
+            // Re-render tables to update UI
+            renderTables(data.tables, data.color);
             updateSelectionUI();
         }
 
         function syncTableCheckboxes() {
-            const data = tribes[currentTribeKey];
-            data.tables.forEach(t => {
-                const checkbox = document.getElementById(`check-${t.id}`);
-                const allSelected = t.members.every(m => selectedMemberIds.has(m.id));
-                const someSelected = t.members.some(m => selectedMemberIds.has(m.id));
-                if (checkbox) {
-                    checkbox.checked = allSelected;
-                    checkbox.indeterminate = someSelected && !allSelected;
-                }
-            });
+            // No longer needed with new layout, but keep for compatibility
         }
 
         function updateCardStyle(memberId) {
-            const card = document.getElementById(`card-${memberId}`);
-            if (!card) return;
-            
-            const color = tribes[currentTribeKey].color;
-            const isSelected = selectedMemberIds.has(memberId);
-            
-            if (isSelected) {
-                card.className = `ring-1 ring-${color}-400 bg-white/10 border rounded-lg p-2 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden`;
-                card.children[0].className = `absolute top-1.5 right-1.5 w-4 h-4 rounded border border-white/30 flex items-center justify-center transition-colors bg-${color}-500 border-${color}-500`;
-                card.children[0].innerHTML = '<i class="fa-solid fa-check text-[8px] text-white"></i>';
-            } else {
-                card.className = `bg-white/5 border-white/5 hover:bg-white/10 border rounded-lg p-2 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden`;
-                card.children[0].className = `absolute top-1.5 right-1.5 w-4 h-4 rounded border border-white/30 flex items-center justify-center transition-colors`;
-                card.children[0].innerHTML = '';
-            }
+            // Style is now handled by re-rendering in toggleMember
+            // This function is kept for compatibility
         }
 
         function updateSelectionUI() {
