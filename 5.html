@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Confirmation - Multi-Recipient</title>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        'neon-pink': '#ec4899',
+                        'neon-violet': '#8b5cf6',
+                        'glass-surface': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    animation: {
+                        'float-soft': 'floatSoft 6s ease-in-out infinite',
+                        'scan': 'scan 3s linear infinite',
+                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'aurora': 'aurora 20s linear infinite',
+                    },
+                    keyframes: {
+                        floatSoft: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        },
+                        scan: {
+                            '0%': { top: '0%', opacity: 0 },
+                            '10%': { opacity: 1 },
+                            '90%': { opacity: 1 },
+                            '100%': { top: '100%', opacity: 0 },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 10px rgba(139, 92, 246, 0.2)' },
+                            '50%': { boxShadow: '0 0 20px rgba(236, 72, 153, 0.5)' },
+                        },
+                        aurora: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+        .checkbox-wrapper input:checked + div {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            border-color: #8b5cf6;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+        .checkbox-wrapper input:checked + div .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .receipt-tear {
+            background-image: radial-gradient(circle at 10px 0, transparent 10px, #0f172a 11px);
+            background-size: 20px 10px;
+            background-repeat: repeat-x;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        
+        /* Bg Animation */
+        .bg-aurora {
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #0f172a);
+            background-size: 400% 400%;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen font-sans bg-[url('https://images.unsplash.com/photo-1570704986383-36655c65d342?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center bg-fixed relative overflow-x-hidden">
+    
+    <!-- Moving Aurora Overlay -->
+    <div class="fixed inset-0 bg-aurora opacity-80 animate-aurora mix-blend-overlay pointer-events-none"></div>
+    <div class="fixed inset-0 bg-gray-950/70 backdrop-blur-sm pointer-events-none"></div>
+
+    <!-- WRAPPER for Sidebar layout -->
+    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
+        <!-- Sidebar -->
+        <aside class="w-full md:w-24 glass-panel flex md:flex-col items-center py-4 md:py-8 gap-6 md:gap-8 shrink-0 justify-center md:justify-start sticky top-4 z-20 h-auto md:h-[calc(100vh-2rem)]">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-700 flex items-center justify-center font-bold text-slate-950 serif-font text-2xl shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+                半
+            </div>
+            <nav class="flex md:flex-col gap-6 items-center">
+                <!-- 首页按钮：House Style -->
+                <a href="1.html" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] hover:-translate-y-1 transition-all duration-300 group relative z-50 overflow-hidden ring-2 ring-amber-400/50">
+                    <!-- Glow Effect -->
+                    <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                    
+                    <!-- SVG House Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 drop-shadow-md relative z-10 group-hover:scale-110 transition-transform">
+                        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+                        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+                    </svg>
+                </a>
+                <a href="4.html" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors" title="Back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 w-full min-w-0 flex flex-col">
+    <!-- MAIN CARD -->
+    <div class="relative z-10 w-full max-w-5xl bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl flex flex-col md:flex-row border border-white/10 overflow-hidden animate-float-soft ring-1 ring-white/10">
+        
+        <!-- LEFT: ORDER & RECIPIENT INFO -->
+        <div class="w-full md:w-2/5 bg-slate-900 border-r border-white/5 flex flex-col relative">
+            <div class="p-5 md:p-6 pb-4 relative z-10">
+                <!-- Background decoration -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold tracking-widest text-slate-400 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-receipt"></i> 订单详情
+                    </h2>
+                    <!-- Toggle Button (Text Removed) -->
+                    <button onclick="toggleRecipientMode()" class="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-full border border-white/10 text-slate-400 hover:text-white transition group" title="切换接收人模式">
+                        <i class="fa-solid fa-rotate group-hover:rotate-180 transition-transform duration-500"></i>
+                    </button>
+                </div>
+
+                <!-- 1. DYNAMIC RECIPIENT CARD -->
+                <div id="recipient-card" class="bg-gradient-to-br from-indigo-900/40 to-slate-800 rounded-xl p-4 mb-4 relative overflow-hidden group hover:border-indigo-400/50 transition-colors cursor-default">
+                    <!-- Glow effect -->
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-pink-500"></div>
+                    
+                    <div class="text-[10px] text-indigo-300 uppercase font-bold tracking-wider mb-3 flex items-center justify-between">
+                        <span>To whom (接收对象)</span>
+                        <span id="recipient-type-badge" class="bg-indigo-500/20 px-2 py-0.5 rounded text-indigo-200">全组 Group</span>
+                    </div>
+
+                    <!-- Mode A: Whole Group -->
+                    <div id="mode-group" class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white shrink-0 shadow-lg shadow-indigo-500/30 relative overflow-hidden">
+                            <i class="fa-solid fa-users text-xl relative z-10"></i>
+                            <div class="absolute inset-0 bg-white/10 animate-pulse"></div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-white leading-tight">清爽果香派 · 全员</div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                当前活跃: 24人
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mode B: Specific Person -->
+                    <div id="mode-single" class="hidden flex items-center gap-4">
+                        <div class="relative w-12 h-12">
+                            <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" class="w-12 h-12 rounded-full border-2 border-indigo-500 object-cover">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-slate-900 rounded-full"></div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-white leading-tight">Alice</div>
+                            <div class="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot text-pink-500"></i> 吧台 03号桌
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Mode C: Multiple People -->
+                     <div id="mode-multi" class="hidden flex flex-col gap-2">
+                        <div class="flex items-center -space-x-3 overflow-visible pl-2">
+                            <img src="https://i.pravatar.cc/150?u=12" class="w-10 h-10 rounded-full border-2 border-slate-800 z-30 transition hover:scale-110 hover:z-40">
+                            <img src="https://i.pravatar.cc/150?u=23" class="w-10 h-10 rounded-full border-2 border-slate-800 z-20 transition hover:scale-110 hover:z-40">
+                            <img src="https://i.pravatar.cc/150?u=45" class="w-10 h-10 rounded-full border-2 border-slate-800 z-10 transition hover:scale-110 hover:z-40">
+                            <div class="w-10 h-10 rounded-full bg-slate-700 border-2 border-slate-800 z-0 flex items-center justify-center text-xs font-bold text-slate-300 shadow-lg">+2</div>
+                        </div>
+                        <div class="text-sm font-bold text-white mt-1">Bob, Jack, Rose... (共5人)</div>
+                    </div>
+                </div>
+
+                <!-- 2. ORDER DETAILS (Expanded) -->
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/5 space-y-4">
+                    <h3 class="text-xs font-bold text-slate-500 uppercase">Items (点餐内容)</h3>
+                    
+                    <!-- Item 1 -->
+                    <div class="flex gap-3 group">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-800 shrink-0 relative">
+                            <i class="fa-solid fa-martini-glass-citrus absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-emerald-500/30 text-xl z-0"></i>
+                            <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200&h=200&fit=crop" 
+                                 alt="Mojito" 
+                                 onerror="this.style.display='none'; this.previousElementSibling.style.opacity='1'"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-700 relative z-10">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div class="text-sm font-bold text-emerald-400">Mojito 特调</div>
+                                <div class="text-sm">¥ 12.00</div>
+                            </div>
+                            <div class="text-xs text-slate-400">x <span id="qty-display">24</span> (Less Sugar)</div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="flex gap-3 group">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-800 shrink-0 relative">
+                            <i class="fa-solid fa-bowl-food absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-amber-500/30 text-xl z-0"></i>
+                            <img src="https://images.unsplash.com/photo-1630384060421-a4323ce56d1b?w=200&h=200&fit=crop" 
+                                 alt="Potato Wedges" 
+                                 onerror="this.style.display='none'; this.previousElementSibling.style.opacity='1'"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-700 relative z-10">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div class="text-sm font-bold text-amber-400">薯角拼盘</div>
+                                <div class="text-sm">¥ 45.00</div>
+                            </div>
+                            <div class="text-xs text-slate-400">x 5 (Share Size)</div>
+                        </div>
+                    </div>
+
+                    <div class="h-px bg-white/10 my-2"></div>
+                    <div class="flex justify-between items-center text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400">
+                        <span>Total Pay</span>
+                        <span>¥ 513.00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hidden md:block flex-1 bg-slate-900/50"></div>
+            <!-- Receipt Edge -->
+            <div class="h-4 w-full receipt-tear absolute bottom-0 md:-bottom-4 left-0 z-20 opacity-80"></div>
+        </div>
+
+        <!-- RIGHT: SOCIAL & MESSAGE -->
+        <div class="w-full md:w-3/5 bg-slate-800/50 p-5 md:p-6 flex flex-col backdrop-blur-3xl">
+            <div class="mb-4">
+                <h2 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                    来自谁的心意？
+                    <i class="fa-solid fa-heart text-pink-500 animate-pulse"></i>
+                </h2>
+                <p class="text-slate-400 text-xs">Let them know who made their night special.</p>
+            </div>
+
+            <!-- Contact Section (Checkbox Based) -->
+            <div class="mb-4">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-2">
+                    联系方式 (Safe Connect) <span class="text-[10px] font-normal normal-case opacity-70 ml-2">- 可多选</span>
+                </label>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- WeChat Option -->
+                    <label class="checkbox-wrapper block cursor-pointer group">
+                        <input type="checkbox" class="hidden peer" id="check-wechat" checked onchange="toggleContact('wechat')">
+                        <div class="bg-gray-900/50 border border-white/10 rounded-xl p-3 transition-all duration-300 group-hover:border-white/20 relative overflow-hidden h-full flex flex-col justify-between">
+                            <div class="flex items-center justify-between z-10 relative">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-600/20 text-emerald-400 flex items-center justify-center text-sm shrink-0">
+                                        <i class="fa-brands fa-weixin"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-xs font-bold text-white truncate">微信名片</div>
+                                        <div class="text-[10px] text-slate-400 truncate">扫码添加</div>
+                                    </div>
+                                </div>
+                                <!-- Checkbox Circle -->
+                                <div class="w-5 h-5 rounded-full border-2 border-white/20 flex items-center justify-center transition-colors shrink-0 peer-checked:border-emerald-500 peer-checked:bg-emerald-500">
+                                    <i class="fa-solid fa-check text-[10px] text-white opacity-0 transition-all duration-300 check-icon"></i>
+                                </div>
+                            </div>
+
+                            <!-- Expandable Content: QR -->
+                            <div id="content-wechat" class="mt-3 pt-3 border-t border-white/10 flex items-center gap-3 transition-all duration-500 origin-top overflow-hidden">
+                                <div class="relative w-16 h-16 bg-white rounded-lg p-1 shrink-0 group-hover:scale-105 transition-transform duration-300 shadow-lg">
+                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WeChatFriendRequest" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-400/30 to-transparent h-1/2 w-full animate-scan opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+                                </div>
+                                <div class="text-[10px] text-slate-400 leading-tight">
+                                    <p class="mb-1 text-slate-300">临时二维码</p>
+                                    <p>30分钟有效</p>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Phone Option -->
+                    <label class="checkbox-wrapper block cursor-pointer group">
+                        <input type="checkbox" class="hidden peer" id="check-phone" onchange="toggleContact('phone')">
+                        <div class="bg-gray-900/50 border border-white/10 rounded-xl p-3 transition-all duration-300 group-hover:border-white/20 relative h-full flex flex-col justify-between">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-sm shrink-0">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-xs font-bold text-white truncate">手机号码</div>
+                                        <div class="text-[10px] text-slate-400 truncate">隐私保护</div>
+                                    </div>
+                                </div>
+                                <div class="w-5 h-5 rounded-full border-2 border-white/20 flex items-center justify-center transition-colors shrink-0 peer-checked:border-blue-500 peer-checked:bg-blue-500">
+                                    <i class="fa-solid fa-check text-[10px] text-white opacity-0 transition-all duration-300 check-icon"></i>
+                                </div>
+                            </div>
+
+                            <!-- Expandable Content: Input -->
+                            <div id="content-phone" class="hidden mt-3 pt-3 border-t border-white/10">
+                                <div class="relative w-full">
+                                    <i class="fa-solid fa-mobile-screen absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                                    <input type="text" value="139 **** 9999" class="w-full bg-slate-900 border border-white/10 rounded-lg py-2 pl-8 pr-3 text-xs text-white font-mono focus:border-blue-500 focus:outline-none transition-colors group-hover:bg-slate-800">
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Message Section -->
+            <div class="flex-1 flex flex-col min-h-[160px]">
+                <div class="flex justify-between items-center mb-3">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">赠言 (Message)</label>
+                    <span id="char-count" class="text-[10px] text-slate-600">0/50</span>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span onclick="addTag('Cheers!')" class="cursor-pointer px-3 py-1.5 rounded-full text-xs bg-pink-500/10 border border-pink-500/30 text-pink-300 hover:bg-pink-500/20 transition hover:scale-105 select-none">✨ Cheers!</span>
+                    <span onclick="addTag('遇见即是缘分')" class="cursor-pointer px-3 py-1.5 rounded-full text-xs bg-purple-500/10 border border-purple-500/30 text-purple-300 hover:bg-purple-500/20 transition hover:scale-105 select-none">🤝 缘分</span>
+                    <span onclick="addTag('很高兴认识大家')" class="cursor-pointer px-3 py-1.5 rounded-full text-xs bg-blue-500/10 border border-blue-500/30 text-blue-300 hover:bg-blue-500/20 transition hover:scale-105 select-none">👋 幸会</span>
+                </div>
+
+                <div class="relative flex-1 group">
+                    <textarea id="message-area" class="w-full h-full min-h-[100px] bg-slate-900/50 border border-white/10 rounded-xl p-4 text-white placeholder-slate-600 resize-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-serif italic text-sm leading-relaxed" placeholder="写下你对这杯酒的期待..."></textarea>
+                    
+                    <button class="absolute bottom-3 right-3 text-slate-500 hover:text-white transition group-hover:scale-110">
+                        <i class="fa-solid fa-pen-fancy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="mt-4 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <button id="sendBtn" onclick="sendMessage()" class="w-full bg-gradient-to-r from-neon-pink to-purple-600 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-purple-900/50 hover:scale-[1.02] hover:shadow-purple-700/50 transition-all flex items-center justify-center gap-3 group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                    <span id="btnText">确认支付 & 发送</span>
+                    <i id="btnIcon" class="fa-solid fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+        </main>
+    </div>
+
+    <script>
+        // Init from LocalStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const rawData = localStorage.getItem('giftData');
+            if (rawData) {
+                const data = JSON.parse(rawData);
+                renderPage(data);
+            }
+        });
+
+        function renderPage(data) {
+            // 1. Recipient Info
+            const typeMap = { 'single': '单人 Single', 'group': '全组 Group', 'multi': '多人 Multi' };
+            document.getElementById('recipient-type-badge').innerText = typeMap[data.recipient.type] || 'Group';
+
+            // Hide all modes first
+            document.getElementById('mode-group').classList.add('hidden');
+            document.getElementById('mode-single').classList.add('hidden');
+            document.getElementById('mode-multi').classList.add('hidden');
+
+            const bgColors = {
+                'violet': 'bg-violet-600',
+                'rose': 'bg-rose-600',
+                'amber': 'bg-amber-600',
+                'cyan': 'bg-cyan-600'
+            };
+            const shadowColors = {
+                'violet': 'shadow-violet-500/30',
+                'rose': 'shadow-rose-500/30',
+                'amber': 'shadow-amber-500/30',
+                'cyan': 'shadow-cyan-500/30'
+            };
+            
+            // Map color to class
+            const themeBg = bgColors[data.tribeColor] || 'bg-indigo-600';
+            const themeShadow = shadowColors[data.tribeColor] || 'shadow-indigo-500/30';
+
+            if (data.recipient.type === 'single') {
+                 const el = document.getElementById('mode-single');
+                 el.classList.remove('hidden');
+                 el.querySelector('.text-lg').innerText = data.recipient.name;
+                 // Assuming random avatar for now if not passed, or use generic
+                 // If we had image passed: el.querySelector('img').src = ...
+            } else if (data.recipient.type === 'group' || data.recipient.type === 'multi') {
+                 // Reuse group layout for both table & multi for now as it looks good for "Name + Count"
+                 const el = document.getElementById('mode-group');
+                 el.classList.remove('hidden');
+                 
+                 // Update Icon/Color
+                 const iconBox = el.querySelector('.w-12');
+                 iconBox.className = `w-12 h-12 rounded-xl ${themeBg} flex items-center justify-center text-white shrink-0 shadow-lg ${themeShadow} relative overflow-hidden`;
+                 
+                 el.querySelector('.text-lg').innerText = data.recipient.name; // e.g., "Table A1"
+                 el.querySelector('.text-xs').innerHTML = `
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    共选择了 ${data.recipient.count} 人
+                 `;
+            }
+
+            // 2. Order Details
+            const container = document.querySelector('.bg-white\\/5.rounded-2xl.p-4.border.border-white\\/5.space-y-4');
+            // Keep header, remove items
+            const header = container.querySelector('h3');
+            const footer = container.querySelector('.bg-clip-text'); // Total line
+            const divider = container.querySelector('.h-px');
+
+            // Clear middle
+            let html = '';
+            data.items.forEach(item => {
+                 html += `
+                    <div class="flex gap-3 group">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden bg-slate-800 shrink-0 relative flex items-center justify-center">
+                            <i class="fa-solid ${item.icon || 'fa-martini-glass'} text-${data.tribeColor || 'emerald'}-500/50 text-xl z-0"></i>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div class="text-sm font-bold text-slate-200">${item.name}</div>
+                                <div class="text-sm">¥ ${item.price}</div>
+                            </div>
+                            <div class="text-xs text-slate-400">x ${data.recipient.count} (每人一份)</div>
+                        </div>
+                    </div>
+                 `;
+            });
+            
+            // Reconstruct Container
+            container.innerHTML = '';
+            container.appendChild(header);
+            const contentDiv = document.createElement('div');
+            contentDiv.className = "space-y-3 mt-3";
+            contentDiv.innerHTML = html;
+            container.appendChild(contentDiv);
+            container.appendChild(divider);
+            
+            // Update Footer Total
+            footer.querySelectorAll('span')[1].innerText = `¥ ${data.total}`;
+            container.appendChild(footer);
+        }
+
+        function sendMessage() {
+            const wechat = document.getElementById('check-wechat');
+            const phone = document.getElementById('check-phone');
+            
+            if (!wechat.checked && !phone.checked) return;
+
+            const btn = document.getElementById('sendBtn');
+            const originalClass = btn.className;
+            const originalHTML = btn.innerHTML;
+
+            // Success State
+            btn.className = "w-full bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-emerald-900/50 scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden";
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> <span>支付 & 发送成功</span>`;
+
+            setTimeout(() => {
+                document.getElementById('message-area').value = '';
+                btn.className = originalClass;
+                btn.innerHTML = originalHTML;
+            }, 1000);
+        }
+
+        function toggleRecipientMode() {
+            // Disabled manual toggle if data is driven, or keep for demo
+            console.log("Mode is controlled by selection now.");
+        }
+
+        // Updated for Checkboxes
+        function toggleContact(type) {
+            const checkbox = document.getElementById(`check-${type}`);
+            const content = document.getElementById(`content-${type}`);
+            
+            if (checkbox.checked) {
+                content.classList.remove('hidden');
+            } else {
+                content.classList.add('hidden');
+            }
+            updateButtonState();
+        }
+
+        function updateButtonState() {
+            const wechat = document.getElementById('check-wechat').checked;
+            const phone = document.getElementById('check-phone').checked;
+            const btn = document.getElementById('sendBtn');
+            
+            if (!wechat && !phone) {
+                // Disable
+                btn.classList.add('opacity-50', 'grayscale', 'pointer-events-none');
+                btn.classList.remove('shadow-lg', 'hover:scale-[1.02]');
+            } else {
+                // Enable
+                btn.classList.remove('opacity-50', 'grayscale', 'pointer-events-none');
+                btn.classList.add('shadow-lg', 'hover:scale-[1.02]');
+            }
+        }
+
+        // Init Button State on Load
+        document.addEventListener('DOMContentLoaded', () => {
+             updateButtonState();
+        });
+
+        function addTag(text) {
+            const area = document.getElementById('message-area');
+            if (area.value) {
+                area.value += " " + text;
+            } else {
+                area.value = text;
+            }
+        }
+    </script>
+</body>
+</html>

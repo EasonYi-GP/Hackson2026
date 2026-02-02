@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavor Tribes</title>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        'fresh-base': '#10b981',
+                        'creamy-base': '#f59e0b',
+                        'hardcore-base': '#e11d48',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bubble-rise': 'rise 4s infinite ease-in',
+                        'ember-fly': 'fly 3s infinite linear',
+                        'liquid-sway': 'sway 8s infinite ease-in-out',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+                        rise: { '0%': { bottom: '-30px', opacity: 0, transform: 'translateX(0)' }, '20%': {opacity: 0.8}, '100%': { bottom: '150%', opacity: 0, transform: 'translateX(-20px)' } },
+                        fly: { '0%': { transform: 'translateY(0) translateX(0) scale(1)', opacity: 1 }, '100%': { transform: 'translateY(-150px) translateX(30px) scale(0)', opacity: 0 } },
+                        sway: { '0%, 100%': { transform: 'rotate(-3deg) scale(1.1)' }, '50%': { transform: 'rotate(3deg) scale(1)' } },
+                        pulseGlow: { '0%, 100%': { boxShadow: '0 0 10px currentColor' }, '50%': { boxShadow: '0 0 30px currentColor, 0 0 50px currentColor' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .effect-container { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+        
+        /* 增强的动效元素 */
+        .bubble { 
+            position: absolute; 
+            background: rgba(255,255,255,0.6); 
+            border-radius: 50%; 
+            box-shadow: 0 0 5px rgba(255,255,255,0.4);
+        }
+        .ember { 
+            position: absolute; 
+            width: 4px; 
+            height: 4px; 
+            background: #fca5a5; 
+            border-radius: 50%; 
+            box-shadow: 0 0 8px #ef4444, 0 0 12px #ef4444; 
+        }
+        
+        .tribe-selected {
+            border: 2px solid rgba(255,255,255,0.8) !important;
+            transform: scale(1.03);
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8) !important;
+            z-index: 10;
+        }
+
+        .btn-enabled {
+            background: linear-gradient(90deg, #ec4899, #f43f5e, #fbbf24);
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+        }
+        @keyframes gradientMove { 
+            0% { background-position: 0% 50% } 
+            50% { background-position: 100% 50% } 
+            100% { background-position: 0% 50% } 
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white h-screen flex flex-col font-sans overflow-hidden bg-[url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center">
+    
+    <div class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
+
+        <!-- Sidebar -->
+        <aside class="w-full md:w-24 glass-panel flex md:flex-col items-center py-4 md:py-8 gap-6 md:gap-8 shrink-0 justify-center md:justify-start sticky top-4 z-20 h-auto md:h-[calc(100vh-2rem)]">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-700 flex items-center justify-center font-bold text-slate-950 serif-font text-2xl shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+                半
+            </div>
+            <nav class="flex md:flex-col gap-6 items-center">
+                <!-- 首页按钮：House Style -->
+                <a href="1.html" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] hover:-translate-y-1 transition-all duration-300 group relative z-50 overflow-hidden ring-2 ring-amber-400/50">
+                    <!-- Glow Effect -->
+                    <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                    
+                    <!-- SVG House Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 drop-shadow-md relative z-10 group-hover:scale-110 transition-transform">
+                        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+                        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+                    </svg>
+                </a>
+                <a href="3.html" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors" title="Back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- LEFT COLUMN: TRIBE SELECTOR -->
+        <div class="w-full md:w-1/3 flex flex-col gap-3 h-full">
+            <header class="mb-1">
+                <h1 class="text-xl font-bold italic tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">
+                    选择你的风味频率
+                    <span class="block text-[10px] font-normal text-slate-400 not-italic mt-0.5">寻找与你味蕾共鸣的伙伴</span>
+                </h1>
+            </header>
+
+            <!-- Card 1: Poetic (Violet) -->
+            <div onclick="selectTribe('poetic')" id="tribe-poetic" class="relative group cursor-pointer flex-1 rounded-2xl bg-violet-900/40 border border-violet-500/30 p-3 flex flex-col justify-end transition-all duration-300 overflow-hidden tribe-selected hover:border-violet-400/50">
+                <div class="effect-container">
+                    <div class="absolute inset-0 bg-gradient-to-t from-violet-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-0 right-0 w-full h-full opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+                </div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-violet-300 font-mono text-[10px] mb-0.5 bg-violet-900/50 inline-block px-1 rounded">#灵感 #月光 #诗意</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">微醺诗人</h2>
+                            <p class="text-violet-100/70 text-[10px] mt-0.5 line-clamp-1">笔尖流淌的不仅是墨水，还有月光与酒香。</p>
+                        </div>
+                        <i class="fa-solid fa-feather-pointed text-2xl text-violet-400 drop-shadow-[0_0_10px_rgba(167,139,250,0.5)] group-hover:scale-110 group-hover:-rotate-12 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Electro (Rose) -->
+            <div onclick="selectTribe('electro')" id="tribe-electro" class="relative group cursor-pointer flex-1 rounded-2xl bg-rose-900/40 border border-rose-500/30 p-3 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-rose-400/50">
+                <div class="effect-container">
+                    <div class="ember left-[20%] top-[90%] animate-ember-fly" style="animation-delay: 0.1s"></div>
+                    <div class="ember left-[50%] top-[80%] animate-ember-fly" style="animation-delay: 0.5s"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-rose-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-rose-300 font-mono text-[10px] mb-0.5 bg-rose-900/50 inline-block px-1 rounded">#Rave #能量 #释放</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">燥热电音</h2>
+                            <p class="text-rose-100/70 text-[10px] mt-0.5 line-clamp-1">跟随强劲的律动，释放体内所有的多巴胺。</p>
+                        </div>
+                        <i class="fa-solid fa-bolt text-2xl text-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Whisper (Amber) -->
+            <div onclick="selectTribe('whisper')" id="tribe-whisper" class="relative group cursor-pointer flex-1 rounded-2xl bg-amber-900/40 border border-amber-500/30 p-3 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-amber-400/50">
+                <div class="effect-container">
+                    <div class="absolute -bottom-1/2 -left-1/2 w-[200%] h-[200%] bg-amber-600/30 rounded-[40%] animate-liquid-sway filter blur-2xl opacity-60"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-amber-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-amber-300 font-mono text-[10px] mb-0.5 bg-amber-900/50 inline-block px-1 rounded">#机遇 #合作 #连接</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">商务洽谈</h2>
+                            <p class="text-amber-100/70 text-[10px] mt-0.5 line-clamp-1">在杯酒之间交换视野，于谈笑之中达成共识。</p>
+                        </div>
+                        <i class="fa-solid fa-handshake text-2xl text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Solo (Cyan) -->
+            <div onclick="selectTribe('solo')" id="tribe-solo" class="relative group cursor-pointer flex-1 rounded-2xl bg-cyan-900/40 border border-cyan-500/30 p-3 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-cyan-400/50">
+                <div class="effect-container">
+                    <div class="bubble w-2 h-2 left-[20%] animate-bubble-rise" style="animation-delay: 0s"></div>
+                    <div class="bubble w-3 h-3 left-[70%] animate-bubble-rise" style="animation-delay: 0.5s"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-cyan-300 font-mono text-[10px] mb-0.5 bg-cyan-900/50 inline-block px-1 rounded">#独处 #白噪音 #自在</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">独自放空</h2>
+                            <p class="text-cyan-100/70 text-[10px] mt-0.5 line-clamp-1">享受一个人的宁静，与世界保持微醺的距离。</p>
+                        </div>
+                        <i class="fa-solid fa-wind text-2xl text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: INTERACTION ZONE -->
+        <div class="w-2/3 flex flex-col h-full bg-slate-900/60 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+            
+            <!-- Top Bar -->
+            <div id="right-header-bg" class="h-32 relative flex items-center px-8 transition-colors duration-500 bg-amber-900/30">
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div class="absolute -right-10 -top-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+                </div>
+                <div class="relative z-10 w-full">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <span id="header-icon-container" class="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-slate-900 shadow-lg shadow-amber-500/50 transition-colors duration-300">
+                                    <i id="header-icon" class="fa-solid fa-martini-glass-citrus text-lg"></i>
+                                </span>
+                                <div>
+                                    <span id="header-title" class="text-2xl font-bold block leading-none tracking-wide text-white drop-shadow-md">微醺奶香组</span>
+                                    <span class="text-sm opacity-80 block mt-1 text-slate-300">互动专区</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 text-xs font-mono opacity-80 text-slate-300">
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-group"></i> 24人 在线</span>
+                                <span class="flex items-center gap-1.5"><i class="fa-solid fa-signal text-green-400"></i> 热度：高</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini Live Ticker -->
+                        <div class="hidden md:block bg-black/40 backdrop-blur rounded-lg p-3 max-w-xs border border-white/10 shadow-lg">
+                             <div class="text-[10px] text-emerald-400 mb-1 flex items-center gap-2 font-bold tracking-wider">
+                                 <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                  </span>
+                                 实时动态 (LIVE)
+                             </div>
+                             <div id="live-feed-text" class="text-xs text-slate-200 truncate transition-opacity duration-300">Ray 正在听酒吧的爵士乐 🎵...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Grid -->
+            <div class="flex-1 overflow-y-auto p-6 no-scrollbar bg-slate-900/30">
+                <h3 class="text-sm text-slate-400 font-bold mb-4 flex items-center gap-2 tracking-wide uppercase">
+                    <i class="fa-solid fa-location-dot text-indigo-400"></i>
+                    现场酒友 (Members in Bar)
+                </h3>
+                
+                <div id="members-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- Dynamic Content Will Be Injected Here -->
+                </div>
+            </div>
+
+            <!-- BOTTOM ACTION BAR -->
+            <div class="p-4 bg-slate-950/90 border-t border-white/5 shrink-0 backdrop-blur-md flex flex-col gap-3">
+                
+                <!-- Drink Selector (Horizontal Scroll) -->
+                <div>
+                     <div class="flex justify-between items-center mb-2">
+                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                            <i class="fa-solid fa-wine-glass"></i> Select Gift (选择酒品)
+                        </label>
+                        <span id="drink-price-display" class="text-xs font-mono text-amber-400"></span>
+                     </div>
+                     <div id="drink-selector" class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+                        <!-- Dynamic Drink Options -->
+                     </div>
+                </div>
+
+                <!-- Action Button & Summary -->
+                <div class="flex items-center gap-4">
+                    <div class="flex-1">
+                         <div onclick="goToConfirmation()" id="gift-btn" class="cursor-pointer w-full h-14 rounded-xl btn-enabled text-white font-bold text-base tracking-wide shadow-[0_0_20px_rgba(236,72,153,0.5)] transform transition-transform hover:scale-[1.01] flex items-center justify-center gap-3 active:scale-95 group relative overflow-hidden opacity-50 pointer-events-none grayscale">
+                            <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+                            <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shadow-inner"><i class="fa-solid fa-gift animate-bounce text-sm"></i></span>
+                            <div class="flex flex-col items-start leading-none">
+                                <span class="text-sm">确认赠送</span>
+                                <span class="text-[9px] font-normal opacity-90">Send Gift</span>
+                            </div>
+                            <!-- Price Tag on Button -->
+                            <div class="ml-auto mr-4 text-right">
+                                <span class="block font-mono text-lg leading-none" id="total-price">¥ 0</span>
+                                <span class="text-[9px] font-normal opacity-80" id="selection-count-label">0 chosen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Data Structure: Grouped by Tables & Drink Options
+        const tribes = {
+            poetic: {
+                color: 'violet',
+                title: '微醺诗人',
+                icon: 'fa-feather-pointed',
+                bgClass: 'bg-violet-900/30',
+                drinks: [
+                    { id: 'pd1', name: '特调·月光 (Moonlight)', price: 48, icon: 'fa-martini-glass' },
+                    { id: 'pd2', name: '苦艾酒 (Absinthe)', price: 68, icon: 'fa-cannabis' },
+                    { id: 'pd3', name: '红酒 (House Wine)', price: 42, icon: 'fa-wine-glass' },
+                    { id: 'pd4', name: '诗人之血 (Poet\'s Blood)', price: 55, icon: 'fa-droplet' },
+                    { id: 'pd5', name: '星空 (Starry Night)', price: 62, icon: 'fa-star' }
+                ],
+                tables: [
+                    {
+                        name: "Table A1",
+                        id: "t-poetic-1",
+                        members: [
+                            {id: 'p1', name: 'Luna', img: 'Luna', status: '写诗中 ✍️'},
+                            {id: 'p2', name: 'Jasper', img: 'Jasper', status: '灵感 🍷'}
+                        ]
+                    },
+                    {
+                        name: "Table A2",
+                        id: "t-poetic-2",
+                        members: [
+                            {id: 'p3', name: 'Echo', img: 'Echo', status: '低吟 🎵'},
+                            {id: 'p4', name: 'Frost', img: 'Frost', status: '夜色 🌙'},
+                            {id: 'p5', name: 'Muse', img: 'Muse', status: '记录 📖'}
+                        ]
+                    }
+                ]
+            },
+            electro: {
+                color: 'rose',
+                title: '燥热电音',
+                icon: 'fa-bolt',
+                bgClass: 'bg-rose-900/30',
+                drinks: [
+                     { id: 'ed1', name: '野格炸弹 (Jager Bomb)', price: 58, icon: 'fa-bomb' },
+                     { id: 'ed2', name: '金汤力 (Gin Tonic)', price: 48, icon: 'fa-glass-water' },
+                     { id: 'ed3', name: 'Shot Tray (6 cups)', price: 188, icon: 'fa-glass-water-droplet' },
+                     { id: 'ed4', name: '伏特加红牛 (Vodka Redbull)', price: 52, icon: 'fa-bull' },
+                     { id: 'ed5', name: '长岛冰茶 (Long Island)', price: 65, icon: 'fa-glass-citrus' }
+                ],
+                tables: [
+                    {
+                        name: "DJ 舞池",
+                        id: "t-electro-1",
+                        members: [
+                            {id: 'e1', name: 'Vibe', img: 'Vibe', status: 'Raving 🕺'},
+                            {id: 'e2', name: 'Neon', img: 'Neon', status: '打碟 🎧'}
+                        ]
+                    },
+                    {
+                        name: "Bar",
+                        id: "t-electro-2",
+                        members: [
+                            {id: 'e3', name: 'Rex', img: 'Rex', status: '舞伴 💃'},
+                            {id: 'e4', name: 'Zoe', img: 'Zoe', status: 'Energy ⚡'}
+                        ]
+                    }
+                ]
+            },
+            whisper: {
+                color: 'amber',
+                title: '商务洽谈',
+                icon: 'fa-handshake',
+                bgClass: 'bg-amber-900/30',
+                drinks: [
+                    { id: 'wd1', name: '单一麦芽 (Single Malt)', price: 128, icon: 'fa-whiskey-glass' },
+                    { id: 'wd2', name: '干邑 (Cognac)', price: 158, icon: 'fa-wine-glass-empty'},
+                    { id: 'wd3', name: '巴黎水 (Perrier)', price: 38, icon: 'fa-bottle-water'},
+                    { id: 'wd4', name: '马提尼 (Dry Martini)', price: 88, icon: 'fa-martini-glass-citrus'},
+                    { id: 'wd5', name: '普洱茶 (Aged Puer)', price: 68, icon: 'fa-mug-hot'}
+                ],
+                tables: [
+                    {
+                        name: "VIP 888",
+                        id: "t-whisper-1",
+                        members: [
+                            {id: 'w1', name: 'Boss', img: 'Boss', status: '洽谈 💼'},
+                            {id: 'w2', name: 'Jean', img: 'Jean', status: '静听 🤔'}
+                        ]
+                    },
+                    {
+                        name: "Lobby B",
+                        id: "t-whisper-2",
+                        members: [
+                            {id: 'w3', name: 'Hanks', img: 'Hanks', status: '名片 🤝'},
+                            {id: 'w4', name: 'Ivy', img: 'Ivy', status: '记录 📝'}
+                        ]
+                    }
+                ]
+            },
+            solo: {
+                color: 'cyan',
+                title: '独自放空',
+                icon: 'fa-wind',
+                bgClass: 'bg-cyan-900/30',
+                drinks: [
+                    { id: 'sd1', name: '热红酒 (Mulled Wine)', price: 45, icon: 'fa-mug-hot'},
+                    { id: 'sd2', name: '热托迪 (Hot Toddy)', price: 42, icon: 'fa-mug-saucer'},
+                    { id: 'sd3', name: '乌龙茶 (Oolong)', price: 32, icon: 'fa-leaf'},
+                    { id: 'sd4', name: '无酒精莫吉托 (Virgin Mojito)', price: 38, icon: 'fa-lemon'},
+                    { id: 'sd5', name: '依云 (Evian)', price: 28, icon: 'fa-bottle-droplet'}
+                ],
+                tables: [
+                    {
+                        name: "Bar Area",
+                        id: "t-solo-1",
+                        members: [
+                            {id: 's1', name: 'Ghost', img: 'Ghost', status: '放空 😶'},
+                            {id: 's2', name: 'Cloud', img: 'Cloud', status: '发呆 ☁️'}
+                        ]
+                    },
+                    {
+                        name: "Terrace",
+                        id: "t-solo-2",
+                        members: [
+                            {id: 's3', name: 'Blue', img: 'Blue', status: '听歌 🎧'},
+                            {id: 's4', name: 'Rain', img: 'Rain', status: '看雨 🌧️'}
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentTribeKey = 'poetic';
+        let selectedDrinkIds = new Set();
+        let selectedMemberIds = new Set();
+        let feedInterval;
+
+        function selectTribe(key) {
+            currentTribeKey = key;
+            const data = tribes[key];
+            
+            // Clear Selection UI
+            selectedMemberIds.clear();
+            
+            // Default Drink Selection (Select first one)
+            selectedDrinkIds.clear();
+            if(data.drinks.length > 0) {
+                selectedDrinkIds.add(data.drinks[0].id);
+            }
+
+            // 1. Update Left Selection UI
+            document.querySelectorAll('[id^="tribe-"]').forEach(el => {
+                el.classList.remove('tribe-selected');
+                el.classList.add('opacity-60', 'scale-95');
+                el.querySelector('.effect-container').style.opacity = '0.5';
+            });
+            const activeEl = document.getElementById(`tribe-${key}`);
+            activeEl.classList.add('tribe-selected');
+            activeEl.classList.remove('opacity-60', 'scale-95');
+            activeEl.querySelector('.effect-container').style.opacity = '1';
+
+            // 2. Update Header
+            document.getElementById('right-header-bg').className = `h-32 relative flex items-center px-8 transition-colors duration-500 ${data.bgClass}`;
+            document.getElementById('header-title').innerText = data.title;
+            const iconContainer = document.getElementById('header-icon-container');
+            iconContainer.className = `w-10 h-10 rounded-full flex items-center justify-center text-slate-900 shadow-lg transition-colors duration-300 bg-${data.color}-500 shadow-${data.color}-500/50`;
+            document.getElementById('header-icon').className = `fa-solid ${data.icon} text-lg`;
+
+            // 3. Render Content
+            renderTables(data.tables, data.color);
+            renderDrinks(data.drinks, data.color);
+            updateSelectionUI();
+
+            // 4. Feed
+            const allUsers = data.tables.flatMap(t => t.members);
+            startFeed(allUsers);
+        }
+
+        // --- Render Functions ---
+
+        function renderDrinks(drinks, color) {
+            const container = document.getElementById('drink-selector');
+            container.innerHTML = drinks.map(d => {
+                const isSelected = selectedDrinkIds.has(d.id);
+                // Multi-select style
+                const activeClass = isSelected ? `bg-slate-700/90 border-${color}-400 ring-2 ring-${color}-400/50 shadow-lg shadow-${color}-500/20` : 'bg-slate-800/40 border-white/5 hover:bg-slate-700/40 opacity-80 hover:opacity-100';
+                
+                return `
+                <div onclick="toggleDrink('${d.id}')" class="shrink-0 cursor-pointer rounded-lg border p-2 flex items-center gap-2 pr-4 transition-all ${activeClass} select-none">
+                    <div class="w-8 h-8 rounded-md bg-black/20 flex items-center justify-center text-${color}-400 relative">
+                        <i class="fa-solid ${d.icon}"></i>
+                        ${isSelected ? `<div class="absolute -top-1 -right-1 w-3 h-3 bg-${color}-500 rounded-full border border-slate-900"></div>` : ''}
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-slate-200">${d.name}</span>
+                        <span class="text-[10px] text-slate-500 font-mono">¥${d.price}</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderTables(tables, color) {
+            const container = document.getElementById('members-grid');
+            container.innerHTML = '';
+            // Compact Layout: Reduced gap and padding
+            container.className = "flex flex-col gap-3 pb-2"; 
+
+            tables.forEach((table) => {
+                // Generate Members HTML
+                const membersHTML = table.members.map(u => {
+                    const isSelected = selectedMemberIds.has(u.id);
+                    // Compact Styles
+                    const selectedClass = isSelected ? `ring-1 ring-${color}-400 bg-white/10` : 'bg-white/5 border-white/5';
+                    
+                    return `
+                    <div id="card-${u.id}" onclick="toggleMember('${u.id}', '${table.id}')" class="${selectedClass} hover:bg-white/10 border rounded-lg p-2 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden">
+                        <!-- Checkbox Overlay: Compact -->
+                        <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded border border-white/30 flex items-center justify-center transition-colors ${isSelected ? `bg-${color}-500 border-${color}-500` : ''}">
+                             ${isSelected ? '<i class="fa-solid fa-check text-[8px] text-white"></i>' : ''}
+                        </div>
+
+                        <div class="relative shrink-0">
+                            <!-- Compact Img -->
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${u.img}&backgroundColor=b6e3f4" class="w-8 h-8 rounded-full bg-slate-700 transition hover:scale-110">
+                            <div class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-900 rounded-full box-content"></div>
+                        </div>
+                        <div class="overflow-hidden min-w-0 flex-1 pr-4">
+                            <div class="font-bold text-xs text-white truncate">
+                                ${u.name}
+                            </div>
+                            <div class="text-[9px] text-${color}-400 truncate opacity-80 mt-0.5">
+                                ${u.status}
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                // Table Block: Compact
+                container.innerHTML += `
+                    <div class="bg-slate-900/40 rounded-xl p-3 border border-white/5">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-xs font-bold text-slate-300 flex items-center gap-2">
+                                <i class="fa-solid fa-table text-gray-500"></i> ${table.name}
+                            </h4>
+                            <label class="flex items-center gap-1.5 cursor-pointer group hover:bg-white/5 px-2 py-0.5 rounded transition-colors">
+                                <span class="text-[9px] text-slate-500 group-hover:text-white transition-colors uppercase font-bold tracking-wider">All</span>
+                                <input type="checkbox" id="check-${table.id}" onchange="toggleTable('${table.id}')" class="w-3.5 h-3.5 rounded border-gray-600 bg-transparent text-${color}-500 focus:ring-0 cursor-pointer">
+                            </label>
+                        </div>
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                            ${membersHTML}
+                        </div>
+                    </div>
+                `;
+            });
+            syncTableCheckboxes();
+        }
+
+        // --- Interaction Logic ---
+
+        function toggleDrink(drinkId) {
+            const data = tribes[currentTribeKey];
+            if(selectedDrinkIds.has(drinkId)) {
+                // Allow deselecting, but keep at least one? Or allow 0? 
+                // Let's allow 0 for full flexibility, but button should be disabled if 0 drinks OR 0 people
+                selectedDrinkIds.delete(drinkId);
+            } else {
+                selectedDrinkIds.add(drinkId);
+            }
+            renderDrinks(data.drinks, data.color);
+            updateSelectionUI();
+        }
+
+        function toggleMember(memberId, tableId) {
+            if (selectedMemberIds.has(memberId)) {
+                selectedMemberIds.delete(memberId);
+            } else {
+                selectedMemberIds.add(memberId);
+            }
+            updateCardStyle(memberId);
+            syncTableCheckboxes();
+            updateSelectionUI();
+        }
+
+        function toggleTable(tableId) {
+            const data = tribes[currentTribeKey];
+            const table = data.tables.find(t => t.id === tableId);
+            const checkbox = document.getElementById(`check-${tableId}`);
+            const isChecked = checkbox.checked;
+            
+            table.members.forEach(m => {
+                if (isChecked) selectedMemberIds.add(m.id);
+                else selectedMemberIds.delete(m.id);
+                updateCardStyle(m.id);
+            });
+            updateSelectionUI();
+        }
+
+        function syncTableCheckboxes() {
+            const data = tribes[currentTribeKey];
+            data.tables.forEach(t => {
+                const checkbox = document.getElementById(`check-${t.id}`);
+                const allSelected = t.members.every(m => selectedMemberIds.has(m.id));
+                const someSelected = t.members.some(m => selectedMemberIds.has(m.id));
+                if (checkbox) {
+                    checkbox.checked = allSelected;
+                    checkbox.indeterminate = someSelected && !allSelected;
+                }
+            });
+        }
+
+        function updateCardStyle(memberId) {
+            const card = document.getElementById(`card-${memberId}`);
+            if (!card) return;
+            
+            const color = tribes[currentTribeKey].color;
+            const isSelected = selectedMemberIds.has(memberId);
+            
+            if (isSelected) {
+                card.className = `ring-1 ring-${color}-400 bg-white/10 border rounded-lg p-2 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden`;
+                card.children[0].className = `absolute top-1.5 right-1.5 w-4 h-4 rounded border border-white/30 flex items-center justify-center transition-colors bg-${color}-500 border-${color}-500`;
+                card.children[0].innerHTML = '<i class="fa-solid fa-check text-[8px] text-white"></i>';
+            } else {
+                card.className = `bg-white/5 border-white/5 hover:bg-white/10 border rounded-lg p-2 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden`;
+                card.children[0].className = `absolute top-1.5 right-1.5 w-4 h-4 rounded border border-white/30 flex items-center justify-center transition-colors`;
+                card.children[0].innerHTML = '';
+            }
+        }
+
+        function updateSelectionUI() {
+            const memberCount = selectedMemberIds.size;
+            
+            // Calculate Total Price
+            const data = tribes[currentTribeKey];
+            let drinkTotal = 0;
+            
+            data.drinks.forEach(d => {
+                if(selectedDrinkIds.has(d.id)) {
+                    drinkTotal += d.price;
+                }
+            });
+            
+            const finalPrice = memberCount * drinkTotal;
+            
+            // Update UI Elements
+            const totalEl = document.getElementById('total-price');
+            const countLabel = document.getElementById('selection-count-label');
+            const btn = document.getElementById('gift-btn');
+            const drinkPriceLabel = document.getElementById('drink-price-display');
+
+            totalEl.innerHTML = `¥ <span class="text-2xl">${finalPrice}</span>`;
+            countLabel.innerText = `${memberCount} people`;
+            
+            const drinkCount = selectedDrinkIds.size;
+            if(drinkCount > 0) {
+                 drinkPriceLabel.innerText = `${drinkCount} items (¥${drinkTotal}/head)`;
+            } else {
+                 drinkPriceLabel.innerText = `Select drinks`;
+            }
+
+            if (memberCount > 0 && drinkCount > 0) {
+                btn.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
+                btn.querySelector('span.text-sm').innerText = `赠送 ${drinkCount} 款给 ${memberCount} 位`;
+            } else {
+                btn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
+                if(memberCount === 0) btn.querySelector('span.text-sm').innerText = `请选择好友`;
+                else if(drinkCount === 0) btn.querySelector('span.text-sm').innerText = `请选择酒品`;
+                else btn.querySelector('span.text-sm').innerText = `确认赠送`;
+            }
+        }
+
+        function startFeed(users) {
+            if(feedInterval) clearInterval(feedInterval);
+            const feedEl = document.getElementById('live-feed-text');
+            const actions = ['加入了小组', '送出了礼物 🎁', '点了一首爵士乐 🎵', '正在品尝特调 🍸', '查看了你的主页', '点赞了全场'];
+            
+            feedInterval = setInterval(() => {
+                const randomUser = users[Math.floor(Math.random() * users.length)].name;
+                const randomAction = actions[Math.floor(Math.random() * actions.length)];
+                feedEl.style.opacity = '0'; 
+                setTimeout(() => {
+                    feedEl.innerText = `${randomUser} ${randomAction}`;
+                    feedEl.style.opacity = '1';
+                }, 300);
+            }, 3000);
+        }
+
+        function goToConfirmation() {
+            const data = tribes[currentTribeKey];
+            const selectedDrinks = data.drinks.filter(d => selectedDrinkIds.has(d.id));
+            
+            // Analyze Selected Members for "Table" Logic
+            let recipientName = "";
+            let recipientType = "single"; // single, group, multi
+            let recipientCount = selectedMemberIds.size;
+            
+            const selectedTables = [];
+            data.tables.forEach(table => {
+                const allMembersSelected = table.members.every(m => selectedMemberIds.has(m.id));
+                if (allMembersSelected) {
+                    selectedTables.push(table.name);
+                }
+            });
+
+            if (selectedTables.length > 0) {
+                // If tables are selected
+                recipientType = selectedTables.length > 1 ? "multi" : "group";
+                recipientName = selectedTables.join(" & ");
+            } else {
+                if (recipientCount === 1) {
+                     recipientType = "single";
+                     // Find the name
+                     for(let t of data.tables) {
+                         const found = t.members.find(m => selectedMemberIds.has(m.id));
+                         if(found) { recipientName = found.name; break; }
+                     }
+                } else {
+                    recipientType = "multi";
+                    recipientName = `${recipientCount}位好友`;
+                }
+            }
+
+            // Calculate Total
+            const drinkCostPerPerson = selectedDrinks.reduce((sum, d) => sum + d.price, 0);
+            const grandTotal = drinkCostPerPerson * recipientCount;
+
+            const payload = {
+                tribeTitle: data.title,
+                tribeColor: data.color,
+                recipient: {
+                    name: recipientName,
+                    type: recipientType,
+                    count: recipientCount,
+                    // Pass specific member images if needed for single view
+                    members: [] // Could populate for thumbnails
+                },
+                items: selectedDrinks,
+                total: grandTotal
+            };
+
+            // Store and Navigate
+            localStorage.setItem('giftData', JSON.stringify(payload));
+            window.location.href = '5.html';
+        }
+
+        // Init
+        selectTribe('poetic');
+    </script>
+</body>
+</html>
