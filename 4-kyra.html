@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavor Tribes</title>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        'fresh-base': '#10b981',
+                        'creamy-base': '#f59e0b',
+                        'hardcore-base': '#e11d48',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bubble-rise': 'rise 4s infinite ease-in',
+                        'ember-fly': 'fly 3s infinite linear',
+                        'liquid-sway': 'sway 8s infinite ease-in-out',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+                        rise: { '0%': { bottom: '-30px', opacity: 0, transform: 'translateX(0)' }, '20%': {opacity: 0.8}, '100%': { bottom: '150%', opacity: 0, transform: 'translateX(-20px)' } },
+                        fly: { '0%': { transform: 'translateY(0) translateX(0) scale(1)', opacity: 1 }, '100%': { transform: 'translateY(-150px) translateX(30px) scale(0)', opacity: 0 } },
+                        sway: { '0%, 100%': { transform: 'rotate(-3deg) scale(1.1)' }, '50%': { transform: 'rotate(3deg) scale(1)' } },
+                        pulseGlow: { '0%, 100%': { boxShadow: '0 0 10px currentColor' }, '50%': { boxShadow: '0 0 30px currentColor, 0 0 50px currentColor' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .effect-container { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; }
+        
+        /* 增强的动效元素 */
+        .bubble { 
+            position: absolute; 
+            background: rgba(255,255,255,0.6); 
+            border-radius: 50%; 
+            box-shadow: 0 0 5px rgba(255,255,255,0.4);
+        }
+        .ember { 
+            position: absolute; 
+            width: 4px; 
+            height: 4px; 
+            background: #fca5a5; 
+            border-radius: 50%; 
+            box-shadow: 0 0 8px #ef4444, 0 0 12px #ef4444; 
+        }
+        
+        .tribe-selected {
+            border: 2px solid rgba(255,255,255,0.8) !important;
+            transform: scale(1.03);
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.8) !important;
+            z-index: 10;
+        }
+
+        .btn-enabled {
+            background: linear-gradient(90deg, #ec4899, #f43f5e, #fbbf24);
+            background-size: 200% 200%;
+            animation: gradientMove 3s ease infinite;
+        }
+        @keyframes gradientMove { 
+            0% { background-position: 0% 50% } 
+            50% { background-position: 100% 50% } 
+            100% { background-position: 0% 50% } 
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen relative font-sans bg-[url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center overflow-x-hidden">
+    
+    <div class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
+
+        <!-- Sidebar -->
+        <aside class="w-full md:w-24 glass-panel flex md:flex-col items-center py-4 md:py-8 gap-6 md:gap-8 shrink-0 justify-center md:justify-start sticky top-4 z-20 h-auto md:h-[calc(100vh-2rem)]">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-700 flex items-center justify-center font-bold text-slate-950 serif-font text-2xl shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+                半
+            </div>
+            <nav class="flex md:flex-col gap-6 items-center">
+                <!-- 首页按钮：House Style -->
+                <a href="1.html" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] hover:-translate-y-1 transition-all duration-300 group relative z-50 overflow-hidden ring-2 ring-amber-400/50">
+                    <!-- Glow Effect -->
+                    <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                    
+                    <!-- SVG House Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 drop-shadow-md relative z-10 group-hover:scale-110 transition-transform">
+                        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+                        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+                    </svg>
+                </a>
+                <a href="3.html" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors" title="Back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- LEFT COLUMN: TRIBE SELECTOR -->
+        <div class="w-full md:w-52 flex flex-col gap-2 shrink-0">
+            <header class="mb-1">
+                <h1 class="text-base font-bold italic tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">
+                    选择你的风味频率
+                    <span class="block text-[9px] font-normal text-slate-400 not-italic mt-0.5">寻找与你味蕾共鸣的伙伴</span>
+                </h1>
+            </header>
+
+            <!-- Card 1: Poetic (Violet) -->
+            <div onclick="selectTribe('poetic')" id="tribe-poetic" class="relative group cursor-pointer h-24 rounded-2xl bg-violet-900/40 border border-violet-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden tribe-selected hover:border-violet-400/50">
+                <div class="effect-container">
+                    <div class="absolute inset-0 bg-gradient-to-t from-violet-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-0 right-0 w-full h-full opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+                </div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-violet-300 font-mono text-[9px] mb-0.5 bg-violet-900/50 inline-block px-1 rounded">#灵感 #月光 #诗意</div>
+                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">微醺诗人</h2>
+                            <p class="text-violet-100/70 text-[9px] mt-0.5 line-clamp-1">笔尖流淌的不仅是墨水，还有月光与酒香。</p>
+                        </div>
+                        <i class="fa-solid fa-feather-pointed text-xl text-violet-400 drop-shadow-[0_0_10px_rgba(167,139,250,0.5)] group-hover:scale-110 group-hover:-rotate-12 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Electro (Rose) -->
+            <div onclick="selectTribe('electro')" id="tribe-electro" class="relative group cursor-pointer h-24 rounded-2xl bg-rose-900/40 border border-rose-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-rose-400/50">
+                <div class="effect-container">
+                    <div class="ember left-[20%] top-[90%] animate-ember-fly" style="animation-delay: 0.1s"></div>
+                    <div class="ember left-[50%] top-[80%] animate-ember-fly" style="animation-delay: 0.5s"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-rose-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-rose-300 font-mono text-[9px] mb-0.5 bg-rose-900/50 inline-block px-1 rounded">#Rave #能量 #释放</div>
+                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">燥热电音</h2>
+                            <p class="text-rose-100/70 text-[9px] mt-0.5 line-clamp-1">跟随强劲的律动，释放体内所有的多巴胺。</p>
+                        </div>
+                        <i class="fa-solid fa-bolt text-xl text-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Whisper (Amber) -->
+            <div onclick="selectTribe('whisper')" id="tribe-whisper" class="relative group cursor-pointer h-24 rounded-2xl bg-amber-900/40 border border-amber-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-amber-400/50">
+                <div class="effect-container">
+                    <div class="absolute -bottom-1/2 -left-1/2 w-[200%] h-[200%] bg-amber-600/30 rounded-[40%] animate-liquid-sway filter blur-2xl opacity-60"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-amber-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-amber-300 font-mono text-[9px] mb-0.5 bg-amber-900/50 inline-block px-1 rounded">#机遇 #合作 #连接</div>
+                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">商务洽谈</h2>
+                            <p class="text-amber-100/70 text-[9px] mt-0.5 line-clamp-1">在杯酒之间交换视野，于谈笑之中达成共识。</p>
+                        </div>
+                        <i class="fa-solid fa-handshake text-xl text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Solo (Cyan) -->
+            <div onclick="selectTribe('solo')" id="tribe-solo" class="relative group cursor-pointer h-24 rounded-2xl bg-cyan-900/40 border border-cyan-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-cyan-400/50">
+                <div class="effect-container">
+                    <div class="bubble w-2 h-2 left-[20%] animate-bubble-rise" style="animation-delay: 0s"></div>
+                    <div class="bubble w-3 h-3 left-[70%] animate-bubble-rise" style="animation-delay: 0.5s"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-cyan-300 font-mono text-[9px] mb-0.5 bg-cyan-900/50 inline-block px-1 rounded">#独处 #白噪音 #自在</div>
+                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">独自放空</h2>
+                            <p class="text-cyan-100/70 text-[9px] mt-0.5 line-clamp-1">享受一个人的宁静，与世界保持微醺的距离。</p>
+                        </div>
+                        <i class="fa-solid fa-wind text-xl text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Gamer (Indigo) -->
+            <div onclick="selectTribe('gamer')" id="tribe-gamer" class="relative group cursor-pointer h-24 rounded-2xl bg-indigo-900/40 border border-indigo-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-indigo-400/50">
+                <div class="effect-container">
+                    <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-indigo-300 font-mono text-[9px] mb-0.5 bg-indigo-900/50 inline-block px-1 rounded">#开黑 #上分 #竞技</div>
+                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">游戏人生</h2>
+                            <p class="text-indigo-100/70 text-[9px] mt-0.5 line-clamp-1">在虚拟世界主宰全场，在现实碰杯同庆。</p>
+                        </div>
+                        <i class="fa-solid fa-gamepad text-xl text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Foodie (Emerald) -->
+            <div onclick="selectTribe('foodie')" id="tribe-foodie" class="relative group cursor-pointer h-24 rounded-2xl bg-emerald-900/40 border border-emerald-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-emerald-400/50">
+                <div class="effect-container">
+                    <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="relative z-10">
+                    <div class="flex justify-between items-end">
+                        <div class="space-y-0.5">
+                            <div class="text-emerald-300 font-mono text-[9px] mb-0.5 bg-emerald-900/50 inline-block px-1 rounded">#探店 #尝鲜 #老饕</div>
+                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">美食探店</h2>
+                            <p class="text-emerald-100/70 text-[9px] mt-0.5 line-clamp-1">唯有美食与爱不可辜负，味蕾的极致探索。</p>
+                        </div>
+                        <i class="fa-solid fa-utensils text-xl text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)] group-hover:scale-110 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: MAIN WRAPPER -->
+        <!-- Fixed Sticky Dashboard Layout on Desktop, Normal Flow on Mobile -->
+        <div class="flex-1 flex flex-col gap-3 min-w-0 md:sticky md:top-4 md:h-[calc(100vh-2rem)]">
+            
+            <!-- BOTTOM: INTERACTION ZONE (Expanded to fill height) -->
+            <div class="flex-1 flex flex-col bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl relative overflow-hidden">
+            
+            <!-- Top Bar with Activities -->
+            <div id="right-header-bg" class="h-auto min-h-[5rem] py-3 relative flex items-center px-4 transition-colors duration-500 bg-amber-900/30 shrink-0 shadow-md">
+                <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div class="absolute -right-10 -top-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+                </div>
+                <div class="relative z-10 w-full">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        
+                        <!-- Header Title & Stats -->
+                        <div class="shrink-0 flex items-center gap-4">
+                            <div class="flex items-center gap-3">
+                                <span id="header-icon-container" class="w-10 h-10 shrink-0 rounded-full bg-amber-500 flex items-center justify-center text-slate-900 shadow-lg shadow-amber-500/50 transition-colors duration-300">
+                                    <i id="header-icon" class="fa-solid fa-martini-glass-citrus text-lg"></i>
+                                </span>
+                                <div>
+                                    <span class="text-base font-bold text-white block leading-tight">互动专区</span>
+                                    <div class="flex gap-3 text-[10px] font-mono opacity-60 text-slate-300 mt-0.5">
+                                        <span class="flex items-center gap-1"><i class="fa-solid fa-user-group text-[9px]"></i> 24人在桌</span>
+                                        <span class="flex items-center gap-1"><i class="fa-solid fa-signal text-green-400 text-[9px]"></i> 热度:高</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- DYNAMIC ACTIVITIES LIST (Moved Here) -->
+                        <div id="activity-container" class="flex-1 flex gap-2 overflow-x-auto no-scrollbar items-center md:justify-end md:max-w-2xl min-w-0"> 
+                            <!-- JS Injected -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPLIT BODY CONTENT -->
+            <div class="flex-1 flex flex-row min-h-0 relative group/split">
+                
+                <!-- LEFT: Members Table View -->
+                <div class="flex-1 overflow-y-auto p-2 md:p-3 no-scrollbar bg-slate-900/30 relative">
+                    <div id="members-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 pb-4">
+                        <!-- Dynamic Content Will Be Injected Here -->
+                    </div>
+                </div>
+
+                <!-- RIGHT: Categorized Menu -->
+                <div class="w-64 md:w-72 xl:w-80 border-l border-white/5 bg-slate-900/50 backdrop-blur flex flex-col">
+                    <!-- Categories Tabs -->
+                    <div id="menu-categories" class="flex overflow-x-auto p-2 gap-1.5 border-b border-white/5 shrink-0 no-scrollbar bg-slate-950/20">
+                        <!-- Injected JS -->
+                    </div>
+                    
+                    <!-- Menu Header / Filter info could go here -->
+                    
+                    <!-- Scrollable Items List -->
+                    <div id="menu-items-list" class="flex-1 overflow-y-auto p-2 gap-2 flex flex-col no-scrollbar">
+                         <!-- Injected JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BOTTOM ACTION BAR -->
+            <div class="p-4 bg-slate-950/90 border-t border-white/5 shrink-0 backdrop-blur-md z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.3)] flex flex-col gap-3">
+                
+                <!-- PREVIEW AREA -->
+                <div id="selection-preview" class="hidden flex-col gap-2 p-2 bg-slate-900/50 rounded-lg border border-white/5">
+                    <!-- Dynamic Content -->
+                </div>
+
+                <!-- Action Button Only -->
+                <div class="flex items-center gap-4">
+                    <div class="flex-1">
+                         <div onclick="goToConfirmation()" id="gift-btn" class="cursor-pointer w-full h-14 rounded-xl btn-enabled text-white font-bold text-base tracking-wide shadow-[0_0_20px_rgba(236,72,153,0.5)] transform transition-transform hover:scale-[1.01] flex items-center justify-center gap-3 active:scale-95 group relative overflow-hidden opacity-50 pointer-events-none grayscale">
+                            <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+                            <span class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shadow-inner"><i class="fa-solid fa-gift animate-bounce text-sm"></i></span>
+                            <div class="flex flex-col items-start leading-none">
+                                <span class="text-sm">确认赠送</span>
+                                <span class="text-[9px] font-normal opacity-90">Send Gift</span>
+                            </div>
+                            <!-- Price Tag on Button -->
+                            <div class="ml-auto mr-4 text-right">
+                                <span class="block font-mono text-lg leading-none" id="total-price">¥ 0</span>
+                                <span class="text-[9px] font-normal opacity-80" id="selection-count-label">0 chosen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Structure: Grouped by Tables & Drink Options
+        // Menu Categories
+        const MENU_CATEGORIES = [
+            { id: 'beer', name: '啤酒 (Beer)', icon: 'fa-beer-mug-empty' },
+            { id: 'cocktail', name: '鸡尾酒 (Cocktail)', icon: 'fa-martini-glass-citrus' },
+            { id: 'liquor', name: '洋酒 (Liquor)', icon: 'fa-whiskey-glass' },
+            { id: 'soft', name: '软饮 (Soft)', icon: 'fa-glass-water' },
+            { id: 'snack', name: '小食 (Snack)', icon: 'fa-burger' }
+        ];
+
+        const allDrinks = [
+             // Beer
+             { id: 'b1', cat: 'beer', name: '精酿 IPA', price: 58, icon: 'fa-beer-mug-empty' },
+             { id: 'b2', cat: 'beer', name: '桂花小麦 (Osmanthus)', price: 48, icon: 'fa-wheat-awn' },
+             { id: 'b3', cat: 'beer', name: '科罗娜 (Corona)', price: 35, icon: 'fa-bottle-water' },
+             { id: 'b4', cat: 'beer', name: '福佳白 (Hoegaarden)', price: 35, icon: 'fa-beer-mug-empty' },
+             { id: 'b5', cat: 'beer', name: '1664 Blanc', price: 38, icon: 'fa-bottle-droplet' }, 
+             { id: 'b6', cat: 'beer', name: '麒麟生啤 (Draft)', price: 30, icon: 'fa-beer-mug-empty' },
+             { id: 'b7', cat: 'beer', name: '青岛纯生 (Tsingtao)', price: 28, icon: 'fa-bottle-droplet' },
+             { id: 'b8', cat: 'beer', name: '朝日 (Asahi)', price: 30, icon: 'fa-beer-mug-empty'},
+             { id: 'b9', cat: 'beer', name: '精酿世涛 (Stout)', price: 68, icon: 'fa-beer-mug-empty' },
+             { id: 'b10', cat: 'beer', name: '百威 (Budweiser)', price: 30, icon: 'fa-beer-mug-empty' },
+             { id: 'b11', cat: 'beer', name: '修道院啤酒 (Trappist)', price: 78, icon: 'fa-church' },
+             { id: 'b12', cat: 'beer', name: '白熊 (Vedett)', price: 35, icon: 'fa-paw' },
+
+             // Cocktails
+             { id: 'c1', cat: 'cocktail', name: '特调·月光 (Moonlight)', price: 48, icon: 'fa-martini-glass' },
+             { id: 'c2', cat: 'cocktail', name: '诗人之血 (Poet\'s Blood)', price: 55, icon: 'fa-droplet' },
+             { id: 'c3', cat: 'cocktail', name: '星空 (Starry Night)', price: 62, icon: 'fa-star' },
+             { id: 'c4', cat: 'cocktail', name: '野格炸弹 (Jager Bomb)', price: 58, icon: 'fa-bomb' },
+             { id: 'c5', cat: 'cocktail', name: '长岛冰茶 (Long Island)', price: 65, icon: 'fa-glass-citrus' },
+             { id: 'c6', cat: 'cocktail', name: '马提尼 (Dry Martini)', price: 88, icon: 'fa-martini-glass-citrus'},
+             { id: 'c7', cat: 'cocktail', name: '莫吉托 (Mojito)', price: 48, icon: 'fa-leaf' },
+             { id: 'c8', cat: 'cocktail', name: '日出龙舌兰 (Tequila Sunrise)', price: 52, icon: 'fa-sun' },
+             { id: 'c9', cat: 'cocktail', name: '金汤力 (Gin Tonic)', price: 45, icon: 'fa-lemon' },
+             { id: 'c10', cat: 'cocktail', name: 'B-52 轰炸机', price: 58, icon: 'fa-jet-fighter' },
+             { id: 'c11', cat: 'cocktail', name: '尼格罗尼 (Negroni)', price: 88, icon: 'fa-glass-citrus' },
+             { id: 'c12', cat: 'cocktail', name: '伏特加红牛 (Vodka RedBull)', price: 52, icon: 'fa-bull' },
+             { id: 'c13', cat: 'cocktail', name: '曼哈顿 (Manhattan)', price: 98, icon: 'fa-city' },
+
+             // Liquor
+             { id: 'l1', cat: 'liquor', name: '苦艾酒 (Absinthe)', price: 68, icon: 'fa-cannabis' },
+             { id: 'l2', cat: 'liquor', name: '红酒 (House Wine)', price: 42, icon: 'fa-wine-glass' },
+             { id: 'l3', cat: 'liquor', name: 'Shot Tray (6 cups)', price: 188, icon: 'fa-glass-water-droplet' },
+             { id: 'l4', cat: 'liquor', name: '单一麦芽 (Single Malt)', price: 128, icon: 'fa-whiskey-glass' },
+             { id: 'l5', cat: 'liquor', name: '黑方 (Black Label)', price: 580, icon: 'fa-whiskey-glass' },
+             { id: 'l6', cat: 'liquor', name: '杰克丹尼 (Jack Daniels)', price: 480, icon: 'fa-wine-bottle' },
+             { id: 'l7', cat: 'liquor', name: '干邑 (Cognac)', price: 158, icon: 'fa-wine-glass-empty'},
+             { id: 'l8', cat: 'liquor', name: '茅台 (Moutai)', price: 288, icon: 'fa-wine-bottle'},
+             { id: 'l9', cat: 'liquor', name: '雪莉桶 (Sherry Cask)', price: 168, icon: 'fa-wine-glass' },
+             { id: 'l10', cat: 'liquor', name: '皇家礼炮 (Royal Salute)', price: 888, icon: 'fa-crown' },
+             { id: 'l11', cat: 'liquor', name: '百利甜 (Baileys)', price: 48, icon: 'fa-glass-water' },
+             { id: 'l12', cat: 'liquor', name: '梅子酒 (Plum)', price: 42, icon: 'fa-wine-bottle' },
+
+             // Soft
+             { id: 's1', cat: 'soft', name: '热茶 (Hot Tea)', price: 28, icon: 'fa-mug-hot' },
+             { id: 's2', cat: 'soft', name: '巴黎水 (Perrier)', price: 38, icon: 'fa-bottle-water'},
+             { id: 's3', cat: 'soft', name: '热红酒 (Mulled Wine)', price: 45, icon: 'fa-mug-hot'},
+             { id: 's4', cat: 'soft', name: '橙汁 (Juice)', price: 32, icon: 'fa-glass-water' },
+             { id: 's5', cat: 'soft', name: '热牛奶 (Milk)', price: 28, icon: 'fa-mug-saucer' },
+             { id: 's6', cat: 'soft', name: '可乐 (Coke)', price: 25, icon: 'fa-bottle-droplet' },
+             { id: 's7', cat: 'soft', name: '红牛 (Red Bull)', price: 28, icon: 'fa-bolt' },
+             { id: 's8', cat: 'soft', name: '苏打水 (Soda)', price: 20, icon: 'fa-glass-water' },
+             { id: 's9', cat: 'soft', name: '普洱茶 (Aged Puer)', price: 68, icon: 'fa-mug-hot'},
+             { id: 's10', cat: 'soft', name: '依云矿泉水 (Evian)', price: 28, icon: 'fa-bottle-droplet'},
+             { id: 's11', cat: 'soft', name: '手冲咖啡 (Hand Drip)', price: 58, icon: 'fa-mug-saucer'},
+             { id: 's12', cat: 'soft', name: '热托迪 (Hot Toddy)', price: 42, icon: 'fa-mug-saucer'},
+             { id: 's13', cat: 'soft', name: '乌龙茶 (Oolong)', price: 32, icon: 'fa-leaf'},
+             { id: 's14', cat: 'soft', name: '气泡水 (Sparkling)', price: 28, icon: 'fa-glass-water' },
+             { id: 's15', cat: 'soft', name: '鲜榨草莓汁 (Strawberry)', price: 38, icon: 'fa-glass-water' },
+             
+             // Snacks
+             { id: 'f1', cat: 'snack', name: '坚果拼盘 (Nuts)', price: 38, icon: 'fa-bowl-food' },
+             { id: 'f2', cat: 'snack', name: '黑巧蛋糕 (Cake)', price: 45, icon: 'fa-cake-candles' },
+             { id: 'f3', cat: 'snack', name: '炸鸡块 (Fried Chicken)', price: 48, icon: 'fa-drumstick-bite' },
+             { id: 'f4', cat: 'snack', name: '薯条 (Fries)', price: 32, icon: 'fa-utensils' },
+             { id: 'f5', cat: 'snack', name: '爆米花 (Popcorn)', price: 28, icon: 'fa-bowl-rice' },
+             { id: 'f6', cat: 'snack', name: '薯片 (Chips)', price: 22, icon: 'fa-cookie' },
+             { id: 'f7', cat: 'snack', name: '辣条 (Spicy Strips)', price: 18, icon: 'fa-fire' },
+             { id: 'f8', cat: 'snack', name: '水果拼盘 (Fruits)', price: 88, icon: 'fa-apple-whole'},
+             { id: 'f9', cat: 'snack', name: '西班牙火腿 (Ham)', price: 128, icon: 'fa-bacon' },
+             { id: 'f10', cat: 'snack', name: '炸薯角 (Wedges)', price: 35, icon: 'fa-potato' },
+             { id: 'f11', cat: 'snack', name: '烟熏三文鱼 (Salmon)', price: 98, icon: 'fa-fish' },
+             { id: 'f12', cat: 'snack', name: '手指饼干 (Biscuits)', price: 22, icon: 'fa-cookie-bite' },
+             { id: 'f13', cat: 'snack', name: '蔬菜条 (Veggie Sticks)', price: 30, icon: 'fa-carrot' }
+        ];
+
+        // Data Structure
+        const tribes = {
+            poetic: {
+                color: 'violet',
+                title: '微醺诗人',
+                icon: 'fa-feather-pointed',
+                bgClass: 'bg-violet-900/30',
+                activities: [
+                    { name: "月下读诗会", date: "2024-02-14", time: "20:00", status: "Open" },
+                    { name: "古琴雅集", date: "2024-02-15", time: "21:30", status: "Pending" },
+                    { name: "剧本杀·夜航船", date: "2024-02-16", time: "19:00", status: "Book" }
+                ],
+                drinks: allDrinks,
+                tables: [
+                    {
+                        name: "Table A1",
+                        id: "t-poetic-1",
+                        members: [
+                            {id: 'p1', name: 'Luna', img: 'Luna', status: '写诗中 ✍️'},
+                            {id: 'p2', name: 'Jasper', img: 'Jasper', status: '灵感 🍷'}
+                        ]
+                    },
+                    {
+                        name: "Table A2",
+                        id: "t-poetic-2",
+                        members: [
+                            {id: 'p3', name: 'Echo', img: 'Echo', status: '低吟 🎵'},
+                            {id: 'p4', name: 'Frost', img: 'Frost', status: '夜色 🌙'},
+                            {id: 'p5', name: 'Muse', img: 'Muse', status: '记录 📖'}
+                        ]
+                    },
+                    {
+                        name: "Table B1",
+                        id: "t-poetic-3",
+                        members: [
+                            {id: 'p6', name: 'Nova', img: 'Nova', status: '寻觅 🔭'},
+                            {id: 'p7', name: 'Ash', img: 'Ash', status: '静思 🕯️'},
+                        ]
+                    },
+                    {
+                        name: "Table B2",
+                        id: "t-poetic-4",
+                        members: [
+                            {id: 'p8', name: 'Silas', img: 'Silas', status: '微醺 🍷'},
+                            {id: 'p9', name: 'Raine', img: 'Raine', status: '听雨 🌧️'}
+                        ]
+                    },
+                    {
+                        name: "Table C1",
+                        id: "t-poetic-5",
+                        members: [
+                           {id: 'p10', name: 'Eden', img: 'Eden', status: '花园 🌹'},
+                           {id: 'p11', name: 'Orion', img: 'Orion', status: '星空 🌌'},
+                           {id: 'p12', name: 'Lyra', img: 'Lyra', status: '琴声 🎼'}
+                        ]
+                    },
+                    {
+                        name: "Table C2",
+                        id: "t-poetic-6",
+                        members: [
+                            {id: 'p13', name: 'Sage', img: 'Sage', status: '智慧 📚'}
+                        ]
+                    },
+                    {
+                        name: "Table D1",
+                        id: "t-poetic-7",
+                        members: [
+                            {id: 'p14', name: 'River', img: 'River', status: '流淌 🌊'},
+                            {id: 'p15', name: 'Sky', img: 'Sky', status: '仰望 ☁️'}
+                        ]
+                    },
+                    {
+                        name: "Table D2",
+                        id: "t-poetic-8",
+                        members: [
+                            {id: 'p16', name: 'Leaf', img: 'Leaf', status: '飘落 🍂'},
+                            {id: 'p17', name: 'Wind', img: 'Wind', status: '轻抚 🌬️'}
+                        ]
+                    }
+                ]
+            },
+            electro: {
+                color: 'rose',
+                title: '燥热电音',
+                icon: 'fa-bolt',
+                bgClass: 'bg-rose-900/30',
+                activities: [
+                    { name: "Alps 滑雪之旅", date: "2024-03-01", time: "All Day", status: "Booking" },
+                    { name: "室内攀岩·极速", date: "2024-02-20", time: "18:00", status: "Open" },
+                    { name: "Hundred DJ", date: "2024-02-12", time: "22:00", status: "Live" }
+                ],
+                drinks: allDrinks,
+                tables: [
+                    {
+                        name: "DJ 舞池",
+                        id: "t-electro-1",
+                        members: [
+                            {id: 'e1', name: 'Vibe', img: 'Vibe', status: 'Raving 🕺'},
+                            {id: 'e2', name: 'Neon', img: 'Neon', status: '打碟 🎧'}
+                        ]
+                    },
+                    {
+                        name: "Bar",
+                        id: "t-electro-2",
+                        members: [
+                            {id: 'e3', name: 'Rex', img: 'Rex', status: '舞伴 💃'},
+                            {id: 'e4', name: 'Zoe', img: 'Zoe', status: 'Energy ⚡'}
+                        ]
+                    },
+                    {
+                        name: "VIP Booth",
+                        id: "t-electro-3",
+                        members: [
+                            {id: 'e5', name: 'Stark', img: 'Stark', status: '畅饮 🥂'},
+                            {id: 'e6', name: 'Pepper', img: 'Pepper', status: '派对 🎉'}
+                        ]
+                    },
+                    {
+                        name: "High Table",
+                        id: "t-electro-4",
+                        members: [
+                            {id: 'e7', name: 'Flash', img: 'Flash', status: '摇摆 🕺'},
+                            {id: 'e8', name: 'Spark', img: 'Spark', status: '触电 ⚡'}
+                        ]
+                    }
+                ]
+            },
+            whisper: {
+                color: 'amber',
+                title: '商务洽谈',
+                icon: 'fa-handshake',
+                bgClass: 'bg-amber-900/30',
+                activities: [
+                    { name: "精英狼人杀", date: "2024-02-18", time: "20:00", status: "Open" },
+                    { name: "行业私董会", date: "2024-02-22", time: "19:00", status: "Invite" },
+                    { name: "资源置换酒会", date: "2024-02-25", time: "20:00", status: "Pending" }
+                ],
+                drinks: allDrinks,
+                tables: [
+                    {
+                        name: "VIP 888",
+                        id: "t-whisper-1",
+                        members: [
+                            {id: 'w1', name: 'Boss', img: 'Boss', status: '洽谈 💼'},
+                            {id: 'w2', name: 'Jean', img: 'Jean', status: '静听 🤔'}
+                        ]
+                    },
+                    {
+                        name: "Lobby B",
+                        id: "t-whisper-2",
+                        members: [
+                            {id: 'w3', name: 'Hanks', img: 'Hanks', status: '名片 🤝'},
+                            {id: 'w4', name: 'Ivy', img: 'Ivy', status: '记录 📝'}
+                        ]
+                    },
+                    {
+                        name: "Private Room 999",
+                        id: "t-whisper-3",
+                        members: [
+                            {id: 'w5', name: 'Mr. Wu', img: 'Wu', status: '决策 🖋️'},
+                            {id: 'w6', name: 'Secretary', img: 'Sec', status: '汇报 📊'}
+                        ]
+                    },
+                    {
+                        name: "Window Seat",
+                        id: "t-whisper-4",
+                        members: [
+                            {id: 'w7', name: 'Investor', img: 'Inv', status: '审视 🧐'}
+                        ]
+                    }
+                ]
+            },
+            solo: {
+                color: 'cyan',
+                title: '独自放空',
+                icon: 'fa-wind',
+                bgClass: 'bg-cyan-900/30',
+                activities: [
+                    { name: "周末登山 (Hiking)", date: "2024-02-17", time: "08:00", status: "Join" },
+                    { name: "白噪音冥想", date: "Daily", time: "21:00", status: "Live" },
+                    { name: "树洞倾诉夜", date: "Every Night", time: "23:00", status: "Open" }
+                ],
+                drinks: allDrinks,
+                tables: [
+                    {
+                        name: "Bar Area",
+                        id: "t-solo-1",
+                        members: [
+                            {id: 's1', name: 'Ghost', img: 'Ghost', status: '放空 😶'},
+                            {id: 's2', name: 'Cloud', img: 'Cloud', status: '发呆 ☁️'}
+                        ]
+                    },
+                    {
+                        name: "Terrace",
+                        id: "t-solo-2",
+                        members: [
+                            {id: 's3', name: 'Blue', img: 'Blue', status: '听歌 🎧'},
+                            {id: 's4', name: 'Rain', img: 'Rain', status: '看雨 🌧️'}
+                        ]
+                    },
+                    {
+                        name: "Reading Nook",
+                        id: "t-solo-3",
+                        members: [
+                            {id: 's5', name: 'Bookworm', img: 'Book', status: '阅读 📖'},
+                            {id: 's6', name: 'Cat', img: 'Cat', status: '小憩 💤'}
+                        ]
+                    },
+                    {
+                        name: "Corner Table",
+                        id: "t-solo-4",
+                        members: [
+                            {id: 's7', name: 'Artist', img: 'Art', status: '素描 ✏️'}
+                        ]
+                    }
+                ]
+            },
+            gamer: {
+                color: 'indigo',
+                title: '游戏人生',
+                icon: 'fa-gamepad',
+                bgClass: 'bg-indigo-900/30',
+                activities: [
+                    { name: "组队开黑", date: "Tonight", time: "20:00", status: "Open" },
+                    { name: "桌游之夜", date: "Weekly", time: "19:00", status: "Register" }
+                ],
+                drinks: allDrinks,
+                tables: [
+                    {
+                        name: "Gaming Zone A",
+                        id: "t-gamer-1",
+                        members: [
+                            {id: 'g1', name: 'Player1', img: 'P1', status: 'Rank Up 🎮'},
+                            {id: 'g2', name: 'Player2', img: 'P2', status: 'Carry 🏆'}
+                        ]
+                    }
+                ]
+            },
+            foodie: {
+                color: 'emerald',
+                title: '美食探店',
+                icon: 'fa-utensils',
+                bgClass: 'bg-emerald-900/30',
+                activities: [
+                    { name: "新菜品鉴会", date: "Sat", time: "18:00", status: "Invite" },
+                    { name: "大胃王挑战", date: "Sun", time: "14:00", status: "Live" }
+                ],
+                drinks: allDrinks,
+                tables: [
+                    {
+                        name: "Tasting Table",
+                        id: "t-foodie-1",
+                        members: [
+                            {id: 'f1', name: 'Chef', img: 'C1', status: 'Cooking 🍳'},
+                            {id: 'f2', name: 'Critic', img: 'C2', status: 'Tasting 🍷'}
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentTribeKey = 'poetic';
+        let currentCategory = 'beer';
+        let selectedDrinks = {}; // Object: { id: quantity }
+        let selectedMemberIds = new Set();
+        let feedInterval;
+
+        function selectTribe(key) {
+            currentTribeKey = key;
+            const data = tribes[key];
+            
+            // Clear Selection UI
+            selectedMemberIds.clear();
+            
+            // Default Drink Selection & Category
+            selectedDrinks = {};
+            currentCategory = 'beer'; // Default start
+
+            if(data.drinks.length > 0) {
+                 // Try to select one from current category if exists, else first available
+                 const inCat = data.drinks.find(d => d.cat === currentCategory);
+                 if(inCat) selectedDrinks[inCat.id] = 1;
+                 else if(data.drinks.length > 0) selectedDrinks[data.drinks[0].id] = 1;
+            }
+
+            // 1. Update Left Selection UI
+            document.querySelectorAll('[id^="tribe-"]').forEach(el => {
+                el.classList.remove('tribe-selected');
+                el.classList.add('opacity-60', 'scale-95');
+                el.querySelector('.effect-container').style.opacity = '0.5';
+            });
+            const activeEl = document.getElementById(`tribe-${key}`);
+            activeEl.classList.add('tribe-selected');
+            activeEl.classList.remove('opacity-60', 'scale-95');
+            activeEl.querySelector('.effect-container').style.opacity = '1';
+
+            // 2. Update Header
+            const headerBg = document.getElementById('right-header-bg');
+            if(headerBg) headerBg.className = `h-auto min-h-[5rem] py-3 relative flex items-center px-4 transition-colors duration-500 ${data.bgClass} shrink-0`;
+            
+            const iconContainer = document.getElementById('header-icon-container');
+            if(iconContainer) iconContainer.className = `w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-slate-900 shadow-lg shadow-${data.color}-500/50 transition-colors duration-300 bg-${data.color}-500`;
+            
+            const headerIcon = document.getElementById('header-icon');
+            if(headerIcon) headerIcon.className = `fa-solid ${data.icon} text-lg`;
+
+            // 3. Render Content
+            renderTables(data.tables, data.color);
+            renderMenuCategories(data.color);
+            renderMenu(data.drinks, data.color);
+            renderActivities(data.activities);
+            updateSelectionUI();
+
+            // 4. Feed
+            const allUsers = data.tables.flatMap(t => t.members);
+            startFeed(allUsers);
+        }
+
+        function renderActivities(list) {
+            const container = document.getElementById('activity-container');
+            if(!container) return;
+            
+            container.innerHTML = list.map(a => `
+                <div class="shrink-0 flex items-center gap-2 bg-slate-800/60 rounded-lg p-1.5 pr-3 border border-white/5 min-w-[170px] backdrop-blur-sm hover:bg-slate-700/60 transition-colors cursor-pointer group h-full">
+                     <div class="w-9 h-9 rounded-md bg-gradient-to-br from-indigo-500/20 to-purple-500/20 flex flex-col items-center justify-center text-white border border-white/10 shadow-inner group-hover:scale-105 transition-transform shrink-0">
+                        <span class="text-[7px] font-mono text-indigo-200 leading-none mb-0.5">${a.date.includes('-') ? a.date.split('-').slice(1).join('/') : 'TODAY'}</span>
+                        <span class="text-[9px] font-bold font-mono text-white leading-none">${a.time}</span>
+                     </div>
+                     <div class="min-w-0">
+                         <h4 class="text-[10px] font-bold text-white leading-tight group-hover:text-amber-300 transition-colors truncate">${a.name}</h4>
+                         <div class="flex items-center gap-1 mt-0.5">
+                            <div class="w-1 h-1 rounded-full ${a.status === 'Live' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-500'}"></div>
+                            <span class="text-[8px] text-slate-400 capitalize">${a.status}</span>
+                         </div>
+                     </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Render Functions ---
+        
+        function renderMenuCategories(color) {
+             const container = document.getElementById('menu-categories');
+             // Reduced spacing for single-line fit: px-3 -> px-1.5, gap-2 -> gap-1, tracking-wider removed
+             container.innerHTML = MENU_CATEGORIES.map(cat => {
+                 const isActive = cat.id === currentCategory;
+                 // Style
+                 const activeStyle = isActive ? `text-${color}-400 bg-white/10 border-${color}-500/50` : 'text-slate-500 border-transparent hover:text-slate-300';
+                 
+                 return `
+                    <button onclick="switchCategory('${cat.id}')" 
+                            class="flex-shrink-0 px-1.5 py-1.5 rounded-lg border text-[10px] font-bold transition-all flex items-center gap-1 ${activeStyle}">
+                        <i class="fa-solid ${cat.icon}"></i>
+                        ${cat.name.split('(')[0].trim()}
+                    </button>
+                 `;
+             }).join('');
+        }
+        
+        function switchCategory(catId) {
+             currentCategory = catId;
+             const data = tribes[currentTribeKey];
+             renderMenuCategories(data.color);
+             renderMenu(data.drinks, data.color);
+        }
+
+        function renderMenu(allDrinks, color) {
+            const container = document.getElementById('menu-items-list');
+            const filtered = allDrinks.filter(d => d.cat === currentCategory);
+            
+            if(filtered.length === 0) {
+                 container.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs italic">No items in this category</div>`;
+                 return;
+            }
+
+            container.innerHTML = filtered.map(d => {
+                const qty = selectedDrinks[d.id] || 0;
+                const isSelected = qty > 0;
+                // Highlighting background if selected
+                const activeClass = isSelected ? `bg-slate-800/80 border-${color}-500/50 ring-1 ring-${color}-500/30` : 'bg-transparent border-white/5 hover:bg-white/5';
+                
+                // Controls HTML
+                let controlsHtml = '';
+                if (qty === 0) {
+                    controlsHtml = `
+                    <button onclick="updateDrinkQty('${d.id}', 1); event.stopPropagation();" class="w-6 h-6 rounded-full bg-slate-700 hover:bg-${color}-500 text-white flex items-center justify-center transition-all shadow border border-white/20 z-10">
+                        <span class="text-sm font-bold leading-none relative top-[-0.5px]">+</span>
+                    </button>`;
+                } else {
+                    controlsHtml = `
+                    <div class="flex items-center gap-2" onclick="event.stopPropagation();">
+                        <button onclick="updateDrinkQty('${d.id}', -1)" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-600 hover:bg-red-900/50 text-slate-400 hover:text-red-400 flex items-center justify-center transition-colors">
+                            <span class="text-sm font-bold leading-none relative top-[-1px]">-</span>
+                        </button>
+                        <span class="text-xs font-bold text-${color}-400 font-mono select-none min-w-[12px] text-center">${qty}</span>
+                        <button onclick="updateDrinkQty('${d.id}', 1)" class="w-6 h-6 rounded-full bg-${color}-500 text-slate-900 hover:bg-${color}-400 flex items-center justify-center transition-colors shadow-sm">
+                            <span class="text-sm font-bold leading-none relative top-[-0.5px]">+</span>
+                        </button>
+                    </div>`;
+                }
+
+                return `
+                <div class="group relative rounded-xl border p-2 flex items-center gap-3 transition-all ${activeClass}">
+                    <div class="w-10 h-10 rounded-lg bg-black/30 flex items-center justify-center text-${color}-400 shadow-inner shrink-0 cursor-pointer" onclick="updateDrinkQty('${d.id}', 1)">
+                        <i class="fa-solid ${d.icon} text-lg group-hover:scale-110 transition-transform"></i>
+                    </div>
+                    
+                    <div class="flex-1 min-w-0 self-center">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold text-slate-200 group-hover:text-white truncate cursor-pointer" onclick="updateDrinkQty('${d.id}', 1)">${d.name}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-1">
+                             <span class="text-[10px] text-amber-500 font-mono">¥${d.price}</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Controls -->
+                    <div class="shrink-0 pl-2">
+                        ${controlsHtml}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderTables(tables, color) {
+            const container = document.getElementById('members-grid');
+            container.innerHTML = '';
+            // NOTE: grid classes handled in HTML now
+
+            tables.forEach((table) => {
+                const membersHTML = table.members.map(u => {
+                    const isSelected = selectedMemberIds.has(u.id);
+                    const selectedClass = isSelected ? `ring-1 ring-${color}-400 bg-${color}-900/10` : 'bg-slate-800/40 border-white/5';
+                    
+                    return `
+                    <div id="card-${u.id}" onclick="toggleMember('${u.id}', '${table.id}')" class="${selectedClass} hover:bg-slate-700/50 border rounded-lg p-1.5 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden">
+                        <div class="absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full flex items-center justify-center transition-colors ${isSelected ? `bg-${color}-500` : 'bg-slate-700/50'}">
+                             ${isSelected ? '<i class="fa-solid fa-check text-[5px] text-white"></i>' : ''}
+                        </div>
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${u.img}&backgroundColor=b6e3f4" class="w-6 h-6 rounded-full bg-slate-700 transition hover:scale-105 shrink-0">
+                        <div class="overflow-hidden min-w-0 flex-1">
+                            <div class="font-bold text-[10px] text-white truncate leading-tight">${u.name}</div>
+                            <div class="text-[9px] text-${color}-300 truncate opacity-70 mt-0.5">${u.status}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                container.innerHTML += `
+                    <div class="bg-slate-900/40 rounded-xl p-2 border border-white/5 backdrop-blur-sm">
+                        <div class="flex items-center justify-between mb-1.5 pb-1 border-b border-white/5">
+                            <h4 class="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                                <i class="fa-solid fa-table text-slate-600"></i> ${table.name}
+                            </h4>
+                            <label class="flex items-center gap-1.5 cursor-pointer group hover:opacity-100 opacity-60 transition-opacity">
+                                <span class="text-[8px] text-slate-500 uppercase font-bold">All</span>
+                                <input type="checkbox" id="check-${table.id}" onchange="toggleTable('${table.id}')" class="appearance-none w-2.5 h-2.5 rounded-sm border border-slate-600 unchecked:bg-transparent checked:bg-${color}-500 checked:border-${color}-500 cursor-pointer">
+                            </label>
+                        </div>
+                        <div class="bg-black/10 rounded-lg p-1 flex flex-col gap-1">
+                            ${membersHTML}
+                        </div>
+                    </div>
+                `;
+            });
+            syncTableCheckboxes();
+        }
+
+        // --- Interaction Logic ---
+
+        function updateDrinkQty(drinkId, change) {
+            const currentQty = selectedDrinks[drinkId] || 0;
+            const newQty = currentQty + change;
+
+            if (newQty <= 0) {
+                delete selectedDrinks[drinkId];
+            } else {
+                selectedDrinks[drinkId] = newQty;
+            }
+
+            const data = tribes[currentTribeKey];
+            renderMenu(data.drinks, data.color);
+            updateSelectionUI();
+        }
+
+        function toggleMember(memberId, tableId) {
+            if (selectedMemberIds.has(memberId)) {
+                selectedMemberIds.delete(memberId);
+            } else {
+                selectedMemberIds.add(memberId);
+            }
+            updateCardStyle(memberId);
+            syncTableCheckboxes();
+            updateSelectionUI();
+        }
+
+        function toggleTable(tableId) {
+            const data = tribes[currentTribeKey];
+            const table = data.tables.find(t => t.id === tableId);
+            const checkbox = document.getElementById(`check-${tableId}`);
+            const isChecked = checkbox.checked;
+            
+            table.members.forEach(m => {
+                if (isChecked) selectedMemberIds.add(m.id);
+                else selectedMemberIds.delete(m.id);
+                updateCardStyle(m.id);
+            });
+            updateSelectionUI();
+        }
+
+        function syncTableCheckboxes() {
+            const data = tribes[currentTribeKey];
+            data.tables.forEach(t => {
+                const checkbox = document.getElementById(`check-${t.id}`);
+                const allSelected = t.members.every(m => selectedMemberIds.has(m.id));
+                // const someSelected = t.members.some(m => selectedMemberIds.has(m.id));
+                if (checkbox) {
+                    checkbox.checked = allSelected;
+                    // checkbox.indeterminate = someSelected && !allSelected;
+                }
+            });
+        }
+
+        function updateCardStyle(memberId) {
+            const card = document.getElementById(`card-${memberId}`);
+            if (!card) return;
+            // Full re-render is easier or toggle classes
+            // For speed/consistency let's just re-render tables might be fast enough, but toggle is better
+            // Reuse logic from renderTables string gen
+            const color = tribes[currentTribeKey].color;
+            const isSelected = selectedMemberIds.has(memberId);
+            const toggleDiv = card.querySelector('div.absolute');
+            
+            if (isSelected) {
+                card.className = `ring-1 ring-${color}-400 bg-${color}-900/10 hover:bg-slate-700/50 border rounded-lg p-1.5 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden`;
+                toggleDiv.className = `absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full flex items-center justify-center transition-colors bg-${color}-500`;
+                toggleDiv.innerHTML = '<i class="fa-solid fa-check text-[5px] text-white"></i>';
+            } else {
+                card.className = `bg-slate-800/40 border-white/5 hover:bg-slate-700/50 border rounded-lg p-1.5 flex items-center gap-2 transition-all cursor-pointer group relative overflow-hidden`;
+                toggleDiv.className = `absolute top-1.5 right-1.5 w-2.5 h-2.5 rounded-full flex items-center justify-center transition-colors bg-slate-700/50`;
+                toggleDiv.innerHTML = '';
+            }
+        }
+
+        function updateSelectionUI() {
+            const memberCount = selectedMemberIds.size;
+            const data = tribes[currentTribeKey];
+            const color = data.color;
+            
+            // --- 1. Calculate Totals & Gather Data ---
+            let drinkCostPerPerson = 0;
+            let totalDrinkCount = 0;
+            let selectedDrinkItems = [];
+
+            // Gather Drink Data
+            Object.keys(selectedDrinks).forEach(dId => {
+                const item = data.drinks.find(d => d.id === dId);
+                const qty = selectedDrinks[dId];
+                if(item && qty > 0) {
+                    drinkCostPerPerson += (item.price * qty);
+                    totalDrinkCount += qty;
+                    selectedDrinkItems.push({...item, qty});
+                }
+            });
+            
+            // Gather Member Data
+            let selectedMembers = [];
+            if(memberCount > 0) {
+                // Flatten all members from tables to find selected ones
+                const allMembers = data.tables.flatMap(t => t.members);
+                selectedMembers = allMembers.filter(m => selectedMemberIds.has(m.id));
+            }
+
+            const finalPrice = memberCount * drinkCostPerPerson;
+            
+            // --- 2. Update Footer Preview (New Feature) ---
+            const previewEl = document.getElementById('selection-preview');
+            
+            if(memberCount === 0 && totalDrinkCount === 0) {
+                previewEl.classList.add('hidden');
+                previewEl.classList.remove('flex');
+            } else {
+                previewEl.classList.remove('hidden');
+                previewEl.classList.add('flex');
+                
+                let html = '';
+                
+                // Members Row
+                if(selectedMembers.length > 0) {
+                     html += `<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 border-b border-white/5 mb-1">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 shrink-0">To:</span>`;
+                     selectedMembers.forEach(m => {
+                         html += `
+                            <div class="flex items-center gap-1.5 bg-slate-800/80 rounded-full pl-0.5 pr-2 py-0.5 shrink-0 border border-white/10">
+                                <div class="w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[8px] overflow-hidden">
+                                     <!-- Ideally img here, using icon for now if no img url logic -->
+                                     <span class="font-bold text-slate-300">${m.name[0]}</span>
+                                </div>
+                                <span class="text-[10px] text-slate-300">${m.name}</span>
+                            </div>`;
+                     });
+                     html += `</div>`;
+                }
+
+                // Drinks Row
+                if(selectedDrinkItems.length > 0) {
+                    html += `<div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                                <span class="text-[10px] uppercase font-bold text-slate-500 shrink-0">With:</span>`;
+                    selectedDrinkItems.forEach(d => {
+                        html += `
+                           <div class="flex items-center gap-1.5 bg-${color}-900/20 rounded-lg pl-1.5 pr-2 py-0.5 shrink-0 border border-${color}-500/30">
+                               <i class="fa-solid ${d.icon} text-[10px] text-${color}-400"></i>
+                               <span class="text-[10px] text-${color}-100 max-w-[80px] truncate">${d.name}</span>
+                               <span class="text-[10px] font-mono text-amber-500 bg-black/20 px-1 rounded">x${d.qty}</span>
+                           </div>`;
+                    });
+                    html += `</div>`;
+                }
+                
+                previewEl.innerHTML = html;
+            }
+
+            // --- 3. Update Button UI ---
+            const totalEl = document.getElementById('total-price');
+            const countLabel = document.getElementById('selection-count-label');
+            const btn = document.getElementById('gift-btn');
+
+            totalEl.innerHTML = `¥ <span class="text-2xl">${finalPrice}</span>`;
+            countLabel.innerText = `${memberCount} people`;
+            
+            if (memberCount > 0 && totalDrinkCount > 0) {
+                btn.classList.remove('opacity-50', 'pointer-events-none', 'grayscale');
+                btn.querySelector('span.text-sm').innerText = `赠送 ${totalDrinkCount} 份给 ${memberCount} 位`;
+            } else {
+                btn.classList.add('opacity-50', 'pointer-events-none', 'grayscale');
+                if(memberCount === 0) btn.querySelector('span.text-sm').innerText = `请选择好友`;
+                else if(totalDrinkCount === 0) btn.querySelector('span.text-sm').innerText = `请选择酒品`;
+                else btn.querySelector('span.text-sm').innerText = `确认赠送`;
+            }
+        }
+
+        function startFeed(users) {
+            if(feedInterval) clearInterval(feedInterval);
+            const feedEl = document.getElementById('live-feed-text'); // NOTE: This element might not exist in current HTML? 
+            // Wait, I think it was removed in previous edits. Or maybe it's in 1.html? 
+            // I'm editing 4.html. I don't see 'live-feed-text' in the read_file output.
+            // Oh right, I should check if it exists before setting it.
+            if(!feedEl) return; 
+
+            const actions = ['加入了小组', '送出了礼物 🎁', '点了一首爵士乐 🎵', '正在品尝特调 🍸', '查看了你的主页', '点赞了全场'];
+            
+            feedInterval = setInterval(() => {
+                const randomUser = users[Math.floor(Math.random() * users.length)].name;
+                const randomAction = actions[Math.floor(Math.random() * actions.length)];
+                feedEl.style.opacity = '0'; 
+                setTimeout(() => {
+                    feedEl.innerText = `${randomUser} ${randomAction}`;
+                    feedEl.style.opacity = '1';
+                }, 300);
+            }, 3000);
+        }
+
+        function goToConfirmation() {
+            const data = tribes[currentTribeKey];
+            
+            // Map selected quantity object back to drink details
+            const selectedItemsArray = [];
+            Object.keys(selectedDrinks).forEach(dId => {
+                const qty = selectedDrinks[dId];
+                if(qty > 0) {
+                    const originalDrink = data.drinks.find(d => d.id === dId);
+                    if(originalDrink) {
+                        selectedItemsArray.push({
+                            ...originalDrink,
+                            qty: qty
+                        });
+                    }
+                }
+            });
+            
+            // Analyze Selected Members for "Table" Logic
+            let recipientName = "";
+            let recipientType = "single";
+            let recipientCount = selectedMemberIds.size;
+            
+            const selectedTables = [];
+            data.tables.forEach(table => {
+                const allMembersSelected = table.members.every(m => selectedMemberIds.has(m.id));
+                if (allMembersSelected) {
+                    selectedTables.push(table.name);
+                }
+            });
+
+            if (selectedTables.length > 0) {
+                // If tables are selected
+                recipientType = selectedTables.length > 1 ? "multi" : "group";
+                recipientName = selectedTables.join(" & ");
+            } else {
+                if (recipientCount === 1) {
+                     recipientType = "single";
+                     // Find the name
+                     for(let t of data.tables) {
+                         const found = t.members.find(m => selectedMemberIds.has(m.id));
+                         if(found) { recipientName = found.name; break; }
+                     }
+                } else {
+                    recipientType = "multi";
+                    recipientName = `${recipientCount}位好友`;
+                }
+            }
+
+            // Collect detailed member info for 5.html display
+            const detailedMembers = [];
+            data.tables.forEach(table => {
+                table.members.forEach(m => {
+                    if (selectedMemberIds.has(m.id)) {
+                        detailedMembers.push({
+                            name: m.name,
+                            img: m.img,
+                            table: table.name
+                        });
+                    }
+                });
+            });
+
+            // Calculate Total
+            // Cost is (Sum of (DrinkPrice * DrinkQty)) * RecipientCount
+            // Because you represent "gifting this SET of drinks to EACH person"
+            
+            let drinkCostPerPerson = 0;
+            selectedItemsArray.forEach(item => {
+                drinkCostPerPerson += (item.price * item.qty);
+            });
+            
+            const grandTotal = drinkCostPerPerson * recipientCount;
+
+            const payload = {
+                tribeTitle: data.title,
+                tribeColor: data.color,
+                recipient: {
+                    name: recipientName,
+                    type: recipientType,
+                    count: recipientCount,
+                    members: detailedMembers 
+                },
+                items: selectedItemsArray,
+                total: grandTotal
+            };
+
+            // Store and Navigate
+            localStorage.setItem('giftData', JSON.stringify(payload));
+            window.location.href = '5.html';
+        }
+
+        // Init
+        const urlParams = new URLSearchParams(window.location.search);
+        const tribeParam = urlParams.get('tribe');
+        if (tribeParam && tribes[tribeParam]) {
+            selectTribe(tribeParam);
+        } else {
+            selectTribe('poetic');
+        }
+    </script>
+</body>
+</html>

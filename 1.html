@@ -174,18 +174,7 @@
                 </div>
             </div>
 
-            <!-- 模块2: 品类甄选 -->
-            <div class="glass-panel p-4 flex flex-col gap-4">
-                <div class="flex items-center justify-between border-b border-white/5 pb-4">
-                    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Category Selection
-                    </h2>
-                </div>
-                
-                <div class="flex flex-wrap gap-3" id="categoryContainer">
-                    <!-- JS Injected -->
-                </div>
-            </div>
+
         </main>
 
         <!-- 右侧面板 (Right Panel) -->
@@ -193,10 +182,15 @@
         <aside class="glass-panel w-full lg:w-80 flex flex-col shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6 overflow-hidden">
             <div class="p-5 border-b border-white/5 bg-black/20">
                 <h2 class="text-lg font-bold serif-font text-amber-500/90 flex items-center gap-2">
-                   <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                   此时热点
+                   <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                   酒水菜单
                 </h2>
-                <p class="text-[10px] text-slate-600 mt-1 uppercase tracking-wider">Live Ranking by Frequency</p>
+                <p class="text-[10px] text-slate-600 mt-1 uppercase tracking-wider">Select your drinks</p>
+            </div>
+
+            <!-- Categories -->
+            <div class="border-b border-white/5 bg-black/5">
+                 <div id="categoryContainer" class="flex overflow-x-auto no-scrollbar"></div>
             </div>
 
             <!-- 列表区域滚动 -->
@@ -228,320 +222,311 @@
     <script>
         // Data
         const vibes = [
-            { name: "微醺诗人", sub: "Poetic Drunk", users: 5, active: true },
-            { name: "燥热电音", sub: "Electro Pulse", users: 0, active: false },
-            { name: "商务洽谈", sub: "Whisper Talks", users: 2, active: true },
-            { name: "独自放空", sub: "Solo Chill", users: 1, active: false }
+            { id: "poetic", name: "微醺诗人", sub: "Poetic Drunk", users: 5, active: true },
+            { id: "electro", name: "燥热电音", sub: "Electro Pulse", users: 0, active: false },
+            { id: "whisper", name: "商务洽谈", sub: "Whisper Talks", users: 2, active: true },
+            { id: "solo", name: "独自放空", sub: "Solo Chill", users: 1, active: false },
+            { id: "gamer", name: "游戏人生", sub: "Gamer Life", users: 3, active: true }, // New
+            { id: "foodie", name: "美食探店", sub: "Foodie Club", users: 0, active: true } // New
         ];
 
-        const products = [
-            // Fresh
-            { name: "莫吉托 (Mojito)", sub:"Fresh - Lime & Mint", price: 68, hot: true },
-            { name: "金汤力 (Gin Tonic)", sub:"Fresh - Clean & Dry", price: 58, hot: false },
-            { name: "莫斯科骡子", sub:"Fresh - Ginger Kick", price: 72, hot: false },
-            { name: "柚子嗨棒", sub:"Fresh - Yuzu Soda", price: 65, hot: false },
-            // Creamy
-            { name: "百利甜牛奶", sub:"Creamy - Silky Smooth", price: 55, hot: true },
-            { name: "白色俄罗斯", sub:"Creamy - Coffee rich", price: 68, hot: false },
-            { name: "亚历山大", sub:"Creamy - Dessert Wine", price: 88, hot: false },
-            // Hardcore
-            { name: "格兰菲迪 12年", sub:"Hardcore - Single Malt", price: 88, hot: true },
-            { name: "老式 (Old Fashioned)", sub:"Hardcore - The Classic", price: 98, hot: false },
-            { name: "教父 (Godfather)", sub:"Hardcore - Almond & Smoky", price: 92, hot: false },
-            // Herbal
-            { name: "尼格罗尼", sub:"Herbal - Bittersweet", price: 78, hot: false },
-            { name: "阿佩罗光环", sub:"Herbal - Sunset Orange", price: 65, hot: false },
-            { name: "纸飞机 (Paper Plane)", sub:"Herbal - Aviation Twist", price: 82, hot: false }
+        // 4.html style Categorized Menu Data
+        const MENU_CATEGORIES = [
+            { id: 'beer', name: '啤酒 (Beer)', icon: 'fa-beer-mug-empty' },
+            { id: 'cocktail', name: '鸡尾酒 (Cocktail)', icon: 'fa-martini-glass-citrus' },
+            { id: 'liquor', name: '洋酒 (Liquor)', icon: 'fa-whiskey-glass' },
+            { id: 'soft', name: '软饮 (Soft)', icon: 'fa-glass-water' },
+            { id: 'snack', name: '小食 (Snack)', icon: 'fa-burger' }
         ];
 
-        const categories = products.slice(0, 6).map((p, i) => ({
-            name: p.name.split(' (')[0],
-            sub: p.sub.split(' - ')[0] + ' Series', 
-            heat: Math.max(30, 200 - (i * 12)), 
-            trend: i < 3 ? 'up' : 'stable'
-        }));
+        const allDrinks = [
+             // Beer
+             { id: 'b1', cat: 'beer', name: '精酿 IPA', price: 58, icon: 'fa-beer-mug-empty' },
+             { id: 'b2', cat: 'beer', name: '桂花小麦 (Osmanthus)', price: 48, icon: 'fa-wheat-awn' },
+             { id: 'b3', cat: 'beer', name: '科罗娜 (Corona)', price: 35, icon: 'fa-bottle-water' },
+             { id: 'b4', cat: 'beer', name: '福佳白 (Hoegaarden)', price: 35, icon: 'fa-beer-mug-empty' },
+             { id: 'b5', cat: 'beer', name: '1664 Blanc', price: 38, icon: 'fa-bottle-droplet' }, 
+             { id: 'b6', cat: 'beer', name: '麒麟生啤 (Draft)', price: 30, icon: 'fa-beer-mug-empty' },
+             { id: 'b7', cat: 'beer', name: '青岛纯生 (Tsingtao)', price: 28, icon: 'fa-bottle-droplet' },
+             { id: 'b8', cat: 'beer', name: '朝日 (Asahi)', price: 30, icon: 'fa-beer-mug-empty'},
+             { id: 'b9', cat: 'beer', name: '精酿世涛 (Stout)', price: 68, icon: 'fa-beer-mug-empty' },
+             { id: 'b10', cat: 'beer', name: '百威 (Budweiser)', price: 30, icon: 'fa-beer-mug-empty' },
+             { id: 'b11', cat: 'beer', name: '修道院啤酒 (Trappist)', price: 78, icon: 'fa-church' },
+             { id: 'b12', cat: 'beer', name: '白熊 (Vedett)', price: 35, icon: 'fa-paw' },
 
-        // Cart Logic
-        let cartItems = {}; 
+             // Cocktails
+             { id: 'c1', cat: 'cocktail', name: '特调·月光 (Moonlight)', price: 48, icon: 'fa-martini-glass' },
+             { id: 'c2', cat: 'cocktail', name: '诗人之血 (Poet\'s Blood)', price: 55, icon: 'fa-droplet' },
+             { id: 'c3', cat: 'cocktail', name: '星空 (Starry Night)', price: 62, icon: 'fa-star' },
+             { id: 'c4', cat: 'cocktail', name: '野格炸弹 (Jager Bomb)', price: 58, icon: 'fa-bomb' },
+             { id: 'c5', cat: 'cocktail', name: '长岛冰茶 (Long Island)', price: 65, icon: 'fa-glass-citrus' },
+             { id: 'c6', cat: 'cocktail', name: '马提尼 (Dry Martini)', price: 88, icon: 'fa-martini-glass-citrus'},
+             { id: 'c7', cat: 'cocktail', name: '莫吉托 (Mojito)', price: 48, icon: 'fa-leaf' },
+             { id: 'c8', cat: 'cocktail', name: '日出龙舌兰 (Tequila Sunrise)', price: 52, icon: 'fa-sun' },
+             { id: 'c9', cat: 'cocktail', name: '金汤力 (Gin Tonic)', price: 45, icon: 'fa-lemon' },
+             { id: 'c10', cat: 'cocktail', name: 'B-52 轰炸机', price: 58, icon: 'fa-jet-fighter' },
+             { id: 'c11', cat: 'cocktail', name: '尼格罗尼 (Negroni)', price: 88, icon: 'fa-glass-citrus' },
+             { id: 'c12', cat: 'cocktail', name: '伏特加红牛 (Vodka RedBull)', price: 52, icon: 'fa-bull' },
+             { id: 'c13', cat: 'cocktail', name: '曼哈顿 (Manhattan)', price: 98, icon: 'fa-city' },
+
+             // Liquor
+             { id: 'l1', cat: 'liquor', name: '苦艾酒 (Absinthe)', price: 68, icon: 'fa-cannabis' },
+             { id: 'l2', cat: 'liquor', name: '红酒 (House Wine)', price: 42, icon: 'fa-wine-glass' },
+             { id: 'l3', cat: 'liquor', name: 'Shot Tray (6 cups)', price: 188, icon: 'fa-glass-water-droplet' },
+             { id: 'l4', cat: 'liquor', name: '单一麦芽 (Single Malt)', price: 128, icon: 'fa-whiskey-glass' },
+             { id: 'l5', cat: 'liquor', name: '黑方 (Black Label)', price: 580, icon: 'fa-whiskey-glass' },
+             { id: 'l6', cat: 'liquor', name: '杰克丹尼 (Jack Daniels)', price: 480, icon: 'fa-wine-bottle' },
+             { id: 'l7', cat: 'liquor', name: '干邑 (Cognac)', price: 158, icon: 'fa-wine-glass-empty'},
+             { id: 'l8', cat: 'liquor', name: '茅台 (Moutai)', price: 288, icon: 'fa-wine-bottle'},
+             { id: 'l9', cat: 'liquor', name: '雪莉桶 (Sherry Cask)', price: 168, icon: 'fa-wine-glass' },
+             { id: 'l10', cat: 'liquor', name: '皇家礼炮 (Royal Salute)', price: 888, icon: 'fa-crown' },
+             { id: 'l11', cat: 'liquor', name: '百利甜 (Baileys)', price: 48, icon: 'fa-glass-water' },
+             { id: 'l12', cat: 'liquor', name: '梅子酒 (Plum)', price: 42, icon: 'fa-wine-bottle' },
+
+             // Soft
+             { id: 's1', cat: 'soft', name: '热茶 (Hot Tea)', price: 28, icon: 'fa-mug-hot' },
+             { id: 's2', cat: 'soft', name: '巴黎水 (Perrier)', price: 38, icon: 'fa-bottle-water'},
+             { id: 's3', cat: 'soft', name: '热红酒 (Mulled Wine)', price: 45, icon: 'fa-mug-hot'},
+             { id: 's4', cat: 'soft', name: '橙汁 (Juice)', price: 32, icon: 'fa-glass-water' },
+             { id: 's5', cat: 'soft', name: '热牛奶 (Milk)', price: 28, icon: 'fa-mug-saucer' },
+             { id: 's6', cat: 'soft', name: '可乐 (Coke)', price: 25, icon: 'fa-bottle-droplet' },
+             { id: 's7', cat: 'soft', name: '红牛 (Red Bull)', price: 28, icon: 'fa-bolt' },
+             { id: 's8', cat: 'soft', name: '苏打水 (Soda)', price: 20, icon: 'fa-glass-water' },
+             { id: 's9', cat: 'soft', name: '普洱茶 (Aged Puer)', price: 68, icon: 'fa-mug-hot'},
+             { id: 's10', cat: 'soft', name: '依云矿泉水 (Evian)', price: 28, icon: 'fa-bottle-droplet'},
+             { id: 's11', cat: 'soft', name: '手冲咖啡 (Hand Drip)', price: 58, icon: 'fa-mug-saucer'},
+             { id: 's12', cat: 'soft', name: '热托迪 (Hot Toddy)', price: 42, icon: 'fa-mug-saucer'},
+             { id: 's13', cat: 'soft', name: '乌龙茶 (Oolong)', price: 32, icon: 'fa-leaf'},
+             { id: 's14', cat: 'soft', name: '气泡水 (Sparkling)', price: 28, icon: 'fa-glass-water' },
+             { id: 's15', cat: 'soft', name: '鲜榨草莓汁 (Strawberry)', price: 38, icon: 'fa-glass-water' },
+             
+             // Snacks
+             { id: 'f1', cat: 'snack', name: '坚果拼盘 (Nuts)', price: 38, icon: 'fa-bowl-food' },
+             { id: 'f2', cat: 'snack', name: '黑巧蛋糕 (Cake)', price: 45, icon: 'fa-cake-candles' },
+             { id: 'f3', cat: 'snack', name: '炸鸡块 (Fried Chicken)', price: 48, icon: 'fa-drumstick-bite' },
+             { id: 'f4', cat: 'snack', name: '薯条 (Fries)', price: 32, icon: 'fa-utensils' },
+             { id: 'f5', cat: 'snack', name: '爆米花 (Popcorn)', price: 28, icon: 'fa-bowl-rice' },
+             { id: 'f6', cat: 'snack', name: '薯片 (Chips)', price: 22, icon: 'fa-cookie' },
+             { id: 'f7', cat: 'snack', name: '辣条 (Spicy Strips)', price: 18, icon: 'fa-fire' },
+             { id: 'f8', cat: 'snack', name: '水果拼盘 (Fruits)', price: 88, icon: 'fa-apple-whole'},
+             { id: 'f9', cat: 'snack', name: '西班牙火腿 (Ham)', price: 128, icon: 'fa-bacon' },
+             { id: 'f10', cat: 'snack', name: '炸薯角 (Wedges)', price: 35, icon: 'fa-potato' },
+             { id: 'f11', cat: 'snack', name: '烟熏三文鱼 (Salmon)', price: 98, icon: 'fa-fish' },
+             { id: 'f12', cat: 'snack', name: '手指饼干 (Biscuits)', price: 22, icon: 'fa-cookie-bite' },
+             { id: 'f13', cat: 'snack', name: '蔬菜条 (Veggie Sticks)', price: 30, icon: 'fa-carrot' }
+        ];
+
+        let currentCategory = 'beer';
+        let cartItems = {}; // { id: qty } 
 
         // Unified function to handle add/remove with UI update
-        function updateCart(index, change) {
-            if (!cartItems[index]) cartItems[index] = 0;
-            cartItems[index] += change;
+        function updateCart(id, change) {
+            const currentQty = cartItems[id] || 0;
+            const newQty = currentQty + change;
             
-            if (cartItems[index] <= 0) {
-                delete cartItems[index];
+            if (newQty <= 0) {
+                delete cartItems[id];
+            } else {
+                cartItems[id] = newQty;
             }
             
-            // Update the control UI for this product
-            const controlContainer = document.getElementById(`ctrl-${index}`);
-            if (controlContainer) {
-                controlContainer.innerHTML = renderControls(index);
-            }
-
+            // Re-render menu to update controls and cart
+            renderMenu();
             renderCart();
         }
 
-        function renderControls(index) {
-            const qty = cartItems[index] || 0;
+        function renderVibes() {
+            const container = document.getElementById('vibeContainer');
+            if(!container) return;
+
+            container.innerHTML = vibes.map(v => `
+                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-5 relative border flex flex-col justify-between h-32 cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'}">
+                    <div class="flex justify-between items-start z-10">
+                        <div>
+                            <h3 class="font-bold text-lg text-white group-hover:text-indigo-300 transition-colors">${v.name}</h3>
+                            <p class="text-xs text-slate-400 font-mono mt-1">${v.sub}</p>
+                        </div>
+                        <div class="w-2 h-2 rounded-full ${v.active ? 'bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.8)] animate-pulse' : 'bg-slate-600'}"></div>
+                    </div>
+                    
+                    <div class="flex items-end justify-between z-10">
+                        <div class="flex -space-x-2">
+                            ${v.users > 0 ? getAvatars(v.users) : '<span class="text-xs text-slate-600 italic">Empty</span>'}
+                        </div>
+                        <i class="fa-solid fa-arrow-right-long text-slate-500 group-hover:text-indigo-400 transform group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getAvatars(count) {
+            let html = '';
+            for(let i=0; i<Math.min(count, 3); i++) {
+                html += `<div class="w-6 h-6 rounded-full bg-slate-700 border border-slate-900 overflow-hidden flex items-center justify-center text-[8px] text-slate-300 relative z-[${10-i}]">
+                            <i class="fa-solid fa-user"></i>
+                         </div>`;
+            }
+            if(count > 3) {
+                 html += `<div class="w-6 h-6 rounded-full bg-slate-800 border border-slate-900 flex items-center justify-center text-[8px] text-slate-400 relative z-0">+${count-3}</div>`;
+            }
+            return html;
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoryContainer');
+            if(!container) return;
             
-            if (qty === 0) {
-                // Default State: Small Round Plus Button
-                return `
-                <button onclick="updateCart(${index}, 1); event.stopPropagation();" class="w-5 h-5 rounded-full bg-slate-700 hover:bg-amber-600 text-white flex items-center justify-center transition-all shadow border border-white/20 z-10" title="Add">
-                    <span class="text-sm font-bold leading-none relative top-[-0.5px]">+</span>
-                </button>`;
-            } else {
-                // Active State: Round Buttons with Number, No oval capsule background
-                return `
-                <div class="flex items-center gap-1.5" onclick="event.stopPropagation();">
-                    <button onclick="updateCart(${index}, -1)" class="w-5 h-5 rounded-full bg-slate-800 border border-slate-600 hover:bg-red-900/50 text-slate-400 hover:text-red-400 flex items-center justify-center transition-colors">
-                        <span class="text-sm font-bold leading-none relative top-[-1px]">-</span>
+            // Horizontal Scroll for categories
+            container.className = "flex overflow-x-auto gap-2 p-2 w-full items-center no-scrollbar";
+
+            container.innerHTML = MENU_CATEGORIES.map(cat => {
+                 const isActive = cat.id === currentCategory;
+                 // Style matching 4.html (Glassy/Bordered) but with Amber theme and larger font
+                 const activeStyle = isActive 
+                    ? `text-amber-400 bg-white/10 border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]` 
+                    : 'text-slate-500 border-transparent hover:text-slate-300 hover:bg-white/5';
+                 
+                 return `
+                    <button onclick="switchCategory('${cat.id}')" 
+                            class="flex-shrink-0 px-3 py-2 rounded-xl border text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-2 group whitespace-nowrap ${activeStyle}">
+                        <i class="fa-solid ${cat.icon} text-xs sm:text-sm ${isActive ? 'animate-bounce' : ''}"></i>
+                        <span>${cat.name.split('(')[0].trim()}</span>
                     </button>
-                    <span class="text-xs font-bold text-amber-500 font-mono select-none min-w-[12px] text-center">${qty}</span>
-                    <button onclick="updateCart(${index}, 1)" class="w-5 h-5 rounded-full bg-amber-500 text-black hover:bg-amber-400 flex items-center justify-center transition-colors shadow-sm">
+                 `;
+            }).join('');
+        }
+
+        function switchCategory(id) {
+            currentCategory = id;
+            renderCategories();
+            renderMenu();
+        }
+
+        function renderMenu() {
+            const container = document.getElementById('productList');
+            if(!container) return;
+
+            const filtered = allDrinks.filter(d => d.cat === currentCategory);
+            
+            if(filtered.length === 0) {
+                 container.innerHTML = `<div class="p-4 text-center text-slate-500 text-xs italic">No items in this category</div>`;
+                 return;
+            }
+
+            container.innerHTML = filtered.map(d => {
+                const qty = cartItems[d.id] || 0;
+                // Controls
+                let controlsHtml = '';
+                if (qty === 0) {
+                    controlsHtml = `
+                    <button onclick="updateCart('${d.id}', 1); event.stopPropagation();" class="w-6 h-6 rounded-full bg-slate-700 hover:bg-amber-500 text-white flex items-center justify-center transition-all shadow border border-white/20 z-10">
                         <span class="text-sm font-bold leading-none relative top-[-0.5px]">+</span>
-                    </button>
+                    </button>`;
+                } else {
+                    controlsHtml = `
+                    <div class="flex items-center gap-2" onclick="event.stopPropagation();">
+                        <button onclick="updateCart('${d.id}', -1)" class="w-6 h-6 rounded-full bg-slate-800 border border-slate-600 hover:bg-red-900/50 text-slate-400 hover:text-red-400 flex items-center justify-center transition-colors">
+                            <span class="text-sm font-bold leading-none relative top-[-1px]">-</span>
+                        </button>
+                        <span class="text-xs font-bold text-amber-400 font-mono select-none min-w-[12px] text-center">${qty}</span>
+                        <button onclick="updateCart('${d.id}', 1)" class="w-6 h-6 rounded-full bg-amber-500 text-slate-900 hover:bg-amber-400 flex items-center justify-center transition-colors shadow-sm">
+                            <span class="text-sm font-bold leading-none relative top-[-0.5px]">+</span>
+                        </button>
+                    </div>`;
+                }
+
+                return `
+                <div class="group relative rounded-xl border p-2 flex items-center gap-3 transition-all ${qty > 0 ? 'bg-slate-800/80 border-amber-500/50 ring-1 ring-amber-500/30' : 'bg-transparent border-white/5 hover:bg-white/5'}">
+                    <div class="w-10 h-10 rounded-lg bg-black/30 flex items-center justify-center text-amber-500 shadow-inner shrink-0">
+                        <i class="fa-solid ${d.icon} text-lg group-hover:scale-110 transition-transform"></i>
+                    </div>
+                    
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold text-slate-200 group-hover:text-white truncate">${d.name}</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-1">
+                             <span class="text-[10px] text-amber-500 font-mono">¥${d.price}</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Controls -->
+                    <div class="shrink-0 pl-2">
+                        ${controlsHtml}
+                    </div>
                 </div>`;
-            }
+            }).join('');
         }
-        
+
         function renderCart() {
+            const totalEl = document.getElementById('cartTotal');
             const cartDetails = document.getElementById('cartDetails');
-            const cartTotal = document.getElementById('cartTotal');
             
-            const indices = Object.keys(cartItems);
-            
-            if (indices.length === 0) {
-                cartDetails.classList.add('hidden');
-                cartDetails.classList.remove('flex');
-                cartTotal.innerText = '¥0.00';
-                return;
-            }
-
-            cartDetails.classList.remove('hidden');
-            cartDetails.classList.add('flex');
-            
-            cartDetails.innerHTML = '';
             let total = 0;
+            let count = 0;
+            let html = '';
 
-            indices.forEach(index => {
-                const qty = cartItems[index];
-                const item = products[index];
-                const itemTotal = item.price * qty;
-                total += itemTotal;
-                
-                cartDetails.innerHTML += `
-                    <div class="flex justify-between items-center text-xs text-slate-300">
-                        <span class="truncate pr-2">${item.name} <span class="text-slate-500">x${qty}</span></span>
-                        <span class="font-mono text-amber-500 whitespace-nowrap">¥${itemTotal}</span>
-                    </div>
-                `;
-            });
-            
-            cartTotal.innerText = '¥' + total.toFixed(2);
-        }
-
-        // Renders
-        const vibeContainer = document.getElementById('vibeContainer');
-        vibes.forEach(v => {
-            const activeClass = v.active ? 'vibe-active' : 'vibe-inactive';
-            const statusDot = v.active ? '<span class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2 shadow-[0_0_5px_rgba(34,197,94,0.8)] animate-pulse"></span>' : '<span class="w-1.5 h-1.5 rounded-full bg-slate-700 mr-2"></span>';
-            const users = v.active ? `<span class="text-green-400 font-bold">${v.users} Online</span>` : '<span class="text-slate-600">Empty</span>';
-            
-            vibeContainer.innerHTML += `
-                <div class="p-4 rounded-xl flex flex-col justify-between h-28 cursor-pointer vibe-card ${activeClass}">
-                    <div>
-                        <h3 class="font-bold text-slate-200 text-sm">${v.name}</h3>
-                        <p class="text-[10px] text-slate-500 uppercase tracking-wide mt-1">${v.sub}</p>
-                    </div>
-                    <div class="flex items-center text-xs font-mono mt-auto pt-3 border-t border-white/5">
-                        ${statusDot} ${users}
-                    </div>
-                </div>
-            `;
-        });
-
-        const catContainer = document.getElementById('categoryContainer');
-        // Pie Chart Layout: Flex Row - Adaptive
-        catContainer.className = "flex items-center justify-between p-2 gap-4";
-        
-        // 1. Calculate Total & Prepare Colors
-        const totalHeat = categories.reduce((sum, c) => sum + c.heat, 0);
-        
-        // Matching 2.html themes: Indigo, Orange, Amber, Teal
-        const palette = [
-            { color: '#6366f1', name: '紫色 Indigo' },  // Fresh
-            { color: '#f97316', name: '橙色 Orange' },  // Creamy
-            { color: '#f59e0b', name: '黄色 Amber' },   // Hardcore
-            { color: '#14b8a6', name: '青色 Teal' }     // Herbal
-        ];
-
-        // 2. Build SVG Pie Slices
-        let accumulatedPercent = 0;
-        let slicesHTML = '';
-        
-        categories.forEach((c, i) => {
-            const percent = (c.heat / totalHeat) * 100;
-            const pObj = palette[i % palette.length];
-            const color = pObj.color;
-            
-            slicesHTML += String.raw`
-                <circle id="slice-${i}" r="15.9155" cx="50%" cy="50%" 
-                    fill="transparent" 
-                    stroke="${color}" 
-                    stroke-width="8" 
-                    stroke-dasharray="${percent} 100" 
-                    stroke-dashoffset="-${accumulatedPercent}" 
-                    class="transition-all duration-300 cursor-pointer"
-                    onmouseenter="
-                        this.style.strokeWidth = '12';
-                        this.style.opacity = '0.8';
-                        document.getElementById('pie-info').innerHTML = '<span class=\'font-bold text-base\' style=\'color:${color}\'>${c.heat}°</span><span class=\'text-[10px] text-slate-400\'>${c.name}</span>';
-                        document.getElementById('legend-${i}').classList.add('bg-white/10');
-                    "
-                    onmouseleave="
-                        this.style.strokeWidth = '8';
-                        this.style.opacity = '1';
-                        document.getElementById('pie-info').innerHTML = '<span class=\'font-bold text-slate-200 text-xs\'>HOT</span><span class=\'text-[8px] text-slate-500\'>Categories</span>';
-                        document.getElementById('legend-${i}').classList.remove('bg-white/10');
-                    "
-                ></circle>
-            `;
-            
-            accumulatedPercent += percent;
-        });
-
-        // 3. Build Legend
-        let legendHTML = '<div class="flex-1 flex flex-col gap-2">';
-        categories.forEach((c, i) => {
-             const pObj = palette[i % palette.length];
-             const color = pObj.color;
-             const percent = ((c.heat / totalHeat) * 100).toFixed(1);
-             
-             legendHTML += `
-                <div id="legend-${i}" class="flex items-center gap-3 p-2 rounded-lg transition-colors cursor-pointer group"
-                    onmouseenter="
-                        document.getElementById('slice-${i}').style.strokeWidth = '12';
-                        document.getElementById('slice-${i}').style.opacity = '0.8';
-                        document.getElementById('pie-info').innerHTML = '<span class=\\'font-bold text-base\\' style=\\'color:${color}\\'>${c.heat}°</span><span class=\\'text-[10px] text-slate-400\\'>${c.name}</span>';
-                        this.classList.add('bg-white/10');
-                    "
-                    onmouseleave="
-                        document.getElementById('slice-${i}').style.strokeWidth = '8';
-                        document.getElementById('slice-${i}').style.opacity = '1';
-                        document.getElementById('pie-info').innerHTML = '<span class=\\'font-bold text-slate-200 text-xs\\'>HOT</span><span class=\\'text-[8px] text-slate-500\\'>Categories</span>';
-                        this.classList.remove('bg-white/10');
-                    "
-                >
-                    <div class="flex-1 min-w-0">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-bold text-slate-300 group-hover:text-white flex items-center gap-2">
-                                <span class="w-2.5 h-2.5 rounded-sm shadow-[0_0_5px_currentColor]" style="background-color: ${color}; color: ${color};"></span>
-                                ${c.name}
-                            </span>
-                            <span class="text-[10px] font-mono text-slate-500 group-hover:text-amber-500">${percent}%</span>
+            Object.keys(cartItems).forEach(id => {
+                const qty = cartItems[id];
+                const item = allDrinks.find(d => d.id === id);
+                if(item && qty > 0) {
+                    total += item.price * qty;
+                    count += qty;
+                    html += `
+                        <div class="flex justify-between items-center text-xs text-slate-300">
+                             <span class="truncate pr-2">${item.name} <span class="text-slate-500">x${qty}</span></span>
+                             <span class="text-amber-500 font-mono whitespace-nowrap">¥${item.price * qty}</span>
                         </div>
-                        <div class="w-full bg-white/10 h-0.5 rounded-full overflow-hidden">
-                            <div class="h-full rounded-full" style="width: ${percent}%; background-color: ${color}"></div>
-                        </div>
-                    </div>
-                </div>
-             `;
-        });
-        legendHTML += '</div>';
-
-        // 4. Render Final Structure
-        catContainer.innerHTML = `
-            <!-- Pie Chart Area -->
-            <div class="relative w-28 h-28 shrink-0 flex items-center justify-center">
-                <svg viewBox="0 0 42 42" class="w-full h-full -rotate-90 drop-shadow-xl ">
-                    <!-- Background Circle -->
-                    <circle r="15.9155" cx="50%" cy="50%" fill="transparent" stroke="#1e293b" stroke-width="8"></circle>
-                    ${slicesHTML}
-                </svg>
-                <!-- Center Info Hole -->
-                <div id="pie-info" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-                    <span class="font-bold text-slate-200 text-xs">HOT</span>
-                    <span class="text-[8px] text-slate-500">Categories</span>
-                </div>
-            </div>
-            
-            <!-- Legend Area -->
-            ${legendHTML}
-        `;
-
-        const prodList = document.getElementById('productList');
-        products.forEach((p, i) => {
-            const rank = i + 1;
-            let rankStyle = "bg-slate-800 text-slate-500";
-            if(rank === 1) rankStyle = "bg-amber-500 text-black shadow-[0_0_10px_rgba(245,158,11,0.5)]";
-            if(rank === 2) rankStyle = "bg-slate-300 text-black";
-            if(rank === 3) rankStyle = "bg-amber-900 text-amber-200";
-
-            // Determine color from products range (hardcoded for now as products array structure is fixed)
-            let indicatorColor = '#6366f1'; // Default Indigo
-            if(i >= 4 && i <= 6) indicatorColor = '#f97316'; // Creamy (Orange)
-            if(i >= 7 && i <= 9) indicatorColor = '#f59e0b'; // Hardcore (Amber)
-            if(i >= 10) indicatorColor = '#14b8a6'; // Herbal (Teal)
-
-            prodList.innerHTML += `
-                <div class="group flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/5 min-h-[64px]">
-                    <div class="w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold shrink-0 ${rankStyle}">${rank}</div>
-                    
-                    <!-- Name & Sub -->
-                    <div class="flex-1 min-w-0">
-                         <div class="flex items-center gap-2">
-                             <h4 class="text-sm font-medium text-slate-300 truncate group-hover:text-amber-100 transition-colors">${p.name}</h4>
-                             <span class="w-2 h-2 rounded-full" style="background-color: ${indicatorColor};"></span>
-                         </div>
-                         <p class="text-[10px] text-slate-600 truncate mt-0.5">${p.sub}</p>
-                    </div>
-                    
-                    <!-- Right Side: Price & Controls Aligned -->
-                    <div class="shrink-0 flex items-center gap-3 ml-2">
-                        <span class="text-xs text-amber-600/80 font-mono group-hover:text-amber-500 font-bold mt-[1px]">¥${p.price}</span>
-                        <div id="ctrl-${i}" class="flex items-center justify-end min-w-[32px]">
-                            ${renderControls(i)}
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        function checkout() {
-            const btn = document.getElementById('checkoutBtn');
-            const totalText = document.getElementById('cartTotal').innerText;
-            const total = parseFloat(totalText.replace('¥', ''));
-            
-            if (total <= 0) return;
-
-            // Save Order to LocalStorage for 3.html
-            const orderList = [];
-            Object.keys(cartItems).forEach(index => {
-                const item = products[index];
-                const qty = cartItems[index];
-                if(qty > 0) {
-                    orderList.push({
-                        name: item.name,
-                        price: item.price,
-                        count: qty
-                    });
+                    `;
                 }
             });
-            localStorage.setItem('currentSessionOrder', JSON.stringify(orderList));
 
-            const originalContent = btn.innerHTML;
-            const originalClass = btn.className;
+            totalEl.innerText = `¥${total.toFixed(2)}`;
+            
+            if(count > 0 && cartDetails) {
+                cartDetails.classList.remove('hidden');
+                cartDetails.classList.add('flex');
+                cartDetails.innerHTML = html;
+            } else if (cartDetails) {
+                cartDetails.classList.add('hidden');
+                cartDetails.classList.remove('flex');
+            }
+        }
 
-            // Success State
-            btn.innerHTML = `<span class="flex items-center gap-2 mx-auto"><i class="fa-solid fa-check"></i>支付成功</span>`;
-            btn.className = "w-full bg-emerald-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-emerald-900/50 transition-all flex justify-center items-center scale-95";
+        // Init
+        window.addEventListener('load', () => {
+             renderVibes();
+             renderCategories();
+             renderMenu();
+             renderCart();
+        });
+        
+        function checkout() {
+            const totalText = document.getElementById('cartTotal').innerText;
+            const total = parseFloat(totalText.replace('¥', ''));
+            if(total > 0) {
+                const btn = document.getElementById('checkoutBtn');
+                
+                // Save Order
+                const orderList = [];
+                Object.keys(cartItems).forEach(id => {
+                    const item = allDrinks.find(d => d.id === id);
+                    if(item) {
+                        orderList.push({
+                            name: item.name,
+                            price: item.price,
+                            count: cartItems[id]
+                        });
+                    }
+                });
+                localStorage.setItem('currentSessionOrder', JSON.stringify(orderList));
 
-            setTimeout(() => {
-                // Redirect to Session Page
-                window.location.href = '3.html';
-            }, 1000);
+                // UI Feedback
+                btn.innerHTML = `<span class="mx-auto flex items-center gap-2"><i class="fa-solid fa-spinner animate-spin"></i> Processing...</span>`;
+                setTimeout(() => {
+                    window.location.href = '3.html';
+                }, 1000);
+            }
         }
     </script>
 

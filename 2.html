@@ -588,7 +588,6 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 处理中...`;
             
             setTimeout(() => {
-                alert(`保存成功！\n微信: ${wx || '未填写'}\n电话: ${phone || '未填写'}`);
                 closeMemberModal();
                 btn.innerHTML = originalHtml;
                 
