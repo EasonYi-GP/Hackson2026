@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>半杯诗社 - 大厅 Hall</title>
+    <title>半杯诗社</title>
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Tailwind CSS -->
@@ -162,7 +162,7 @@
 
     <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
         <!-- 左侧导航栏 -->
-        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6">
+        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4">
             <div class="mb-8 flex lg:block items-center justify-between">
                 <div>
                     <p class="text-[10px] text-amber-700/80 tracking-[0.3em] font-bold">EST. 2026</p>
@@ -211,10 +211,10 @@
         </aside>
 
         <!-- 中间主内容区 -->
-        <main class="flex-1 flex flex-col gap-6 min-w-0">
-            
+        <main class="flex-1 flex flex-col gap-6 min-w-0 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4 overflow-hidden">
+
             <!-- Search & Banner -->
-            <div class="glass-panel p-5 flex flex-col md:flex-row justify-between items-center gap-4 border-l-4 border-l-amber-600/50">
+            <div class="glass-panel p-5 flex flex-col md:flex-row justify-between items-center gap-4 border-l-4 border-l-amber-600/50 shrink-0">
                 <div class="serif-font text-lg text-slate-400">
                     寻找属于你的 <span class="text-amber-500 italic font-bold">Vibe</span>
                 </div>
@@ -226,8 +226,8 @@
             </div>
 
             <!-- 模块1: 味友圈子 -->
-            <div class="mb-8">
-                <div class="flex items-center justify-between mb-6 px-1">
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <div class="flex items-center justify-between mb-4 px-1 shrink-0">
                     <h2 class="text-2xl font-bold serif-font text-slate-200 flex items-center gap-3">
                         实时圈子
                         <span class="text-[11px] text-slate-500 font-sans tracking-wider uppercase font-normal">Live Social Circles</span>
@@ -237,7 +237,7 @@
                         <span>6 个圈子在线</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-6" id="vibeContainer">
+                <div class="grid grid-cols-2 gap-6 flex-1" id="vibeContainer">
                     <!-- JS Injected -->
                 </div>
             </div>
@@ -247,7 +247,7 @@
 
         <!-- 右侧面板 (Right Panel) -->
         <!-- 改为 flex-col，并不再 fixed，而是在布局流中。 lg:w-80 -->
-        <aside class="glass-panel w-full lg:w-80 flex flex-col shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6 overflow-hidden">
+        <aside class="glass-panel w-full lg:w-80 flex flex-col shadow-2xl shrink-0 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4 overflow-hidden">
             <div class="p-5 border-b border-white/5 bg-black/20">
                 <h2 class="text-lg font-bold serif-font text-amber-500/90 flex items-center gap-2">
                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
@@ -408,7 +408,7 @@
             if(!container) return;
 
             container.innerHTML = vibes.map(v => `
-                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-6 relative border flex flex-col justify-between h-[206px] cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'} hover:scale-[1.02] transition-all duration-300">
+                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-6 relative border flex flex-col justify-between h-[186px] cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'} hover:scale-[1.02] transition-all duration-300">
                     <div class="flex justify-between items-start z-10">
                         <div class="flex-1">
                             <h3 class="font-bold text-2xl text-white group-hover:text-indigo-300 transition-colors mb-2">${v.name}</h3>

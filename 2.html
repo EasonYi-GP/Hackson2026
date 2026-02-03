@@ -3,7 +3,7 @@
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>半杯诗社 - Flavor Tribes</title>
+    <title>半杯诗社</title>
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -141,7 +141,7 @@
     <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto overflow-x-hidden">
 
         <!-- 左侧导航栏 -->
-        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6">
+        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4">
             <div class="mb-8 flex lg:block items-center justify-between">
                 <div>
                     <p class="text-[10px] text-amber-700/80 tracking-[0.3em] font-bold">EST. 2026</p>
@@ -203,32 +203,32 @@
         </aside>
 
         <!-- 主内容区 -->
-        <main class="flex-1 flex flex-col gap-3 w-full min-w-0 pb-4">
-            
+        <main class="flex-1 flex flex-col gap-6 w-full min-w-0 pb-4 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4 overflow-hidden">
+
             <!-- 顶部引导语 -->
-            <header class="pt-0 animate-fade-in-down">
-                <div class="flex items-center gap-3 mb-1">
-                    <h1 class="text-2xl font-bold serif-font text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-400">新人向导</h1>
-                    <span class="bg-indigo-500/20 text-indigo-300 text-[10px] px-2 py-0.5 rounded-full border border-indigo-500/30">Step 1/2</span>
+            <header class="glass-panel p-6 animate-fade-in-down">
+                <div class="flex items-center gap-3 mb-3">
+                    <h1 class="text-3xl font-bold serif-font text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-slate-400">新人向导</h1>
+                    <span class="bg-indigo-500/20 text-indigo-300 text-xs px-3 py-1 rounded-full border border-indigo-500/30 font-medium">Step 1/2</span>
                 </div>
-                <p class="text-slate-400 max-w-2xl text-xs leading-relaxed">初次见面，为了让 <span class="text-amber-500 font-serif italic">Sommelier</span> 更懂你，请凭直觉选择一个“风味部落”，这将决定你的初始推荐酒单。</p>
+                <p class="text-slate-300 max-w-3xl text-sm leading-relaxed">初次见面，为了让 <span class="text-amber-500 font-serif italic font-bold">Sommelier</span> 更懂你，请凭直觉选择一个"风味部落"，这将决定你的初始推荐酒单。</p>
             </header>
 
-            <!-- 步骤 1: 选小组 (Responsive Grid) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            <!-- 步骤 1: 选小组 (Responsive Grid) - 增大卡片尺寸 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Card 1 -->
                 <div class="relative group">
                     <input type="radio" name="tribe" id="tribe1" class="tribe-radio hidden" onchange="selectTribe(0)">
-                    <label for="tribe1" class="tribe-card block h-full p-3 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-0 transition-all">
+                    <label for="tribe1" class="tribe-card block h-full p-5 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-1.5 transition-all min-h-[145px]">
                         <div class="w-full">
-                            <h3 class="text-lg font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-1">
-                                <span class="flex items-center gap-2">
+                            <h3 class="text-xl font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-2">
+                                <span class="flex items-center gap-3">
                                     清爽酸甜
-                                    <span class="text-2xl group-hover:scale-110 transition-transform duration-500">🍋</span>
+                                    <span class="text-3xl group-hover:scale-110 transition-transform duration-500">🍋</span>
                                 </span>
-                                <div class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-xs"><i class="fa-solid fa-check"></i></div>
+                                <div class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-sm"><i class="fa-solid fa-check"></i></div>
                             </h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">讨厌酒精味，偏爱鲜果、苏打或气泡水的轻盈。</p>
+                            <p class="text-sm text-slate-400 leading-snug">讨厌酒精味，偏爱鲜果、苏打或气泡水的轻盈。</p>
                         </div>
                     </label>
                 </div>
@@ -236,16 +236,16 @@
                 <!-- Card 2 -->
                 <div class="relative group">
                     <input type="radio" name="tribe" id="tribe2" class="tribe-radio hidden" onchange="selectTribe(1)">
-                    <label for="tribe2" class="tribe-card block h-full p-3 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-0 transition-all">
+                    <label for="tribe2" class="tribe-card block h-full p-5 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-1.5 transition-all min-h-[145px]">
                         <div class="w-full">
-                            <h3 class="text-lg font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-1">
-                                <span class="flex items-center gap-2">
+                            <h3 class="text-xl font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-2">
+                                <span class="flex items-center gap-3">
                                     绵密奶香
-                                    <span class="text-2xl group-hover:scale-110 transition-transform duration-500">☁️</span>
+                                    <span class="text-3xl group-hover:scale-110 transition-transform duration-500">☁️</span>
                                 </span>
-                                <div class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-xs"><i class="fa-solid fa-check"></i></div>
+                                <div class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-sm"><i class="fa-solid fa-check"></i></div>
                             </h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">百利甜、巧克力或牛奶质地，像是喝“大人的甜点”。</p>
+                            <p class="text-sm text-slate-400 leading-snug">百利甜、巧克力或牛奶质地，像是喝"大人的甜点"。</p>
                         </div>
                     </label>
                 </div>
@@ -253,16 +253,16 @@
                 <!-- Card 3 -->
                 <div class="relative group">
                     <input type="radio" name="tribe" id="tribe3" class="tribe-radio hidden" onchange="selectTribe(2)">
-                    <label for="tribe3" class="tribe-card block h-full p-3 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-0 transition-all">
+                    <label for="tribe3" class="tribe-card block h-full p-5 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-1.5 transition-all min-h-[145px]">
                         <div class="w-full">
-                            <h3 class="text-lg font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-1">
-                                <span class="flex items-center gap-2">
+                            <h3 class="text-xl font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-2">
+                                <span class="flex items-center gap-3">
                                     硬核纯饮
-                                    <span class="text-2xl group-hover:scale-110 transition-transform duration-500">🥃</span>
+                                    <span class="text-3xl group-hover:scale-110 transition-transform duration-500">🥃</span>
                                 </span>
-                                <div class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-xs"><i class="fa-solid fa-check"></i></div>
+                                <div class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-sm"><i class="fa-solid fa-check"></i></div>
                             </h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">可以接受烈酒。哪怕只有酒、冰块和橡木桶味。</p>
+                            <p class="text-sm text-slate-400 leading-snug">可以接受烈酒。哪怕只有酒、冰块和橡木桶味。</p>
                         </div>
                     </label>
                 </div>
@@ -270,16 +270,16 @@
                 <!-- Card 4 -->
                 <div class="relative group">
                     <input type="radio" name="tribe" id="tribe4" class="tribe-radio hidden" onchange="selectTribe(3)">
-                    <label for="tribe4" class="tribe-card block h-full p-3 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-0 transition-all">
+                    <label for="tribe4" class="tribe-card block h-full p-5 rounded-2xl glass-panel border border-slate-700/50 cursor-pointer hover:bg-white/5 relative overflow-hidden flex flex-col items-start gap-1.5 transition-all min-h-[145px]">
                         <div class="w-full">
-                            <h3 class="text-lg font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-1">
-                                <span class="flex items-center gap-2">
+                            <h3 class="text-xl font-bold text-slate-100 serif-font flex items-center justify-between w-full mb-2">
+                                <span class="flex items-center gap-3">
                                     草本微苦
-                                    <span class="text-2xl group-hover:scale-110 transition-transform duration-500">🌿</span>
+                                    <span class="text-3xl group-hover:scale-110 transition-transform duration-500">🌿</span>
                                 </span>
-                                <div class="w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-xs"><i class="fa-solid fa-check"></i></div>
+                                <div class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center check-icon text-black text-sm"><i class="fa-solid fa-check"></i></div>
                             </h3>
-                            <p class="text-xs text-slate-400 leading-relaxed">金汤力或尼格罗尼。享受那种复杂而成熟的回甘。</p>
+                            <p class="text-sm text-slate-400 leading-snug">金汤力或尼格罗尼。享受那种复杂而成熟的回甘。</p>
                         </div>
                     </label>
                 </div>
@@ -287,26 +287,26 @@
 
             <!-- 步骤 2: 动态推荐展示区 (下方大面板) -->
             <!-- 这里使用 flex-col lg:flex-row 让手机端垂直排列 -->
-            <div id="recPanel" class="glass-panel w-full p-4 lg:p-5 flex flex-col lg:flex-row gap-4 transition-all duration-500 min-h-[300px] opacity-100 pointer-events-auto">
-                
+            <div id="recPanel" class="glass-panel w-full p-6 lg:p-8 flex flex-col lg:flex-row gap-6 transition-all duration-500 flex-1 opacity-100 pointer-events-auto">
+
                 <!-- 左侧：简介 -->
-                <div class="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r border-slate-700/50 pb-4 lg:pb-0 lg:pr-6 flex flex-col">
-                    <span class="text-[10px] font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">Selected Tribe</span>
-                    <h2 class="text-2xl font-bold serif-font text-white mb-2 transition-all duration-300" id="selectedTribeName" style="opacity: 1;">硬核纯饮党 · Hardcore</h2>
-                    <p class="text-xs text-slate-400 leading-relaxed mb-3 flex-1" id="selectedTribeDesc">2,100 位老饕的选择。这里没有果汁兑水，只有烈酒本身的风味——泥煤、橡木桶、烟熏。</p>
-                    
-                    <div class="mt-auto pt-4">
+                <div class="w-full lg:w-1/3 border-b lg:border-b-0 lg:border-r border-slate-700/50 pb-6 lg:pb-0 lg:pr-8 flex flex-col">
+                    <span class="text-xs font-bold text-amber-500 tracking-[0.2em] uppercase mb-3">Selected Tribe</span>
+                    <h2 class="text-3xl font-bold serif-font text-white mb-4 transition-all duration-300" id="selectedTribeName" style="opacity: 1;">硬核纯饮党 · Hardcore</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed mb-6 flex-1" id="selectedTribeDesc">2,100 位老饕的选择。这里没有果汁兑水，只有烈酒本身的风味——泥煤、橡木桶、烟熏。</p>
+
+                    <div class="mt-auto pt-6">
                         <!-- Quick Order Button -->
-                        <button id="orderBtn" onclick="toggleOrderMode()" class="w-full mb-3 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 group bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-900/50 border border-emerald-500/30">
+                        <button id="orderBtn" onclick="toggleOrderMode()" class="w-full mb-4 py-4 rounded-xl text-base font-bold transition-all flex items-center justify-center gap-3 group bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-900/50 border border-emerald-500/30">
                             <span>一键式点单</span>
                             <i class="fa-solid fa-receipt group-hover:rotate-12 transition-transform"></i>
                         </button>
 
-                        <button id="joinBtn" onclick="openMemberModal()" class="w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 group bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/50">
+                        <button id="joinBtn" onclick="openMemberModal()" class="w-full py-4 rounded-xl text-base font-bold transition-all flex items-center justify-center gap-3 group bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/50">
                             <span>加入该部落</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                         </button>
-                         <div class="flex items-center justify-center gap-2 mt-3 text-[10px] text-slate-600">
+                         <div class="flex items-center justify-center gap-2 mt-4 text-xs text-slate-500">
                             <i class="fa-solid fa-shield-halved"></i> 你的选择将被保密
                         </div>
                     </div>
@@ -314,16 +314,16 @@
 
                 <!-- 右侧：推荐酒单 -->
                 <div class="w-full lg:w-2/3 flex flex-col">
-                    <div class="flex justify-between items-end mb-4 border-b border-white/5 pb-2">
+                    <div class="flex justify-between items-end mb-3 border-b border-white/5 pb-2">
                         <h3 class="text-lg font-bold text-slate-200 flex items-center gap-2">
                             <i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i> 小白必试 (Starter Pack)
                         </h3>
-                        <span class="text-xs text-slate-500">已按好入口程度排序</span>
+                        <span class="text-sm text-slate-400">已按好入口程度排序</span>
                     </div>
                     
                     <!-- 列表容器 -->
                     <!-- JS will inject here -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="recContainer">
+                    <div class="grid grid-cols-1 gap-2.5 flex-1" id="recContainer">
                         <!-- Items injected via JS -->
                     </div>
                     
@@ -360,7 +360,7 @@
 
         const tribeData = [
             {
-                name: "清爽酸甜派 · Fresh",
+                name: "清爽酸甜派 · FreshAir",
                 desc: "这个小组由 1,240+ 位喜欢轻松氛围的酒友组成。酒精度通常较低（<10%），大量使用鲜果汁、苏打水和薄荷，是绝佳的开场酒。",
                 theme: "indigo",
                 products: [
@@ -477,40 +477,36 @@
             data.products.forEach((p, idx) => {
                 const qty = cart[p.name] || 0;
                 const controlsHtml = isOrderMode ? `
-                    <div class="flex items-center gap-2 bg-slate-900 rounded-lg p-1 border border-slate-700 ml-2 shrink-0" onclick="event.stopPropagation()">
-                        <button onclick="updateQty('${p.name}', -1)" class="w-8 h-8 rounded hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors ${qty === 0 ? 'opacity-30 cursor-not-allowed' : 'active:bg-slate-700'}">
-                            <i class="fa-solid fa-minus text-xs"></i>
+                    <div class="flex items-center gap-3 bg-slate-900 rounded-lg p-2 border border-slate-700 ml-3 shrink-0" onclick="event.stopPropagation()">
+                        <button onclick="updateQty('${p.name}', -1)" class="w-9 h-9 rounded hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors ${qty === 0 ? 'opacity-30 cursor-not-allowed' : 'active:bg-slate-700'}">
+                            <i class="fa-solid fa-minus text-sm"></i>
                         </button>
-                        <span class="w-6 text-center font-mono font-bold text-white text-lg">${qty}</span>
-                        <button onclick="updateQty('${p.name}', 1)" class="w-8 h-8 rounded hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors active:bg-slate-700">
-                            <i class="fa-solid fa-plus text-xs"></i>
+                        <span class="w-8 text-center font-mono font-bold text-white text-xl">${qty}</span>
+                        <button onclick="updateQty('${p.name}', 1)" class="w-9 h-9 rounded hover:bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center transition-colors active:bg-slate-700">
+                            <i class="fa-solid fa-plus text-sm"></i>
                         </button>
                     </div>
-                ` : `
-                    <!-- Standard Add Button (Hover) -->
-                    <button class="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-slate-200 text-slate-900 flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all font-bold shadow-lg">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                `;
+                ` : ``;
+
 
                 const nameClass = isOrderMode 
-                    ? "font-bold text-slate-200 text-sm leading-tight group-hover:text-amber-100 transition-colors" 
-                    : "font-bold text-slate-200 truncate group-hover:text-amber-100 transition-colors";
+                    ? "font-bold text-slate-100 text-base leading-tight group-hover:text-amber-100 transition-colors"
+                    : "font-bold text-slate-100 text-base group-hover:text-amber-100 transition-colors";
 
                 const html = `
-                    <div class="bg-slate-800/40 border ${qty > 0 ? 'border-amber-500/50 bg-amber-500/5' : 'border-slate-700/50'} p-4 rounded-xl flex items-center gap-4 hover:bg-slate-700/40 transition-colors group cursor-pointer relative overflow-hidden list-enter">
+                    <div class="bg-slate-800/40 border ${qty > 0 ? 'border-amber-500/50 bg-amber-500/5' : 'border-slate-700/50'} p-2.5 rounded-xl flex items-center gap-3 hover:bg-slate-700/40 transition-colors group cursor-pointer relative overflow-hidden list-enter">
                         <div class="w-12 h-12 rounded-lg bg-slate-900 flex items-center justify-center text-2xl shrink-0 border border-white/5 shadow-inner">
                             ${p.icon}
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-baseline">
+                            <div class="flex justify-between items-baseline mb-0.5">
                                 <h4 class="${nameClass}">${p.name}</h4>
-                                <span class="text-amber-500 text-sm font-bold font-mono whitespace-nowrap ml-2">¥${p.price}</span>
+                                <span class="text-amber-500 text-base font-bold font-mono whitespace-nowrap ml-3">¥${p.price}</span>
                             </div>
-                            <p class="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">${p.desc}</p>
+                            <p class="text-sm text-slate-400 mt-0.5 leading-snug">${p.desc}</p>
                             ${!isOrderMode ? `
-                            <div class="flex gap-2 mt-2.5">
-                                ${p.tags.map(t => `<span class="px-1.5 py-0.5 rounded bg-slate-700/80 text-[10px] text-slate-300 border border-slate-600/30">${t}</span>`).join('')}
+                            <div class="flex gap-1.5 mt-1.5">
+                                ${p.tags.map(t => `<span class="px-1.5 py-0.5 rounded bg-slate-700/80 text-xs text-slate-300 border border-slate-600/30">${t}</span>`).join('')}
                             </div>` : ''}
                         </div>
                         ${controlsHtml}

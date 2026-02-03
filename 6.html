@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>半杯诗社 - 我的档案</title>
+    <title>半杯诗社</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Serif+SC:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -95,11 +95,6 @@
             position: absolute; inset: 0; z-index: -1;
         }
 
-        
-            50% { opacity: 0.95; transform: translateY(-50vh) translateX(var(--drift)); }
-            95% { opacity: 0.8; }
-            100% { transform: translateY(-100vh) translateX(calc(var(--drift) * 1.5)); opacity: 0; }
-        }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen relative font-sans overflow-x-hidden">
@@ -109,7 +104,7 @@
     <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
 
         <!-- 左侧导航栏 -->
-        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6">
+        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4">
             <div class="mb-8 flex lg:block items-center justify-between">
                 <div>
                     <p class="text-[10px] text-amber-700/80 tracking-[0.3em] font-bold">EST. 2026</p>
@@ -171,7 +166,7 @@
         </aside>
 
         <!-- 主内容区 -->
-        <main class="flex-1 flex flex-col gap-6 min-w-0">
+        <main class="flex-1 flex flex-col gap-6 w-full min-w-0 pb-4 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4 overflow-y-auto">
 
             <!-- 用户信息卡片 -->
             <div class="glass-panel p-6 flex flex-col md:flex-row gap-6 items-center border-l-4 border-l-amber-600/50">
@@ -179,23 +174,23 @@
                     <i class="fas fa-user text-4xl text-amber-500/80"></i>
                 </div>
                 <div class="flex-1 text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-amber-500 serif-font mb-2">酒吧常客</h2>
+                    <h2 class="text-2xl font-bold serif-font mb-2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-amber-400">酒吧常客</h2>
                     <p class="text-sm text-slate-400 mb-4">用酒精探索世界，用品味连接灵魂</p>
                     <div class="flex gap-8 justify-center md:justify-start">
                         <div class="text-center">
-                            <div class="text-2xl font-bold text-amber-500">1</div>
+                            <div class="text-2xl font-bold ">1</div>
                             <div class="text-xs text-slate-500">总点单</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-2xl font-bold text-amber-500">12</div>
+                            <div class="text-2xl font-bold ">12</div>
                             <div class="text-xs text-slate-500">品尝</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-2xl font-bold text-amber-500">5</div>
+                            <div class="text-2xl font-bold ">5</div>
                             <div class="text-xs text-slate-500">小酌</div>
                         </div>
                         <div class="text-center">
-                            <div class="text-2xl font-bold text-amber-500">8</div>
+                            <div class="text-2xl font-bold ">8</div>
                             <div class="text-xs text-slate-500">畅饮</div>
                         </div>
                     </div>
@@ -225,8 +220,8 @@
 
                         <!-- 酒系偏好 -->
                         <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                <i class="fas fa-wine-glass-alt"></i>
+                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+                                <i class="fas fa-wine-glass-alt text-amber-500"></i>
                                 酒系偏好
                             </h3>
                             <div class="space-y-3">
@@ -283,8 +278,8 @@
 
                         <!-- 口味特征 -->
                         <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                <i class="fas fa-tags"></i>
+                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+                                <i class="fas fa-tags text-amber-500"></i>
                                 口味特征
                             </h3>
                             <div class="space-y-3">
@@ -321,8 +316,8 @@
 
                         <!-- 饮酒习惯 -->
                         <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                <i class="fas fa-clock"></i>
+                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+                                <i class="fas fa-clock text-amber-500"></i>
                                 饮酒习惯
                             </h3>
                             <div class="space-y-3">
@@ -351,8 +346,8 @@
 
                         <!-- 最爱配餐 -->
                         <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                <i class="fas fa-utensils"></i>
+                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+                                <i class="fas fa-utensils text-amber-500"></i>
                                 最爱配餐
                             </h3>
                             <div class="grid grid-cols-2 gap-3">
@@ -378,32 +373,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- 我的酒吧标签 -->
-                        <div class="glass-panel p-5 card md:col-span-2">
-                            <h3 class="text-lg font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                <i class="fas fa-tags"></i>
-                                我的酒吧标签
-                            </h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">重口味</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">夜猫党</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">火辣狂徒</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">烧烤爱好者</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">威士忌入门</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">精酿爱好</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">探店狂人</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">拍照党</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">美食博主</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">团建组织者</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">AA制</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">不挑食</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">酒量还行</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">社交达人</span>
-                                <span class="tag px-4 py-2 bg-black/20 border border-amber-500/30 rounded-full text-sm text-amber-500 cursor-pointer">深夜食堂</span>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 
@@ -437,7 +406,7 @@
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
-                                            <span class="text-lg font-bold text-amber-500">深夜微醺套餐</span>
+                                            <span class="text-lg font-bold text-slate-200">深夜微醺套餐</span>
                                             <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">已完成</span>
                                         </div>
                                         <div class="text-xs text-slate-500">订单号: #20260201-2345</div>
@@ -468,7 +437,7 @@
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
-                                            <span class="text-lg font-bold text-amber-500">周末畅饮</span>
+                                            <span class="text-lg font-bold text-slate-200">周末畅饮</span>
                                             <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">已完成</span>
                                         </div>
                                         <div class="text-xs text-slate-500">订单号: #20260131-1920</div>
@@ -534,7 +503,7 @@
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
-                                            <span class="text-lg font-bold text-amber-500">鸡尾酒尝鲜</span>
+                                            <span class="text-lg font-bold text-slate-200">鸡尾酒尝鲜</span>
                                             <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">已完成</span>
                                         </div>
                                         <div class="text-xs text-slate-500">订单号: #20260129-2030</div>
@@ -565,7 +534,7 @@
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
-                                            <span class="text-lg font-bold text-amber-500">快乐时光</span>
+                                            <span class="text-lg font-bold text-slate-200">快乐时光</span>
                                             <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">已完成</span>
                                         </div>
                                         <div class="text-xs text-slate-500">订单号: #20260128-1845</div>
@@ -588,12 +557,6 @@
                             </div>
                         </div>
 
-                        <!-- 加载更多按钮 -->
-                        <div class="text-center pt-4">
-                            <button class="px-6 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-500 rounded-lg transition-all">
-                                查看更多历史订单
-                            </button>
-                        </div>
                     </div>
                 </div>
 
@@ -615,7 +578,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">麦卡伦12年</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">麦卡伦12年</h4>
                                     <p class="text-sm text-slate-400 mb-3">单一麦芽威士忌，雪莉桶陈酿，口感醇厚</p>
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-slate-500">品尝次数: 8次</span>
@@ -635,7 +598,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">长岛冰茶</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">长岛冰茶</h4>
                                     <p class="text-sm text-slate-400 mb-3">经典鸡尾酒，混合多种烈酒，清爽宜人</p>
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-slate-500">品尝次数: 12次</span>
@@ -655,7 +618,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">IPA精酿啤酒</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">IPA精酿啤酒</h4>
                                     <p class="text-sm text-slate-400 mb-3">印度淡色艾尔，酒花香浓郁，苦味适中</p>
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-slate-500">品尝次数: 15次</span>
@@ -675,7 +638,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">拉菲干红</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">拉菲干红</h4>
                                     <p class="text-sm text-slate-400 mb-3">波尔多产区，单宁柔顺，果香浓郁</p>
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-slate-500">品尝次数: 5次</span>
@@ -695,7 +658,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">莫吉托</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">莫吉托</h4>
                                     <p class="text-sm text-slate-400 mb-3">薄荷朗姆鸡尾酒，清新提神，夏日必选</p>
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-slate-500">品尝次数: 10次</span>
@@ -715,7 +678,7 @@
                                             <i class="fas fa-heart"></i>
                                         </button>
                                     </div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">唐培里侬香槟</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">唐培里侬香槟</h4>
                                     <p class="text-sm text-slate-400 mb-3">顶级香槟，气泡细腻，优雅迷人</p>
                                     <div class="flex items-center justify-between text-sm">
                                         <span class="text-slate-500">品尝次数: 3次</span>
@@ -804,7 +767,7 @@
                                 <!-- 已解锁勋章 -->
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🏆</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">初入江湖</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">初入江湖</h4>
                                     <p class="text-xs text-slate-400 mb-3">完成首次点单</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-15</div>
@@ -812,7 +775,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🍺</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">啤酒爱好者</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">啤酒爱好者</h4>
                                     <p class="text-xs text-slate-400 mb-3">品尝10种不同啤酒</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-20</div>
@@ -820,7 +783,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🥃</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">威士忌达人</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">威士忌达人</h4>
                                     <p class="text-xs text-slate-400 mb-3">品尝5款威士忌</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-22</div>
@@ -828,7 +791,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🍸</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">鸡尾酒大师</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">鸡尾酒大师</h4>
                                     <p class="text-xs text-slate-400 mb-3">尝试15种鸡尾酒</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-25</div>
@@ -836,7 +799,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🌙</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">夜猫子</h4>
+                                    <h4 class="text-lg font-bold text-slate-200 mb-2">夜猫子</h4>
                                     <p class="text-xs text-slate-400 mb-3">深夜点单达10次</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-27</div>
