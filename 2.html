@@ -27,29 +27,81 @@
         }
     </script>
     <style>
+        /* 全局隐藏所有滚动条 */
+        * {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        *::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+            width: 0;
+            height: 0;
+        }
+
         body { font-family: 'Inter', sans-serif; }
         .serif-font { font-family: 'Noto Serif SC', serif; }
 
         .hide-scroll::-webkit-scrollbar { width: 4px; }
-        .hide-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .hide-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
         .hide-scroll::-webkit-scrollbar-track { background: transparent; }
 
-        /* 深渊背景：统一色调 + 噪点纹理 */
+        /* 深渊背景 */
         .abyssal-bg {
-            background-color: #020617; /* Slate 950 */
-            background-image: 
-                radial-gradient(circle at 80% 10%, rgba(76, 29, 149, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 10% 90%, rgba(30, 27, 75, 0.3) 0%, transparent 40%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            background-color: #020617;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(30, 27, 75, 0.4) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(15, 23, 42, 0.6) 0%, transparent 25%);
             min-height: 100vh;
         }
 
+        /* 玻璃面板 */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(24px);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+        }
+
+        /* Dynamic Background */
+        .mystic-bg {
+            background-color: #020617;
+            background-image:
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            position: absolute; inset: 0; z-index: -1;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(167, 139, 250, 0.7), rgba(139, 92, 246, 0.5));
+            border-radius: 50%;
+            animation: floatUpLazy ease-in-out infinite;
+            pointer-events: none;
+            box-shadow:
+                inset 0 0 25px rgba(167, 139, 250, 0.6),
+                0 0 40px rgba(139, 92, 246, 0.5),
+                0 0 60px rgba(167, 139, 250, 0.3);
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(167, 139, 250, 0.6);
+        }
+        @keyframes floatUpLazy {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            5% { opacity: 0.85; }
+            50% { opacity: 0.95; transform: translateY(-50vh) translateX(var(--drift)); }
+            95% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) translateX(calc(var(--drift) * 1.5)); opacity: 0; }
+        }
+
+        .serif-font { font-family: 'Noto Serif SC', serif; }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
         }
 
         /* 选中卡片特效 */
@@ -79,55 +131,75 @@
         @keyframes slideUpFade {
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* 粒子浮动 */
-        .particle {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.1;
-            pointer-events: none;
-            animation: float-particle 10s infinite linear;
-        }
-        @keyframes float-particle {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            50% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
-        }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.pointer-events-auto{pointer-events:auto}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.left-14{left:3.5rem}.top-4{top:1rem}.bottom-3{bottom:0.75rem}.right-3{right:0.75rem}.z-0{z-index:0}.z-10{z-index:10}.z-20{z-index:20}.col-span-1{grid-column:span 1 / span 1}.mx-auto{margin-left:auto;margin-right:auto}.mb-0{margin-bottom:0px}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-auto{margin-top:auto}.mt-1{margin-top:0.25rem}.mt-2\.5{margin-top:0.625rem}.line-clamp-2{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-14{height:3.5rem}.h-5{height:1.25rem}.h-auto{height:auto}.h-full{height:100%}.h-8{height:2rem}.min-h-\[400px\]{min-height:400px}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-12{width:3rem}.w-14{width:3.5rem}.w-5{width:1.25rem}.w-full{width:100%}.w-8{width:2rem}.min-w-0{min-width:0px}.max-w-2xl{max-width:42rem}.max-w-7xl{max-width:80rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.translate-y-2{--tw-translate-y:0.5rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-not-allowed{cursor:not-allowed}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.overflow-hidden{overflow:hidden}.overflow-x-hidden{overflow-x:hidden}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-xl{border-radius:0.75rem}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-dashed{border-style:dashed}.border-indigo-500\/30{border-color:rgb(99 102 241 / 0.3)}.border-slate-700\/50{border-color:rgb(51 65 85 / 0.5)}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/5{border-color:rgb(255 255 255 / 0.05)}.border-slate-600\/30{border-color:rgb(71 85 105 / 0.3)}.bg-amber-500{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-amber-600\/10{background-color:rgb(217 119 6 / 0.1)}.bg-indigo-500\/20{background-color:rgb(99 102 241 / 0.2)}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-lime-500\/10{background-color:rgb(132 204 22 / 0.1)}.bg-orange-100\/10{background-color:rgb(255 237 213 / 0.1)}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-900\/30{background-color:rgb(15 23 42 / 0.3)}.bg-teal-500\/10{background-color:rgb(20 184 166 / 0.1)}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-slate-700\/80{background-color:rgb(51 65 85 / 0.8)}.bg-slate-800\/40{background-color:rgb(30 41 59 / 0.4)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-gradient-to-tr{background-image:linear-gradient(to top right, var(--tw-gradient-stops))}.from-amber-500{--tw-gradient-from:#f59e0b var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-slate-100{--tw-gradient-from:#f1f5f9 var(--tw-gradient-from-position);--tw-gradient-to:rgb(241 245 249 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-slate-400{--tw-gradient-to:#94a3b8 var(--tw-gradient-to-position)}.to-yellow-700{--tw-gradient-to:#a16207 var(--tw-gradient-to-position)}.bg-clip-text{-webkit-background-clip:text;background-clip:text}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.pb-12{padding-bottom:3rem}.pb-2{padding-bottom:0.5rem}.pb-6{padding-bottom:1.5rem}.pt-2{padding-top:0.5rem}.pt-4{padding-top:1rem}.font-serif{font-family:ui-serif, Georgia, Cambria, "Times New Roman", Times, serif}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-\[10px\]{font-size:10px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-7{line-height:1.75rem}.leading-relaxed{line-height:1.625}.tracking-\[0\.2em\]{letter-spacing:0.2em}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity, 1))}.text-indigo-300{--tw-text-opacity:1;color:rgb(165 180 252 / var(--tw-text-opacity, 1))}.text-indigo-400{--tw-text-opacity:1;color:rgb(129 140 248 / var(--tw-text-opacity, 1))}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-950{--tw-text-opacity:1;color:rgb(2 6 23 / var(--tw-text-opacity, 1))}.text-transparent{color:transparent}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.opacity-0{opacity:0}.opacity-30{opacity:0.3}.opacity-50{opacity:0.5}.opacity-100{opacity:1}.shadow-\[0_0_20px_rgba\(245\2c 158\2c 11\2c 0\.4\)\]{--tw-shadow:0 0 20px rgba(245,158,11,0.4);--tw-shadow-colored:0 0 20px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-indigo-500\/30{--tw-shadow-color:rgb(99 102 241 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.shadow-indigo-900\/50{--tw-shadow-color:rgb(49 46 129 / 0.5);--tw-shadow:var(--tw-shadow-colored)}.ring-2{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-indigo-500\/50{--tw-ring-color:rgb(99 102 241 / 0.5)}.ring-offset-2{--tw-ring-offset-width:2px}.ring-offset-\[\#0f172a\]{--tw-ring-offset-color:#0f172a}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.duration-500{transition-duration:500ms}.hover\:bg-white\/5:hover{background-color:rgb(255 255 255 / 0.05)}.hover\:bg-indigo-500:hover{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700\/40:hover{background-color:rgb(51 65 85 / 0.4)}.hover\:text-slate-200:hover{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.group:hover .group-hover\:translate-x-1{--tw-translate-x:0.25rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\:translate-y-0{--tw-translate-y:0px;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\:scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\:text-amber-100{--tw-text-opacity:1;color:rgb(254 243 199 / var(--tw-text-opacity, 1))}.group:hover .group-hover\:opacity-100{opacity:1}@media (min-width: 640px){.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:col-span-2{grid-column:span 2 / span 2}.md\:block{display:block}.md\:h-\[calc\(100vh-4rem\)\]{height:calc(100vh - 4rem)}.md\:w-24{width:6rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:flex-col{flex-direction:column}.md\:justify-start{justify-content:flex-start}.md\:gap-8{gap:2rem}.md\:p-8{padding:2rem}.md\:py-8{padding-top:2rem;padding-bottom:2rem}}@media (min-width: 1024px){.lg\:mb-4{margin-bottom:1rem}.lg\:w-1\/3{width:33.333333%}.lg\:w-2\/3{width:66.666667%}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.lg\:flex-row{flex-direction:row}.lg\:flex-col{flex-direction:column}.lg\:items-start{align-items:flex-start}.lg\:gap-0{gap:0px}.lg\:border-b-0{border-bottom-width:0px}.lg\:border-r{border-right-width:1px}.lg\:p-8{padding:2rem}.lg\:pb-0{padding-bottom:0px}.lg\:pr-8{padding-right:2rem}}</style></head>
-<body class="abyssal-bg text-slate-200 overflow-x-hidden">
+</head>
+<body class="text-slate-200 min-h-screen relative font-sans overflow-x-hidden">
 
-    <!-- 动态粒子层 -->
-    <div id="particles" class="fixed inset-0 pointer-events-none z-0"><div class="particle" style="left: 57.6612vw; top: 39.4612vh; width: 3.96025px; height: 3.96025px; animation-duration: 12.8013s; animation-delay: 3.29199s;"></div><div class="particle" style="left: 79.9809vw; top: 18.0577vh; width: 1.80979px; height: 1.80979px; animation-duration: 26.4883s; animation-delay: 4.04446s;"></div><div class="particle" style="left: 94.1773vw; top: 75.1953vh; width: 2.7473px; height: 2.7473px; animation-duration: 20.6372s; animation-delay: 0.795809s;"></div><div class="particle" style="left: 51.4732vw; top: 22.648vh; width: 1.73545px; height: 1.73545px; animation-duration: 24.8601s; animation-delay: 3.25533s;"></div><div class="particle" style="left: 26.5047vw; top: 33.7586vh; width: 2.16074px; height: 2.16074px; animation-duration: 18.1762s; animation-delay: 1.77319s;"></div><div class="particle" style="left: 13.6398vw; top: 85.2808vh; width: 3.48627px; height: 3.48627px; animation-duration: 24.967s; animation-delay: 2.57884s;"></div><div class="particle" style="left: 1.71911vw; top: 93.8549vh; width: 1.71472px; height: 1.71472px; animation-duration: 16.9014s; animation-delay: 4.42172s;"></div><div class="particle" style="left: 86.1242vw; top: 13.757vh; width: 2.75402px; height: 2.75402px; animation-duration: 23.7034s; animation-delay: 2.40707s;"></div><div class="particle" style="left: 29.4563vw; top: 38.949vh; width: 4.61341px; height: 4.61341px; animation-duration: 16.5736s; animation-delay: 2.01535s;"></div><div class="particle" style="left: 38.2608vw; top: 9.44867vh; width: 3.2283px; height: 3.2283px; animation-duration: 13.975s; animation-delay: 0.68305s;"></div><div class="particle" style="left: 54.2559vw; top: 90.0551vh; width: 2.8383px; height: 2.8383px; animation-duration: 11.4498s; animation-delay: 0.863058s;"></div><div class="particle" style="left: 6.27801vw; top: 63.0351vh; width: 2.14602px; height: 2.14602px; animation-duration: 27.2974s; animation-delay: 1.6753s;"></div><div class="particle" style="left: 52.7333vw; top: 18.2236vh; width: 1.96321px; height: 1.96321px; animation-duration: 12.3059s; animation-delay: 2.27835s;"></div><div class="particle" style="left: 61.7421vw; top: 37.3833vh; width: 1.23099px; height: 1.23099px; animation-duration: 15.723s; animation-delay: 2.54173s;"></div><div class="particle" style="left: 45.5553vw; top: 74.0269vh; width: 1.31572px; height: 1.31572px; animation-duration: 15.491s; animation-delay: 4.40035s;"></div><div class="particle" style="left: 57.6709vw; top: 79.3912vh; width: 4.08425px; height: 4.08425px; animation-duration: 18.0386s; animation-delay: 2.86389s;"></div><div class="particle" style="left: 81.9977vw; top: 29.5715vh; width: 2.55624px; height: 2.55624px; animation-duration: 15.0959s; animation-delay: 0.824399s;"></div><div class="particle" style="left: 31.6894vw; top: 65.4951vh; width: 1.31737px; height: 1.31737px; animation-duration: 14.3559s; animation-delay: 1.32717s;"></div><div class="particle" style="left: 37.1109vw; top: 70.2539vh; width: 2.76371px; height: 2.76371px; animation-duration: 18.5096s; animation-delay: 4.50643s;"></div><div class="particle" style="left: 68.3326vw; top: 8.47723vh; width: 2.98995px; height: 2.98995px; animation-duration: 28.905s; animation-delay: 4.89311s;"></div></div>
+    <div class="mystic-bg"></div>
 
     <!-- 全局容器：Flex 允许滚动，解决遮挡 -->
-    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
+    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto overflow-x-hidden">
 
-        <!-- 侧边栏: 桌面固定宽，移动端变为横条 -->
-        <aside class="w-full md:w-24 glass-panel flex md:flex-col items-center py-4 md:py-8 gap-6 md:gap-8 shrink-0 justify-center md:justify-start sticky top-4 z-20 h-auto md:h-[calc(100vh-2rem)]">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-700 flex items-center justify-center font-bold text-slate-950 serif-font text-2xl shadow-[0_0_20px_rgba(245,158,11,0.4)]">
-                半
-            </div>
-            <nav class="flex md:flex-col gap-6 items-center">
-                <!-- 首页按钮：House Style -->
-                <a href="1.html" class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-[0_0_20px_rgba(245,158,11,0.5)] hover:shadow-[0_0_30px_rgba(245,158,11,0.8)] hover:-translate-y-1 transition-all duration-300 group relative z-50 overflow-hidden ring-2 ring-amber-400/50">
-                    <!-- Glow Effect -->
-                    <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
-                    
-                    <!-- SVG House Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 drop-shadow-md relative z-10 group-hover:scale-110 transition-transform">
-                        <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
-                        <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+        <!-- 左侧导航栏 -->
+        <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6">
+            <div class="mb-8 flex lg:block items-center justify-between">
+                <div>
+                    <p class="text-[10px] text-amber-700/80 tracking-[0.3em] font-bold">EST. 2026</p>
+                    <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-amber-100 to-amber-600 serif-font mt-1">
+                        半杯诗社
+                    </h1>
+                </div>
+                <button class="lg:hidden text-slate-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
+                </button>
+            </div>
+
+            <!-- 导航菜单 -->
+            <nav class="hidden lg:flex flex-col gap-2 flex-1">
+                <a href="1.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded-xl transition-all group">
+                    <svg class="w-5 h-5 group-hover:text-amber-500/50 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <span>大厅 Hall</span>
                 </a>
-                <a href="1.html" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors" title="Back">
-                    <i class="fa-solid fa-arrow-left"></i>
+                <a href="2.html" class="flex items-center gap-3 px-4 py-3 bg-white/5 text-amber-50 rounded-xl border border-white/5 font-medium transition-all group">
+                    <svg class="w-5 h-5 text-amber-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span>新人向导 Guide</span>
                 </a>
-                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:text-slate-200 hover:bg-white/5 transition-colors">
-                    <i class="fa-solid fa-user"></i>
+                <a href="3.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded-xl transition-all group">
+                    <svg class="w-5 h-5 group-hover:text-amber-500/50 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                    </svg>
+                    <span>微醺会话 Session</span>
+                </a>
+                <a href="4.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded-xl transition-all group">
+                    <svg class="w-5 h-5 group-hover:text-amber-500/50 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span>圈子 Circles</span>
+                </a>
+                <a href="6.html" class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded-xl transition-all group">
+                    <svg class="w-5 h-5 group-hover:text-amber-500/50 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span>我的档案 Profile</span>
                 </a>
             </nav>
+
+            <!-- 用户信息 -->
+            <div class="hidden lg:flex mt-auto pt-6 border-t border-white/5 items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-amber-900/30 border border-amber-500/20 flex items-center justify-center text-amber-500 font-bold text-xs ring-4 ring-black">
+                    ME
+                </div>
+                <div>
+                    <p class="text-sm text-amber-500/80 font-bold">酒客 #0608</p>
+                    <p class="text-[10px] text-slate-500">微醺探险家</p>
+                </div>
+            </div>
         </aside>
 
         <!-- 主内容区 -->
@@ -285,19 +357,6 @@
     </div>
 
     <script>
-        // 粒子背景生成
-        const particleContainer = document.getElementById('particles');
-        for(let i=0; i<20; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.top = Math.random() * 100 + 'vh';
-            p.style.width = Math.random() * 4 + 1 + 'px';
-            p.style.height = p.style.width;
-            p.style.animationDuration = Math.random() * 20 + 10 + 's';
-            p.style.animationDelay = Math.random() * 5 + 's';
-            particleContainer.appendChild(p);
-        }
 
         const tribeData = [
             {
@@ -640,7 +699,7 @@
                 <!-- Phone Input -->
                 <div class="space-y-2">
                     <label for="phoneInput" class="text-xs font-bold text-slate-400 flex items-center gap-2 uppercase tracking-wider">
-                        <i class="fa-solid fa-phone text-blue-400"></i> Phone Number
+                        <i class="fa-solid fa-phone text-amber-400"></i> Phone Number
                     </label>
                     <input type="tel" id="phoneInput" placeholder="请输入手机号" class="w-full bg-black/40 border border-slate-700 rounded-xl px-4 py-3 text-white focus:border-indigo-500 focus:outline-none transition-colors placeholder:text-slate-600">
                 </div>
@@ -659,4 +718,7 @@
             </div>
         </div>
     </div>
+
+    <script>
+    </script>
 </body></html>
