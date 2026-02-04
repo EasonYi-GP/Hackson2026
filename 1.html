@@ -237,7 +237,7 @@
                         <span>6 个圈子在线</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-[18px] content-start p-1" id="vibeContainer">
+                <div class="grid grid-cols-2 content-start p-1" style="gap: 18px;" id="vibeContainer">
                     <!-- JS Injected -->
                 </div>
             </div>
@@ -408,7 +408,7 @@
             if(!container) return;
 
             container.innerHTML = vibes.map(v => `
-                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-6 relative border flex flex-col justify-between h-[202px] cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'} hover:scale-[1.02] transition-all duration-300">>
+                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-6 relative border flex flex-col justify-between h-[202px] cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'} hover:scale-[1.02] transition-all duration-300">
                     <div class="flex justify-between items-start z-10">
                         <div class="flex-1">
                             <h3 class="font-bold text-2xl text-white group-hover:text-indigo-300 transition-colors mb-2">${v.name}</h3>
