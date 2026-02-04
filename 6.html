@@ -95,6 +95,138 @@
             position: absolute; inset: 0; z-index: -1;
         }
 
+        /* 头像悬浮光晕 */
+        .avatar-glow {
+            box-shadow:
+                0 0 40px rgba(212, 175, 55, 0.4),
+                0 0 80px rgba(212, 175, 55, 0.2),
+                inset 0 0 20px rgba(212, 175, 55, 0.1);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow:
+                    0 0 40px rgba(212, 175, 55, 0.4),
+                    0 0 80px rgba(212, 175, 55, 0.2),
+                    inset 0 0 20px rgba(212, 175, 55, 0.1);
+            }
+            50% {
+                box-shadow:
+                    0 0 60px rgba(212, 175, 55, 0.6),
+                    0 0 120px rgba(212, 175, 55, 0.3),
+                    inset 0 0 30px rgba(212, 175, 55, 0.2);
+            }
+        }
+
+        /* 数字跳动动画 */
+        .counter-animate {
+            animation: countUp 1.5s ease-out;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 进度条动画增强 */
+        .progress-bar {
+            animation: progressFill 1.5s ease-out;
+            position: relative;
+            overflow: visible;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes progressFill {
+            from { width: 0%; }
+            to { width: var(--w); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 徽章闪烁 */
+        .badge-shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-shine::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            animation: badge-shimmer 3s infinite;
+        }
+
+        @keyframes badge-shimmer {
+            0% { transform: rotate(0deg) translateX(-100%); }
+            100% { transform: rotate(0deg) translateX(100%); }
+        }
+
+        /* 卡片悬浮效果增强 */
+        .card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow:
+                0 20px 40px rgba(212, 175, 55, 0.2),
+                0 0 60px rgba(212, 175, 55, 0.1);
+        }
+
+        /* 标签3D效果 */
+        .tag-3d {
+            transform: perspective(500px);
+            transition: all 0.3s ease;
+        }
+
+        .tag-3d:hover {
+            transform: perspective(500px) rotateX(5deg) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 统计数字渐变 */
+        .stat-number {
+            background: linear-gradient(135deg, #d4af37 0%, #f59e0b 50%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* 等级徽章旋转 */
+        .level-badge {
+            animation: rotate-badge 20s linear infinite;
+        }
+
+        @keyframes rotate-badge {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
     </style>
 </head>
 <body class="text-slate-200 min-h-screen relative font-sans overflow-x-hidden">
@@ -166,51 +298,103 @@
         </aside>
 
         <!-- 主内容区 -->
-        <main class="flex-1 flex flex-col gap-6 w-full min-w-0 pb-4 lg:h-[calc(100vh-2rem)] lg:sticky lg:top-4 overflow-y-auto">
+        <main class="flex-1 flex flex-col gap-6 w-full min-w-0 pb-4">
 
             <!-- 用户信息卡片 -->
-            <div class="glass-panel p-6 flex flex-col md:flex-row gap-6 items-center border-l-4 border-l-amber-600/50">
-                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-900/50 border-2 border-amber-500/30 flex items-center justify-center shrink-0 shadow-lg">
-                    <i class="fas fa-user text-4xl text-amber-500/80"></i>
+            <div class="glass-panel p-4 flex flex-col md:flex-row gap-6 items-center border-l-4 border-l-amber-600/50 relative overflow-hidden">
+                <!-- 背景装饰 -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-amber-500/10 to-transparent rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-500/10 to-transparent rounded-full blur-3xl"></div>
+
+                <!-- 头像区域 -->
+                <div class="relative shrink-0 z-10">
+                    <div class="rounded-full bg-gradient-to-br from-amber-500/40 to-amber-900/60 border-3 border-amber-500/40 flex items-center justify-center shadow-2xl avatar-glow relative" style="width: 89.6px; height: 89.6px;">
+                        <i class="fas fa-user text-amber-400" style="font-size: 2.45rem;"></i>
+                        <!-- 等级徽章 -->
+                        <div class="absolute -top-1.5 -right-1.5 bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-600 rounded-full flex items-center justify-center text-xs font-bold text-slate-900 border-3 border-slate-900 shadow-xl badge-shine" style="width: 33.6px; height: 33.6px;">
+                            <div class="level-badge">
+                                <i class="fas fa-crown" style="font-size: 0.875rem;"></i>
+                            </div>
+                        </div>
+                        <!-- 在线状态 -->
+                    </div>
+                    <!-- VIP标识 -->
+                    <div class="absolute left-1/2 -translate-x-1/2 bg-gradient-to-r from-amber-600 to-amber-500 px-3 py-0.5 rounded-full font-bold text-slate-900 shadow-lg whitespace-nowrap" style="bottom: -10.5px; font-size: 0.7rem;">
+                        <i class="fas fa-gem mr-1" style="font-size: 0.65rem;"></i>VIP会员
+                    </div>
                 </div>
-                <div class="flex-1 text-center md:text-left">
-                    <h2 class="text-2xl font-bold serif-font mb-2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200 to-amber-400">酒吧常客</h2>
-                    <p class="text-sm text-slate-400 mb-4">用酒精探索世界，用品味连接灵魂</p>
-                    <div class="flex gap-8 justify-center md:justify-start">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold ">1</div>
-                            <div class="text-xs text-slate-500">总点单</div>
+
+                <!-- 信息区域 -->
+                <div class="flex-1 text-center md:text-left z-10">
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-2" style="margin-bottom: 12px">
+                        <h2 class="text-3xl font-bold serif-font bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600">月色撩人</h2>
+                        <div class="flex gap-1">
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
+                            <i class="fas fa-star text-amber-500 text-sm"></i>
                         </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold ">12</div>
-                            <div class="text-xs text-slate-500">品尝</div>
+                    </div>
+
+
+                    <!-- 统计数据 -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gradient-to-br from-amber-500/10 to-transparent backdrop-blur-sm rounded-xl p-4 border border-amber-500/20 text-center hover:scale-105 transition-all cursor-pointer">
+                            <div class="text-3xl font-bold stat-number counter-animate">156</div>
+                            <div class="text-xs text-slate-500 mt-1">总点单</div>
+                            <div class="text-[10px] text-amber-500/70 mt-1">
+                                <i class="fas fa-arrow-up mr-1"></i>+12 本周
+                            </div>
                         </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold ">5</div>
-                            <div class="text-xs text-slate-500">小酌</div>
+                        <div class="bg-gradient-to-br from-purple-500/10 to-transparent backdrop-blur-sm rounded-xl p-4 border border-purple-500/20 text-center hover:scale-105 transition-all cursor-pointer">
+                            <div class="text-3xl font-bold stat-number counter-animate">89</div>
+                            <div class="text-xs text-slate-500 mt-1">品尝种类</div>
+                            <div class="text-[10px] text-purple-400/70 mt-1">
+                                <i class="fas fa-trophy mr-1"></i>美酒探险家
+                            </div>
                         </div>
-                        <div class="text-center">
-                            <div class="text-2xl font-bold ">8</div>
-                            <div class="text-xs text-slate-500">畅饮</div>
+                        <div class="bg-gradient-to-br from-blue-500/10 to-transparent backdrop-blur-sm rounded-xl p-4 border border-blue-500/20 text-center hover:scale-105 transition-all cursor-pointer">
+                            <div class="text-3xl font-bold stat-number counter-animate">23</div>
+                            <div class="text-xs text-slate-500 mt-1">小酌时光</div>
+                            <div class="text-[10px] text-blue-400/70 mt-1">
+                                <i class="fas fa-moon mr-1"></i>夜猫子
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-br from-pink-500/10 to-transparent backdrop-blur-sm rounded-xl p-4 border border-pink-500/20 text-center hover:scale-105 transition-all cursor-pointer">
+                            <div class="text-3xl font-bold stat-number counter-animate">45</div>
+                            <div class="text-xs text-slate-500 mt-1">畅饮狂欢</div>
+                            <div class="text-[10px] text-pink-400/70 mt-1">
+                                <i class="fas fa-fire mr-1"></i>派对之王
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- 标签页 -->
-            <div class="glass-panel p-4">
-                <div class="flex gap-2 overflow-x-auto hide-scroll mb-4">
-                    <button class="tab-btn active px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap" onclick="switchTab('taste')">
-                        🍸 味蕾画像
+            <div class="glass-panel p-6 relative overflow-hidden">
+                <!-- 背景装饰线 -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"></div>
+
+                <div class="flex gap-3 overflow-x-auto hide-scroll mb-6">
+                    <button class="tab-btn active px-8 py-3 rounded-xl text-sm font-bold whitespace-nowrap flex items-center gap-2 shadow-lg transform hover:scale-105 transition-all" onclick="switchTab('taste')">
+                        <i class="fas fa-cocktail text-lg"></i>
+                        <span>味蕾画像</span>
+                        <span class="ml-1 w-2 h-2 bg-amber-900 rounded-full animate-pulse"></span>
                     </button>
-                    <button class="tab-btn px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap bg-black/20" onclick="switchTab('history')">
-                        📜 点单历史
+                    <button class="tab-btn px-8 py-3 rounded-xl text-sm font-bold whitespace-nowrap bg-black/30 hover:bg-black/40 flex items-center gap-2 border border-white/5 transform hover:scale-105 transition-all" onclick="switchTab('history')">
+                        <i class="fas fa-history text-lg"></i>
+                        <span>点单历史</span>
                     </button>
-                    <button class="tab-btn px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap bg-black/20" onclick="switchTab('favorite')">
-                        ❤️ 我的最爱
+                    <button class="tab-btn px-8 py-3 rounded-xl text-sm font-bold whitespace-nowrap bg-black/30 hover:bg-black/40 flex items-center gap-2 border border-white/5 transform hover:scale-105 transition-all" onclick="switchTab('favorite')">
+                        <i class="fas fa-heart text-lg"></i>
+                        <span>我的最爱</span>
                     </button>
-                    <button class="tab-btn px-6 py-2 rounded-full text-sm font-medium whitespace-nowrap bg-black/20" onclick="switchTab('achievement')">
-                        🏆 成就勋章
+                    <button class="tab-btn px-8 py-3 rounded-xl text-sm font-bold whitespace-nowrap bg-black/30 hover:bg-black/40 flex items-center gap-2 border border-white/5 transform hover:scale-105 transition-all" onclick="switchTab('achievement')">
+                        <i class="fas fa-trophy text-lg"></i>
+                        <span>成就勋章</span>
+                        <span class="ml-1 w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center text-[10px] text-slate-900 font-bold">8</span>
                     </button>
                 </div>
 
@@ -219,157 +403,301 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         <!-- 酒系偏好 -->
-                        <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-                                <i class="fas fa-wine-glass-alt text-amber-500"></i>
-                                酒系偏好
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">🌶️</span>
-                                    <span class="text-sm w-16">烈酒</span>
-                                    <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden">
-                                        <div class="progress-bar h-full" style="--w: 92%;"></div>
+                        <div class="glass-panel p-6 card relative overflow-hidden group">
+                            <!-- 背景渐变装饰 -->
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-500/20 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+
+                            <div class="relative z-10">
+                                <h3 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500 mb-6 flex items-center gap-3">
+                                    <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500/30 to-amber-600/30 flex items-center justify-center">
+                                        <i class="fas fa-wine-glass-alt text-amber-400"></i>
+                                    </span>
+                                    <span>酒系偏好</span>
+                                    <span class="ml-auto text-xs text-slate-500 font-normal">6项分析</span>
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3 group/item">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500/20 to-orange-500/20 flex items-center justify-center text-2xl shrink-0 group-hover/item:scale-110 transition-transform">
+                                            🌶️
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-slate-200">烈酒</span>
+                                                <span class="text-sm font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">92%</span>
+                                            </div>
+                                            <div class="h-2.5 bg-black/40 rounded-full overflow-hidden relative">
+                                                <div class="progress-bar h-full rounded-full" style="--w: 92%; width: 92%; background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%);"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="text-sm text-amber-500 font-bold w-10 text-right">92%</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">🥃</span>
-                                    <span class="text-sm w-16">威士忌</span>
-                                    <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden">
-                                        <div class="progress-bar h-full" style="--w: 85%;"></div>
+                                    <div class="flex items-center gap-3 group/item">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500/20 to-yellow-500/20 flex items-center justify-center text-2xl shrink-0 group-hover/item:scale-110 transition-transform">
+                                            🥃
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-slate-200">威士忌</span>
+                                                <span class="text-sm font-bold bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text text-transparent">85%</span>
+                                            </div>
+                                            <div class="h-2.5 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="progress-bar h-full rounded-full" style="--w: 85%; width: 85%; background: linear-gradient(90deg, #d4af37 0%, #f59e0b 100%);"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="text-sm text-amber-500 font-bold w-10 text-right">85%</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">🍺</span>
-                                    <span class="text-sm w-16">啤酒</span>
-                                    <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden">
-                                        <div class="progress-bar h-full" style="--w: 75%;"></div>
+                                    <div class="flex items-center gap-3 group/item">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-amber-500/20 flex items-center justify-center text-2xl shrink-0 group-hover/item:scale-110 transition-transform">
+                                            🍺
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-slate-200">啤酒</span>
+                                                <span class="text-sm font-bold bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent">75%</span>
+                                            </div>
+                                            <div class="h-2.5 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="progress-bar h-full rounded-full" style="--w: 75%; width: 75%; background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="text-sm text-amber-500 font-bold w-10 text-right">75%</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">🍸</span>
-                                    <span class="text-sm w-16">鸡尾酒</span>
-                                    <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden">
-                                        <div class="progress-bar h-full" style="--w: 68%;"></div>
+                                    <div class="flex items-center gap-3 group/item">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-2xl shrink-0 group-hover/item:scale-110 transition-transform">
+                                            🍸
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-slate-200">鸡尾酒</span>
+                                                <span class="text-sm font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">68%</span>
+                                            </div>
+                                            <div class="h-2.5 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="progress-bar h-full rounded-full" style="--w: 68%; width: 68%; background: linear-gradient(90deg, #ec4899 0%, #a855f7 100%);"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="text-sm text-amber-500 font-bold w-10 text-right">68%</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">🍷</span>
-                                    <span class="text-sm w-16">葡萄酒</span>
-                                    <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden">
-                                        <div class="progress-bar h-full" style="--w: 55%;"></div>
+                                    <div class="flex items-center gap-3 group/item">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500/20 to-red-500/20 flex items-center justify-center text-2xl shrink-0 group-hover/item:scale-110 transition-transform">
+                                            🍷
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-slate-200">葡萄酒</span>
+                                                <span class="text-sm font-bold bg-gradient-to-r from-purple-400 to-red-500 bg-clip-text text-transparent">55%</span>
+                                            </div>
+                                            <div class="h-2.5 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="progress-bar h-full rounded-full" style="--w: 55%; width: 55%; background: linear-gradient(90deg, #a855f7 0%, #ef4444 100%);"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="text-sm text-amber-500 font-bold w-10 text-right">55%</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-2xl">🥂</span>
-                                    <span class="text-sm w-16">香槟</span>
-                                    <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden">
-                                        <div class="progress-bar h-full" style="--w: 48%;"></div>
+                                    <div class="flex items-center gap-3 group/item">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500/20 to-pink-500/20 flex items-center justify-center text-2xl shrink-0 group-hover/item:scale-110 transition-transform">
+                                            🥂
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-slate-200">香槟</span>
+                                                <span class="text-sm font-bold bg-gradient-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent">48%</span>
+                                            </div>
+                                            <div class="h-2.5 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="progress-bar h-full rounded-full" style="--w: 48%; width: 48%; background: linear-gradient(90deg, #fbbf24 0%, #ec4899 100%);"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="text-sm text-amber-500 font-bold w-10 text-right">48%</span>
                                 </div>
                             </div>
                         </div>
 
                         <!-- 口味特征 -->
-                        <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-                                <i class="fas fa-tags text-amber-500"></i>
-                                口味特征
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
-                                    <span class="text-3xl">🥃</span>
-                                    <div>
-                                        <div class="text-xs text-slate-400">浓度承受</div>
-                                        <div class="text-sm text-amber-500 font-bold">重度</div>
+                        <div class="glass-panel p-6 card relative overflow-hidden group">
+                            <div class="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-purple-500/20 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+
+                            <div class="relative z-10">
+                                <h3 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-pink-500 mb-6 flex items-center gap-3">
+                                    <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/30 to-pink-600/30 flex items-center justify-center">
+                                        <i class="fas fa-tags text-purple-400"></i>
+                                    </span>
+                                    <span>口味特征</span>
+                                    <span class="ml-auto text-xs text-slate-500 font-normal">4项特征</span>
+                                </h3>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="flex items-center gap-3 p-4 bg-gradient-to-br from-red-500/10 to-orange-500/5 rounded-xl border border-red-500/20 hover:scale-105 transition-all cursor-pointer group/item">
+                                        <div class="text-4xl group-hover/item:scale-110 transition-transform">🥃</div>
+                                        <div>
+                                            <div class="text-[10px] text-slate-400 uppercase tracking-wider">浓度承受</div>
+                                            <div class="text-base text-red-400 font-bold">重度</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-4 bg-gradient-to-br from-orange-500/10 to-yellow-500/5 rounded-xl border border-orange-500/20 hover:scale-105 transition-all cursor-pointer group/item">
+                                        <div class="text-4xl group-hover/item:scale-110 transition-transform">🍊</div>
+                                        <div>
+                                            <div class="text-[10px] text-slate-400 uppercase tracking-wider">甜度偏好</div>
+                                            <div class="text-base text-orange-400 font-bold">微甜</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-4 bg-gradient-to-br from-blue-500/10 to-cyan-500/5 rounded-xl border border-blue-500/20 hover:scale-105 transition-all cursor-pointer group/item">
+                                        <div class="text-4xl group-hover/item:scale-110 transition-transform">🧊</div>
+                                        <div>
+                                            <div class="text-[10px] text-slate-400 uppercase tracking-wider">温度偏好</div>
+                                            <div class="text-base text-blue-400 font-bold">中等</div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-4 bg-gradient-to-br from-green-500/10 to-lime-500/5 rounded-xl border border-green-500/20 hover:scale-105 transition-all cursor-pointer group/item">
+                                        <div class="text-4xl group-hover/item:scale-110 transition-transform">🍋</div>
+                                        <div>
+                                            <div class="text-[10px] text-slate-400 uppercase tracking-wider">口感偏好</div>
+                                            <div class="text-base text-green-400 font-bold">冰爽</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
-                                    <span class="text-3xl">🍊</span>
-                                    <div>
-                                        <div class="text-xs text-slate-400">甜度偏好</div>
-                                        <div class="text-sm text-amber-500 font-bold">微甜</div>
+
+                                <!-- 个性标签 -->
+                                <div class="mt-6 pt-4 border-t border-white/5">
+                                    <div class="text-xs text-slate-400 mb-3 flex items-center gap-2">
+                                        <i class="fas fa-hashtag"></i>
+                                        <span>个性标签</span>
                                     </div>
-                                </div>
-                                <div class="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
-                                    <span class="text-3xl">🧊</span>
-                                    <div>
-                                        <div class="text-xs text-slate-400">威度偏好</div>
-                                        <div class="text-sm text-amber-500 font-bold">中等</div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
-                                    <span class="text-3xl">🍋</span>
-                                    <div>
-                                        <div class="text-xs text-slate-400">口感偏好</div>
-                                        <div class="text-sm text-amber-500 font-bold">冰爽</div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="tag-3d px-3 py-1.5 bg-gradient-to-r from-amber-500/20 to-amber-600/10 text-amber-400 text-xs rounded-lg border border-amber-500/30 cursor-pointer">
+                                            <i class="fas fa-fire mr-1"></i>烈酒爱好者
+                                        </span>
+                                        <span class="tag-3d px-3 py-1.5 bg-gradient-to-r from-blue-500/20 to-blue-600/10 text-blue-400 text-xs rounded-lg border border-blue-500/30 cursor-pointer">
+                                            <i class="fas fa-moon mr-1"></i>夜猫子
+                                        </span>
+                                        <span class="tag-3d px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-purple-600/10 text-purple-400 text-xs rounded-lg border border-purple-500/30 cursor-pointer">
+                                            <i class="fas fa-star mr-1"></i>品鉴师
+                                        </span>
+                                        <span class="tag-3d px-3 py-1.5 bg-gradient-to-r from-pink-500/20 to-pink-600/10 text-pink-400 text-xs rounded-lg border border-pink-500/30 cursor-pointer">
+                                            <i class="fas fa-users mr-1"></i>社交达人
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- 饮酒习惯 -->
-                        <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-                                <i class="fas fa-clock text-amber-500"></i>
-                                饮酒习惯
-                            </h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center p-3 bg-black/20 rounded-lg">
-                                    <span class="text-sm text-slate-400">活跃时段</span>
-                                    <span class="text-sm text-amber-500 font-bold">19:00 - 22:00</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-black/20 rounded-lg">
-                                    <span class="text-sm text-slate-400">用餐预算</span>
-                                    <span class="text-sm text-amber-500 font-bold">¥80 - ¥150</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-black/20 rounded-lg">
-                                    <span class="text-sm text-slate-400">用餐频率</span>
-                                    <span class="text-sm text-amber-500 font-bold">每周3-4次</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-black/20 rounded-lg">
-                                    <span class="text-sm text-slate-400">社交风格</span>
-                                    <span class="text-sm text-amber-500 font-bold">喜欢小聚</span>
-                                </div>
-                                <div class="flex justify-between items-center p-3 bg-black/20 rounded-lg">
-                                    <span class="text-sm text-slate-400">酒量评估</span>
-                                    <span class="text-sm text-amber-500 font-bold">中等偏上</span>
+                        <div class="glass-panel p-6 card relative overflow-hidden group">
+                            <div class="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+
+                            <div class="relative z-10">
+                                <h3 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-500 mb-6 flex items-center gap-3">
+                                    <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/30 to-cyan-600/30 flex items-center justify-center">
+                                        <i class="fas fa-clock text-blue-400"></i>
+                                    </span>
+                                    <span>饮酒习惯</span>
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-slate-800/50 to-slate-900/30 rounded-xl border border-white/5 hover:border-blue-500/30 transition-all group/item">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                                                <i class="fas fa-clock text-blue-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm text-slate-300">活跃时段</span>
+                                        </div>
+                                        <span class="text-sm font-bold bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">19:00 - 22:00</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-slate-800/50 to-slate-900/30 rounded-xl border border-white/5 hover:border-amber-500/30 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center">
+                                                <i class="fas fa-wallet text-amber-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm text-slate-300">消费预算</span>
+                                        </div>
+                                        <span class="text-sm font-bold bg-gradient-to-r from-amber-400 to-yellow-500 bg-clip-text text-transparent">¥80 - ¥150</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-slate-800/50 to-slate-900/30 rounded-xl border border-white/5 hover:border-green-500/30 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+                                                <i class="fas fa-calendar-check text-green-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm text-slate-300">光顾频率</span>
+                                        </div>
+                                        <span class="text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">每周 3-4 次</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-slate-800/50 to-slate-900/30 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                                <i class="fas fa-users text-purple-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm text-slate-300">社交风格</span>
+                                        </div>
+                                        <span class="text-sm font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">喜欢小聚</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-4 bg-gradient-to-r from-slate-800/50 to-slate-900/30 rounded-xl border border-white/5 hover:border-red-500/30 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">
+                                                <i class="fas fa-fire text-red-400 text-sm"></i>
+                                            </div>
+                                            <span class="text-sm text-slate-300">酒量评估</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="flex gap-0.5">
+                                                <div class="w-1.5 h-4 bg-red-500 rounded-sm"></div>
+                                                <div class="w-1.5 h-4 bg-red-500 rounded-sm"></div>
+                                                <div class="w-1.5 h-4 bg-red-500 rounded-sm"></div>
+                                                <div class="w-1.5 h-4 bg-red-500/50 rounded-sm"></div>
+                                                <div class="w-1.5 h-4 bg-red-500/20 rounded-sm"></div>
+                                            </div>
+                                            <span class="text-xs font-bold text-red-400">中等偏上</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- 最爱配餐 -->
-                        <div class="glass-panel p-5 card">
-                            <h3 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-                                <i class="fas fa-utensils text-amber-500"></i>
-                                最爱配餐
-                            </h3>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="p-3 bg-black/20 rounded-lg text-center">
-                                    <div class="text-3xl mb-2">🍖</div>
-                                    <div class="text-xs text-slate-300">烤肉串</div>
-                                    <div class="text-xs text-amber-500 mt-1">92%</div>
-                                </div>
-                                <div class="p-3 bg-black/20 rounded-lg text-center">
-                                    <div class="text-3xl mb-2">🧀</div>
-                                    <div class="text-xs text-slate-300">芝士拼盘</div>
-                                    <div class="text-xs text-amber-500 mt-1">85%</div>
-                                </div>
-                                <div class="p-3 bg-black/20 rounded-lg text-center">
-                                    <div class="text-3xl mb-2">🥜</div>
-                                    <div class="text-xs text-slate-300">坚果小食</div>
-                                    <div class="text-xs text-amber-500 mt-1">78%</div>
-                                </div>
-                                <div class="p-3 bg-black/20 rounded-lg text-center">
-                                    <div class="text-3xl mb-2">🍟</div>
-                                    <div class="text-xs text-slate-300">薯条</div>
-                                    <div class="text-xs text-amber-500 mt-1">65%</div>
+                        <div class="glass-panel p-6 card relative overflow-hidden group">
+                            <div class="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-green-500/20 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-all duration-700"></div>
+
+                            <div class="relative z-10">
+                                <h3 class="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-200 to-lime-500 mb-6 flex items-center gap-3">
+                                    <span class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500/30 to-lime-600/30 flex items-center justify-center">
+                                        <i class="fas fa-utensils text-green-400"></i>
+                                    </span>
+                                    <span>最爱配餐</span>
+                                    <span class="ml-auto text-xs text-slate-500 font-normal">TOP 4</span>
+                                </h3>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="relative p-4 bg-gradient-to-br from-amber-500/10 to-orange-500/5 rounded-xl border border-amber-500/20 text-center hover:scale-105 transition-all cursor-pointer group/item overflow-hidden">
+                                        <div class="absolute top-1 right-1 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-900">1</div>
+                                        <div class="text-4xl mb-2 group-hover/item:scale-110 transition-transform">🍖</div>
+                                        <div class="text-sm text-slate-200 font-medium">烤肉串</div>
+                                        <div class="mt-2 flex items-center justify-center gap-1">
+                                            <div class="flex-1 h-1 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-amber-500 to-orange-500" style="width: 92%"></div>
+                                            </div>
+                                            <span class="text-xs text-amber-400 font-bold">92%</span>
+                                        </div>
+                                    </div>
+                                    <div class="relative p-4 bg-gradient-to-br from-yellow-500/10 to-amber-500/5 rounded-xl border border-yellow-500/20 text-center hover:scale-105 transition-all cursor-pointer group/item overflow-hidden">
+                                        <div class="absolute top-1 right-1 w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-900">2</div>
+                                        <div class="text-4xl mb-2 group-hover/item:scale-110 transition-transform">🧀</div>
+                                        <div class="text-sm text-slate-200 font-medium">芝士拼盘</div>
+                                        <div class="mt-2 flex items-center justify-center gap-1">
+                                            <div class="flex-1 h-1 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-yellow-500 to-amber-500" style="width: 85%"></div>
+                                            </div>
+                                            <span class="text-xs text-yellow-400 font-bold">85%</span>
+                                        </div>
+                                    </div>
+                                    <div class="relative p-4 bg-gradient-to-br from-orange-500/10 to-red-500/5 rounded-xl border border-orange-500/20 text-center hover:scale-105 transition-all cursor-pointer group/item overflow-hidden">
+                                        <div class="absolute top-1 right-1 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-900">3</div>
+                                        <div class="text-4xl mb-2 group-hover/item:scale-110 transition-transform">🥜</div>
+                                        <div class="text-sm text-slate-200 font-medium">坚果拼盘</div>
+                                        <div class="mt-2 flex items-center justify-center gap-1">
+                                            <div class="flex-1 h-1 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-orange-500 to-red-500" style="width: 78%"></div>
+                                            </div>
+                                            <span class="text-xs text-orange-400 font-bold">78%</span>
+                                        </div>
+                                    </div>
+                                    <div class="relative p-4 bg-gradient-to-br from-red-500/10 to-pink-500/5 rounded-xl border border-red-500/20 text-center hover:scale-105 transition-all cursor-pointer group/item overflow-hidden">
+                                        <div class="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-bold text-slate-900">4</div>
+                                        <div class="text-4xl mb-2 group-hover/item:scale-110 transition-transform">🍟</div>
+                                        <div class="text-sm text-slate-200 font-medium">炸薯条</div>
+                                        <div class="mt-2 flex items-center justify-center gap-1">
+                                            <div class="flex-1 h-1 bg-black/40 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-red-500 to-pink-500" style="width: 70%"></div>
+                                            </div>
+                                            <span class="text-xs text-red-400 font-bold">70%</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -472,7 +800,7 @@
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
                                         <div class="flex items-center gap-2 mb-1">
-                                            <span class="text-lg font-bold text-amber-500">品酒之夜</span>
+                                            <span class="text-lg font-bold">品酒之夜</span>
                                             <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full">已完成</span>
                                         </div>
                                         <div class="text-xs text-slate-500">订单号: #20260130-2115</div>
@@ -737,32 +1065,9 @@
                 <!-- 成就勋章内容 -->
                 <div id="achievement-content" class="tab-content hidden">
                     <div class="space-y-6">
-                        <!-- 成就统计 -->
-                        <div class="glass-panel p-6 text-center">
-                            <div class="flex items-center justify-center gap-8">
-                                <div>
-                                    <div class="text-4xl font-bold text-amber-500">18</div>
-                                    <div class="text-sm text-slate-400 mt-1">已解锁</div>
-                                </div>
-                                <div class="w-px h-12 bg-slate-700"></div>
-                                <div>
-                                    <div class="text-4xl font-bold text-slate-600">12</div>
-                                    <div class="text-sm text-slate-400 mt-1">未解锁</div>
-                                </div>
-                                <div class="w-px h-12 bg-slate-700"></div>
-                                <div>
-                                    <div class="text-4xl font-bold text-amber-500">60%</div>
-                                    <div class="text-sm text-slate-400 mt-1">完成度</div>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- 勋章墙 -->
                         <div>
-                            <h3 class="text-xl font-bold text-amber-500 mb-4 flex items-center gap-2">
-                                <i class="fas fa-medal"></i>
-                                荣誉勋章
-                            </h3>
                             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 <!-- 已解锁勋章 -->
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
@@ -807,7 +1112,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">💰</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">消费达人</h4>
+                                    <h4 class="text-lg font-bold mb-2">消费达人</h4>
                                     <p class="text-xs text-slate-400 mb-3">累计消费超3000元</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-02-01</div>
@@ -815,7 +1120,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🔥</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">连续签到</h4>
+                                    <h4 class="text-lg font-bold  mb-2">连续签到</h4>
                                     <p class="text-xs text-slate-400 mb-3">连续7天访问</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-28</div>
@@ -823,7 +1128,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">👥</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">社交达人</h4>
+                                    <h4 class="text-lg font-bold  mb-2">社交达人</h4>
                                     <p class="text-xs text-slate-400 mb-3">邀请5位好友</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-30</div>
@@ -831,7 +1136,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">📸</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">分享达人</h4>
+                                    <h4 class="text-lg font-bold  mb-2">分享达人</h4>
                                     <p class="text-xs text-slate-400 mb-3">分享10次动态</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-01-31</div>
@@ -839,7 +1144,7 @@
 
                                 <div class="glass-panel p-5 text-center hover:scale-105 transition-transform">
                                     <div class="text-5xl mb-3 animate-pulse">🍖</div>
-                                    <h4 class="text-lg font-bold text-amber-500 mb-2">美食家</h4>
+                                    <h4 class="text-lg font-bold  mb-2">美食家</h4>
                                     <p class="text-xs text-slate-400 mb-3">品尝20种小食</p>
                                     <div class="text-xs text-green-400">✓ 已解锁</div>
                                     <div class="text-xs text-slate-500 mt-1">2026-02-01</div>
@@ -892,12 +1197,12 @@
                                         <div class="flex items-center gap-3">
                                             <div class="text-3xl">🎯</div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-amber-500">本月消费挑战</h4>
+                                                <h4 class="text-lg font-bold">本月消费挑战</h4>
                                                 <p class="text-sm text-slate-400">本月消费满1000元</p>
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            <div class="text-sm text-amber-500 font-bold">68%</div>
+                                            <div class="text-sm  font-bold">68%</div>
                                             <div class="text-xs text-slate-500">680/1000元</div>
                                         </div>
                                     </div>
@@ -911,12 +1216,12 @@
                                         <div class="flex items-center gap-3">
                                             <div class="text-3xl">🍷</div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-amber-500">葡萄酒探索</h4>
+                                                <h4 class="text-lg font-bold">葡萄酒探索</h4>
                                                 <p class="text-sm text-slate-400">品尝10种葡萄酒</p>
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            <div class="text-sm text-amber-500 font-bold">50%</div>
+                                            <div class="text-sm font-bold">50%</div>
                                             <div class="text-xs text-slate-500">5/10种</div>
                                         </div>
                                     </div>
@@ -930,12 +1235,12 @@
                                         <div class="flex items-center gap-3">
                                             <div class="text-3xl">📅</div>
                                             <div>
-                                                <h4 class="text-lg font-bold text-amber-500">连续签到挑战</h4>
+                                                <h4 class="text-lg font-bold">连续签到挑战</h4>
                                                 <p class="text-sm text-slate-400">连续签到30天</p>
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            <div class="text-sm text-amber-500 font-bold">40%</div>
+                                            <div class="text-sm  font-bold">40%</div>
                                             <div class="text-xs text-slate-500">12/30天</div>
                                         </div>
                                     </div>
