@@ -140,7 +140,7 @@
 
     <div class="mystic-bg"></div>
     <!-- Main Content -->
-    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-4 max-w-7xl mx-auto">
+    <div class="relative z-10 flex flex-col md:flex-row min-h-screen p-2 md:p-4 gap-2 max-w-7xl mx-auto">
 
         <!-- 左侧导航栏 -->
         <aside class="glass-panel w-full lg:w-64 flex flex-col p-6 shadow-2xl shrink-0 lg:h-[calc(100vh-3rem)] lg:sticky lg:top-6">
@@ -350,9 +350,9 @@
                                     <i id="header-icon" class="fa-solid fa-martini-glass-citrus text-lg"></i>
                                 </span>
                                 <div>
-                                    <span class="text-base font-bold text-white block leading-tight">互动专区</span>
-                                    <div class="flex gap-3 text-[10px] font-mono opacity-60 text-slate-300 mt-0.5">
-                                        <span class="flex items-center gap-1"><i class="fa-solid fa-user-group text-[9px]"></i> 24人在桌</span>
+                                    <span class="text-lg font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-orange-400 block leading-tight drop-shadow-lg animate-pulse">✨ 互动专区 ✨</span>
+                                    <div class="flex gap-3 text-[10px] font-mono opacity-70 text-slate-300 mt-0.5">
+                                        <span id="total-people-count" class="flex items-center gap-1"><i class="fa-solid fa-user-group text-[9px]"></i> 0人在桌</span>
                                         <span class="flex items-center gap-1"><i class="fa-solid fa-signal text-green-400 text-[9px]"></i> 热度:高</span>
                                     </div>
                                 </div>
@@ -376,7 +376,7 @@
                     <!-- Bar Floor Plan - Realistic Layout -->
                     <div id="bar-floor-plan" class="relative w-full h-full min-h-[320px]">
                         <!-- Bar Counter at Top -->
-                        <div class="absolute top-1 left-1/2 -translate-x-1/2 w-[60%] h-12 bg-gradient-to-b from-amber-900/60 to-amber-950/40 rounded-b-xl border-b border-x border-amber-600/30 flex items-center justify-center gap-1 shadow-md z-30">
+                        <div class="absolute top-1 left-1/2 -translate-x-1/2 w-[35%] h-12 bg-gradient-to-b from-amber-900/60 to-amber-950/40 rounded-b-xl border-b border-x border-amber-600/30 flex items-center justify-center gap-1 shadow-md z-30">
                             <i class="fa-solid fa-wine-bottle text-amber-500/60 text-[10px]"></i>
                             <span class="text-[10px] text-amber-400/80 font-bold">BAR</span>
                             <i class="fa-solid fa-champagne-glasses text-amber-500/60 text-[10px]"></i>
@@ -419,7 +419,7 @@
             </div>
 
             <!-- BOTTOM ACTION BAR -->
-            <div class="p-2 px-3 pb-4 bg-slate-950/90 border-t border-white/5 shrink-0 backdrop-blur-md z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.3)] flex flex-col gap-2">
+            <div class="p-2 px-3 pb-4 pt-4 bg-slate-950/90 border-t border-white/5 shrink-0 backdrop-blur-md z-20 shadow-[0_-5px_20px_rgba(0,0,0,0.3)] flex flex-col gap-2 mt-2">
                 
                 <!-- PREVIEW AREA -->
                 <div id="selection-preview" class="hidden flex-col gap-1.5 p-1.5 bg-slate-900/50 rounded-lg border border-white/5">
@@ -654,14 +654,6 @@
                             {id: 'g3', name: 'Pro', img: 'Pro', status: '开黑 🎯'},
                             {id: 'g4', name: 'Ace', img: 'Ace', status: 'MVP 🏅'}
                         ]
-                    },
-                    {
-                        name: "桌游区",
-                        id: "t-gamer-2",
-                        members: [
-                            {id: 'g5', name: 'Storm', img: 'Storm', status: '连胜 🔥'},
-                            {id: 'g6', name: 'Knight', img: 'Knight', status: '策略 ⚔️'}
-                        ]
                     }
                 ]
             },
@@ -758,7 +750,7 @@
                         <span class="text-[9px] font-bold font-mono text-white leading-none">${a.time}</span>
                      </div>
                      <div class="min-w-0">
-                         <h4 class="text-[10px] font-bold text-white leading-tight group-hover:text-amber-300 transition-colors truncate">${a.name}</h4>
+                         <h4 class="text-sm font-bold text-white leading-tight group-hover:text-amber-300 transition-colors truncate">${a.name}</h4>
                          <div class="flex items-center gap-1 mt-0.5">
                             <div class="w-1 h-1 rounded-full ${a.status === 'Live' ? 'bg-emerald-500 animate-pulse' : 'bg-slate-500'}"></div>
                             <span class="text-[8px] text-slate-400 capitalize">${a.status}</span>
@@ -860,11 +852,11 @@
             // Define fixed positions for 6 tables (one per tribe)
             const tablePositions = [
                 // Row 1 - 3 tables (staggered)
-                {x: '28%', y: '34%'}, {x: '46%', y: '36%'}, {x: '82%', y: '30%'},
+                {x: '26%', y: '52%'}, {x: '46%', y: '36%'}, {x: '82%', y: '30%'},
                 // Row 2 - 2 tables (offset)
-                {x: '45%', y: '76%'}, {x: '65%', y: '52%'},
-                // Row 3 - 2 tables (游戏桌在右下角)
-                {x: '25%', y: '80%'}, {x: '80%', y: '78%'}
+                {x: '80%', y: '78%'}, {x: '45%', y: '76%'},
+                // Row 3 - 1 table
+                {x: '65%', y: '52%'}
             ];
             
             // Collect all tables with their tribe info
@@ -912,7 +904,7 @@
                 const seatsHTML = table.members.map((u, i) => {
                     const isSelected = selectedMemberIds.has(u.id);
                     const angle = angles[i % angles.length];
-                    const radius = 38; // Larger radius for bigger spacing
+                    const radius = 45; // Larger radius for bigger spacing
                     const x = Math.cos(angle * Math.PI / 180) * radius;
                     const y = Math.sin(angle * Math.PI / 180) * radius;
                     
@@ -954,19 +946,19 @@
                 const tableNameColor = allMembersSelected ? `text-white` : (isCurrentTribe ? `text-${tribeColor}-400` : 'text-slate-600');
                 
                 container.innerHTML += `
-                <div class="absolute ${tableOpacity} transition-all duration-300" style="left: ${pos.x}; top: ${pos.y}; transform: translate(-50%, -50%); width: 110px; height: 110px;">
+                <div class="absolute ${tableOpacity} transition-all duration-300" style="left: ${pos.x}; top: ${pos.y}; transform: translate(-50%, -50%); width: 130px; height: 130px;">
                     <!-- Table Surface -->
-                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full ${tableBg} border-2 ${tableBorder} ${tableGlow} flex items-center justify-center ${isCurrentTribe ? 'cursor-pointer hover:scale-110' : ''} transition-all shadow-lg ${tableScale}"
+                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full ${tableBg} border-2 ${tableBorder} ${tableGlow} flex items-center justify-center ${isCurrentTribe ? 'cursor-pointer hover:scale-110' : ''} transition-all shadow-lg ${tableScale}"
                          ${clickableTable}>
                         ${allMembersSelected ? `<div class="absolute inset-0 rounded-full bg-${tribeColor}-500/20 animate-pulse"></div>` : ''}
                         <div class="text-center relative z-10">
-                            ${allMembersSelected ? `<i class="fa-solid fa-check text-[10px] text-${tribeColor}-300 mb-0.5 block"></i>` : ''}
-                            <div class="text-[7px] ${tableNameColor} font-bold leading-none">${table.name.length > 5 ? table.name.substring(0,4) : table.name}</div>
-                            ${someMembersSelected && !allMembersSelected ? `<div class="text-[6px] text-${tribeColor}-400 mt-0.5">${table.members.filter(m => selectedMemberIds.has(m.id)).length}/${table.members.length}</div>` : ''}
+                            ${allMembersSelected ? `<i class="fa-solid fa-check text-base text-${tribeColor}-300 mb-0.5 block"></i>` : ''}
+                            <div class="text-base ${tableNameColor} font-bold leading-none">${table.name.length > 5 ? table.name.substring(0,4) : table.name}</div>
+                            ${someMembersSelected && !allMembersSelected ? `<div class="text-[9px] text-${tribeColor}-400 mt-0.5">${table.members.filter(m => selectedMemberIds.has(m.id)).length}/${table.members.length}</div>` : ''}
                         </div>
                     </div>
                     <!-- Tribe color dot / Selection indicator -->
-                    <div class="absolute top-0 right-0 w-3 h-3 rounded-full bg-${tribeColor}-500 ${isCurrentTribe ? '' : 'opacity-30'} border border-white/30 ${allMembersSelected ? 'animate-bounce' : ''}"></div>
+                    <div class="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-${tribeColor}-500 ${isCurrentTribe ? '' : 'opacity-30'} border border-white/30 ${allMembersSelected ? 'animate-bounce' : ''}"></div>
                     <!-- Seats -->
                     ${seatsHTML}
                 </div>
@@ -1262,6 +1254,20 @@
             window.location.href = '5.html';
         }
 
+        // Function to update total people count
+        function updateTotalPeopleCount() {
+            let totalPeople = 0;
+            Object.values(tribes).forEach(tribe => {
+                tribe.tables.forEach(table => {
+                    totalPeople += table.members.length;
+                });
+            });
+            const countEl = document.getElementById('total-people-count');
+            if(countEl) {
+                countEl.innerHTML = `<i class="fa-solid fa-user-group text-[9px]"></i> ${totalPeople}人在桌`;
+            }
+        }
+
         // Init
         const urlParams = new URLSearchParams(window.location.search);
         const tribeParam = urlParams.get('tribe');
@@ -1270,6 +1276,7 @@
         } else {
             selectTribe('poetic');
         }
+        updateTotalPeopleCount();
 
         // --- Activity Modal Functions ---
         function showActivityModal(activityName, activityDate, activityTime) {
