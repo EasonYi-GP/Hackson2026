@@ -226,7 +226,7 @@
             </div>
 
             <!-- 模块1: 味友圈子 -->
-            <div class="flex-1 flex flex-col overflow-hidden">
+            <div class="flex-1 flex flex-col overflow-visible">
                 <div class="flex items-center justify-between mb-4 px-1 shrink-0">
                     <h2 class="text-2xl font-bold serif-font text-slate-200 flex items-center gap-3">
                         实时圈子
@@ -237,7 +237,7 @@
                         <span>6 个圈子在线</span>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-6 flex-1" id="vibeContainer">
+                <div class="grid grid-cols-2 gap-[18px] content-start p-1" id="vibeContainer">
                     <!-- JS Injected -->
                 </div>
             </div>
@@ -408,7 +408,7 @@
             if(!container) return;
 
             container.innerHTML = vibes.map(v => `
-                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-6 relative border flex flex-col justify-between h-[186px] cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'} hover:scale-[1.02] transition-all duration-300">
+                <div onclick="window.location.href='4.html?tribe=${v.id}'" class="vibe-card rounded-2xl p-6 relative border flex flex-col justify-between h-[202px] cursor-pointer group ${v.active ? 'vibe-active' : 'vibe-inactive'} hover:scale-[1.02] transition-all duration-300">>
                     <div class="flex justify-between items-start z-10">
                         <div class="flex-1">
                             <h3 class="font-bold text-2xl text-white group-hover:text-indigo-300 transition-colors mb-2">${v.name}</h3>
