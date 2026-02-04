@@ -43,10 +43,40 @@
         body { font-family: 'Inter', sans-serif; }
         .serif-font { font-family: 'Noto Serif SC', serif; }
 
-        .hide-scroll::-webkit-scrollbar { width: 4px; }
-        .hide-scroll::-webkit-scrollbar-track { background: transparent; }
-        .hide-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+        .hide-scroll::-webkit-scrollbar { width: 6px; }
+        .hide-scroll::-webkit-scrollbar-track { background: rgba(51, 65, 85, 0.3); border-radius: 3px; }
+        .hide-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        .hide-scroll::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
+        /* Modal Animations */
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes personCardIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .modal-backdrop-animate {
+            animation: modalFadeIn 0.25s ease-out forwards;
+        }
+        .modal-content-animate {
+            animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .person-card {
+            animation: personCardIn 0.3s ease-out forwards;
+            opacity: 0;
+        }
+        .tribe-tab {
+            transition: all 0.2s ease;
+        }
+        .tribe-tab:active {
+            transform: scale(0.95);
+        }
         /* 深渊背景 */
         .abyssal-bg {
             background-color: #020617;
@@ -382,7 +412,7 @@
                             </div>
 
                             <!-- Fixed: Button with Icon -->
-                            <button class="w-full flex items-center justify-center gap-2 text-[10px] text-indigo-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-400 transition-all border border-indigo-500/30 rounded py-1.5 group">
+                            <button onclick="openPeopleModal()" class="w-full flex items-center justify-center gap-2 text-[10px] text-indigo-400 hover:text-white hover:bg-indigo-500/20 hover:border-indigo-400 transition-all border border-indigo-500/30 rounded py-1.5 group">
                                 <span>Say Hi</span>
                                 <i class="fa-solid fa-hand-sparkles group-hover:animate-bounce"></i>
                             </button>
@@ -397,7 +427,276 @@
     </main>
     </div>
 
+    <!-- People Modal (Say Hi) -->
+    <div id="peopleModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 modal-backdrop-animate">
+        <div class="bg-slate-900/95 border border-slate-700 rounded-xl w-full max-w-2xl h-[70vh] overflow-hidden flex flex-col modal-content-animate">
+            <!-- Modal Header -->
+            <div class="p-4 border-b border-slate-700 flex items-center justify-between">
+                <h3 class="text-white font-medium flex items-center gap-2">
+                    <i class="fa-solid fa-hand-sparkles text-indigo-400 animate-pulse"></i>
+                    Say Hi to Nearby Vibes
+                </h3>
+                <button onclick="closePeopleModal()" class="text-slate-400 hover:text-white hover:rotate-90 transition-all duration-200">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Content: Left Tabs + Right List -->
+            <div class="flex flex-1 overflow-hidden">
+                <!-- Left Tribe Tabs (Vertical) -->
+                <div id="tribeTabs" class="w-28 shrink-0 border-r border-slate-700 flex flex-col py-2 bg-slate-800/30 overflow-y-auto">
+                    <button onclick="filterByTribe('all')" data-tribe="all" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium bg-indigo-500/20 text-indigo-400 border-l-2 border-indigo-500">
+                        <i class="fa-solid fa-users mr-1.5"></i>All
+                    </button>
+                    <button onclick="filterByTribe('poetic')" data-tribe="poetic" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium text-slate-400 hover:bg-slate-700/50 hover:text-white border-l-2 border-transparent">
+                        <i class="fa-solid fa-feather-pointed mr-1.5"></i>微醺诗人
+                    </button>
+                    <button onclick="filterByTribe('electro')" data-tribe="electro" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium text-slate-400 hover:bg-slate-700/50 hover:text-white border-l-2 border-transparent">
+                        <i class="fa-solid fa-bolt mr-1.5"></i>燥热电音
+                    </button>
+                    <button onclick="filterByTribe('whisper')" data-tribe="whisper" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium text-slate-400 hover:bg-slate-700/50 hover:text-white border-l-2 border-transparent">
+                        <i class="fa-solid fa-handshake mr-1.5"></i>商务洽谈
+                    </button>
+                    <button onclick="filterByTribe('solo')" data-tribe="solo" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium text-slate-400 hover:bg-slate-700/50 hover:text-white border-l-2 border-transparent">
+                        <i class="fa-solid fa-wind mr-1.5"></i>独自放空
+                    </button>
+                    <button onclick="filterByTribe('gamer')" data-tribe="gamer" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium text-slate-400 hover:bg-slate-700/50 hover:text-white border-l-2 border-transparent">
+                        <i class="fa-solid fa-gamepad mr-1.5"></i>游戏人生
+                    </button>
+                    <button onclick="filterByTribe('foodie')" data-tribe="foodie" class="tribe-tab text-left px-3 py-2.5 text-xs font-medium text-slate-400 hover:bg-slate-700/50 hover:text-white border-l-2 border-transparent">
+                        <i class="fa-solid fa-utensils mr-1.5"></i>美食探店
+                    </button>
+                </div>
+                
+                <!-- Right People List -->
+                <div id="peopleList" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 gap-2 auto-rows-min content-start hide-scroll">
+                    <!-- People will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-slate-900/95 border border-slate-700 rounded-xl w-full max-w-xs p-6 text-center relative">
+            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <!-- Person Info -->
+            <img id="qrPersonImg" src="" alt="Avatar" class="w-16 h-16 rounded-full mx-auto mb-3 border-2 border-indigo-500">
+            <h4 id="qrPersonName" class="text-white font-medium text-lg mb-1"></h4>
+            <p id="qrPersonTribe" class="text-indigo-400 text-xs mb-1"></p>
+            <p id="qrPersonTable" class="text-amber-400 text-xs mb-4 flex items-center justify-center gap-1">
+                <i class="fa-solid fa-chair"></i>
+                <span></span>
+            </p>
+            
+            <!-- QR Code -->
+            <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                <img id="qrCodeImg" src="" alt="QR Code" class="w-32 h-32">
+            </div>
+            
+            <p class="text-slate-400 text-xs">Scan to connect & say hi!</p>
+        </div>
+    </div>
+
     <script>
+        // ========== Say Hi Modal - Tribes Data (Global Scope) ==========
+        const tribesData = {
+            poetic: {
+                color: 'violet',
+                title: '微醺诗人',
+                icon: 'fa-feather-pointed',
+                tables: [
+                    { name: "Table A", members: [
+                        {name: 'Luna', img: 'Luna', status: '写诗中 ✍️'},
+                        {name: 'Jasper', img: 'Jasper', status: '灵感 🍷'},
+                        {name: 'Ivy', img: 'Ivy', status: '沉思 🌿'}
+                    ]},
+                    { name: "Table B", members: [
+                        {name: 'Echo', img: 'Echo', status: '低吟 🎵'}
+                    ]}
+                ]
+            },
+            electro: {
+                color: 'rose',
+                title: '燥热电音',
+                icon: 'fa-bolt',
+                tables: [
+                    { name: "DJ 舞池", members: [
+                        {name: 'Vibe', img: 'Vibe', status: 'Raving 🕺'},
+                        {name: 'Neon', img: 'Neon', status: '打碟 🎧'},
+                        {name: 'Flash', img: 'Flash', status: '蹦迪 💥'},
+                        {name: 'Bass', img: 'Bass', status: '低音 🔊'}
+                    ]},
+                    { name: "VIP Booth", members: [
+                        {name: 'Rex', img: 'Rex', status: '舞伴 💃'},
+                        {name: 'Zoe', img: 'Zoe', status: 'Energy ⚡'}
+                    ]}
+                ]
+            },
+            whisper: {
+                color: 'amber',
+                title: '商务洽谈',
+                icon: 'fa-handshake',
+                tables: [
+                    { name: "VIP 888", members: [
+                        {name: 'Boss', img: 'Boss', status: '洽谈 💼'},
+                        {name: 'Jean', img: 'Jean', status: '静听 🤔'},
+                        {name: 'Mark', img: 'Mark', status: '签约 ✍️'},
+                        {name: 'Lisa', img: 'Lisa', status: '谈判 💬'}
+                    ]},
+                    { name: "Private", members: [
+                        {name: 'Hanks', img: 'Hanks', status: '名片 🤝'}
+                    ]}
+                ]
+            },
+            solo: {
+                color: 'cyan',
+                title: '独自放空',
+                icon: 'fa-wind',
+                tables: [
+                    { name: "Bar Area", members: [
+                        {name: 'Ghost', img: 'Ghost', status: '放空 😶'}
+                    ]},
+                    { name: "Terrace", members: [
+                        {name: 'Blue', img: 'Blue', status: '听歌 🎧'},
+                        {name: 'Rain', img: 'Rain', status: '看雨 🌧️'},
+                        {name: 'Daze', img: 'Daze', status: '发呆 💭'}
+                    ]}
+                ]
+            },
+            gamer: {
+                color: 'indigo',
+                title: '游戏人生',
+                icon: 'fa-gamepad',
+                tables: [
+                    { name: "Gaming A", members: [
+                        {name: 'Player1', img: 'P1', status: 'Rank Up 🎮'},
+                        {name: 'Player2', img: 'P2', status: 'Carry 🏆'},
+                        {name: 'Pro', img: 'Pro', status: '开黑 🎯'}
+                    ]},
+                    { name: "Board Game", members: [
+                        {name: 'Ace', img: 'Ace', status: 'MVP 🏅'},
+                        {name: 'Storm', img: 'Storm', status: '连胜 🔥'}
+                    ]}
+                ]
+            },
+            foodie: {
+                color: 'emerald',
+                title: '美食探店',
+                icon: 'fa-utensils',
+                tables: [
+                    { name: "Tasting", members: [
+                        {name: 'Chef', img: 'Chef1', status: 'Cooking 🍳'},
+                        {name: 'Critic', img: 'Critic1', status: 'Tasting 🍷'},
+                        {name: 'Foodie', img: 'Foodie', status: '品尝 😋'},
+                        {name: 'Wine', img: 'Wine', status: '配酒 🍷'}
+                    ]},
+                    { name: "BBQ Zone", members: [
+                        {name: 'Grill', img: 'Grill', status: '烧烤 🍖'}
+                    ]}
+                ]
+            }
+        };
+
+        let currentTribeFilter = 'all';
+
+        function openPeopleModal() {
+            const modal = document.getElementById('peopleModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            filterByTribe('all');
+        }
+
+        function closePeopleModal() {
+            const modal = document.getElementById('peopleModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function filterByTribe(tribeKey) {
+            currentTribeFilter = tribeKey;
+            
+            // Update tab styles (vertical tabs)
+            document.querySelectorAll('.tribe-tab').forEach(tab => {
+                if(tab.dataset.tribe === tribeKey) {
+                    tab.classList.remove('text-slate-400', 'border-transparent');
+                    tab.classList.add('bg-indigo-500/20', 'text-indigo-400', 'border-indigo-500');
+                } else {
+                    tab.classList.add('text-slate-400', 'border-transparent');
+                    tab.classList.remove('bg-indigo-500/20', 'text-indigo-400', 'border-indigo-500');
+                }
+            });
+            
+            renderPeopleList();
+        }
+
+        function renderPeopleList() {
+            const peopleListContainer = document.getElementById('peopleList');
+            if (!peopleListContainer) return;
+            peopleListContainer.innerHTML = '';
+            
+            const tribeKeys = currentTribeFilter === 'all' 
+                ? Object.keys(tribesData) 
+                : [currentTribeFilter];
+            
+            let cardIndex = 0;
+            
+            tribeKeys.forEach(tribeKey => {
+                const tribeData = tribesData[tribeKey];
+                if(!tribeData) return;
+                
+                // Tribe header (only show when viewing all) - spans 2 columns
+                if(currentTribeFilter === 'all') {
+                    peopleListContainer.innerHTML += '<div class="col-span-2 text-sm font-medium mt-4 mb-2 first:mt-0 flex items-center gap-2" style="color: var(--tw-' + tribeData.color + '-400, #a78bfa)"><i class="fa-solid ' + tribeData.icon + '"></i> ' + tribeData.title + '</div>';
+                }
+                
+                // People from all tables in this tribe
+                tribeData.tables.forEach(table => {
+                    table.members.forEach(person => {
+                        const imgUrl = 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + person.img;
+                        const delay = cardIndex * 0.05;
+                        peopleListContainer.innerHTML += '<div onclick="showPersonQR(\'' + person.name + '\', \'' + imgUrl + '\', \'' + person.status + '\', \'' + tribeData.title + '\', \'' + table.name + '\')" class="person-card flex items-center gap-2 p-2 bg-slate-800/50 hover:bg-slate-700/50 hover:scale-[1.02] rounded-lg cursor-pointer transition-all duration-200 border border-transparent hover:border-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/10" style="animation-delay: ' + delay + 's"><img src="' + imgUrl + '" alt="' + person.name + '" class="w-9 h-9 rounded-full border border-slate-600 shrink-0 transition-transform hover:scale-110"><div class="flex-1 min-w-0"><p class="text-white text-xs font-medium truncate">' + person.name + '</p><p class="text-slate-500 text-[10px] truncate">' + person.status + '</p><p class="text-amber-400 text-[10px] flex items-center gap-1 mt-0.5"><i class="fa-solid fa-chair"></i>' + table.name + '</p></div></div>';
+                        cardIndex++;
+                    });
+                });
+            });
+        }
+
+        function showPersonQR(name, img, status, tribe, table) {
+            document.getElementById('qrPersonImg').src = img;
+            document.getElementById('qrPersonName').textContent = name;
+            document.getElementById('qrPersonTribe').textContent = tribe + ' · ' + status;
+            document.getElementById('qrPersonTable').querySelector('span').textContent = table;
+            
+            // Generate real QR code using QR Server API
+            const qrData = encodeURIComponent('https://bar-vibe.app/connect/' + name.toLowerCase() + '?table=' + encodeURIComponent(table) + '&tribe=' + encodeURIComponent(tribe));
+            const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=128x128&data=' + qrData + '&bgcolor=ffffff&color=1e293b';
+            document.getElementById('qrCodeImg').src = qrUrl;
+            
+            const qrModal = document.getElementById('qrModal');
+            qrModal.classList.remove('hidden');
+            qrModal.classList.add('flex');
+        }
+
+        function closeQRModal() {
+            const qrModal = document.getElementById('qrModal');
+            qrModal.classList.add('hidden');
+            qrModal.classList.remove('flex');
+        }
+
+        // Close modals on backdrop click
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('peopleModal').addEventListener('click', function(e) {
+                if(e.target === this) closePeopleModal();
+            });
+            document.getElementById('qrModal').addEventListener('click', function(e) {
+                if(e.target === this) closeQRModal();
+            });
+        });
+
         // Load Order Data from 1.html (LocalStorage)
         window.addEventListener('load', () => {
             const orderData = localStorage.getItem('currentSessionOrder');
