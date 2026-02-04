@@ -205,10 +205,7 @@
             </header>
 
         <!-- CONTENT -->
-        <div class="flex-1 min-h-0 flex flex-col lg:flex-row gap-6 overflow-y-auto lg:items-stretch">
-
-            <!-- LEFT COLUMN: Order & Taste Analysis -->
-            <section class="flex-1 flex flex-col gap-6">
+        <div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_320px] grid-rows-2 gap-6 overflow-y-auto">
 
                 <!-- 1. Order Status -->
                 <div class="glass-panel p-8 flex flex-col">
@@ -271,7 +268,7 @@
                 </div>
 
                 <!-- 2. Taste DNA (Analysis) -->
-                <div class="glass-panel p-8 flex flex-col">
+                <div class="glass-panel p-8 flex flex-col lg:order-3">
                     <div class="flex justify-between items-center mb-5">
                         <h3 class="text-2xl font-bold serif-font text-white flex items-center gap-3">
                             味蕾基因图谱
@@ -326,13 +323,9 @@
                         </div>
                     </div>
                 </div>
-            </section>
 
-            <!-- RIGHT COLUMN: Resonance & Social -->
-            <section class="w-full lg:w-80 flex flex-col gap-6">
-
-                <!-- 1. Resonance (Liquid Orb) -->
-                <div class="glass-panel p-8 flex flex-col items-center justify-center relative h-[280px]">
+                <!-- 3. Resonance (Liquid Orb) -->
+                <div class="glass-panel p-8 flex flex-col items-center justify-center relative lg:order-2">
                     <h3 class="text-sm font-bold text-slate-400 mb-3 uppercase tracking-widest text-center">
                         Bar Resonance<br><span class="text-xs text-slate-500">场所共鸣度</span>
                     </h3>
@@ -352,7 +345,7 @@
                 </div>
 
                 <!-- 2. Radar (Visual) -->
-                <div class="glass-panel p-8 flex flex-col h-[280px]">
+                <div class="glass-panel p-8 flex flex-col lg:order-4">
                     <div class="flex justify-between items-center mb-5 px-1">
                         <span class="text-sm text-slate-300 uppercase tracking-widest font-bold">Nearby Vibes</span>
                         <div class="flex items-center gap-2">
@@ -397,7 +390,6 @@
                     </div>
                 </div>
 
-            </section>
 
         </div>
 
