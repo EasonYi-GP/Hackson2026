@@ -376,17 +376,17 @@
                     <!-- Bar Floor Plan - Realistic Layout -->
                     <div id="bar-floor-plan" class="relative w-full h-full min-h-[320px]">
                         <!-- Bar Counter at Top -->
-                        <div class="absolute top-1 left-1/2 -translate-x-1/2 w-[75%] h-6 bg-gradient-to-b from-amber-900/60 to-amber-950/40 rounded-b-xl border-b border-x border-amber-600/30 flex items-center justify-center gap-1 shadow-md z-30">
-                            <i class="fa-solid fa-wine-bottle text-amber-500/60 text-[8px]"></i>
-                            <span class="text-[7px] text-amber-400/80 font-bold">BAR</span>
-                            <i class="fa-solid fa-champagne-glasses text-amber-500/60 text-[8px]"></i>
+                        <div class="absolute top-1 left-1/2 -translate-x-1/2 w-[60%] h-12 bg-gradient-to-b from-amber-900/60 to-amber-950/40 rounded-b-xl border-b border-x border-amber-600/30 flex items-center justify-center gap-1 shadow-md z-30">
+                            <i class="fa-solid fa-wine-bottle text-amber-500/60 text-[10px]"></i>
+                            <span class="text-[10px] text-amber-400/80 font-bold">BAR</span>
+                            <i class="fa-solid fa-champagne-glasses text-amber-500/60 text-[10px]"></i>
                         </div>
                         
                         <!-- Stage at Left Side -->
-                        <div class="absolute left-1 top-1/2 -translate-y-1/2 w-9 h-[60%] rounded-r-xl bg-gradient-to-r from-purple-900/80 to-indigo-900/60 border-r border-y border-purple-500/50 flex flex-col items-center justify-center gap-2 shadow-lg shadow-purple-500/40 z-30">
-                            <i class="fa-solid fa-microphone-lines text-purple-400 text-[10px]"></i>
-                            <span class="text-[8px] text-purple-300 font-bold tracking-wider vertical-text">STAGE</span>
-                            <i class="fa-solid fa-music text-purple-400 text-[10px] animate-pulse"></i>
+                        <div class="absolute left-1 top-1/2 -translate-y-1/2 w-16 h-[70%] rounded-r-xl bg-gradient-to-r from-purple-900/80 to-indigo-900/60 border-r border-y border-purple-500/50 flex flex-col items-center justify-center gap-2 shadow-lg shadow-purple-500/40 z-30">
+                            <i class="fa-solid fa-microphone-lines text-purple-400 text-[14px]"></i>
+                            <span class="text-[10px] text-purple-300 font-bold tracking-wider vertical-text">STAGE</span>
+                            <i class="fa-solid fa-music text-purple-400 text-[14px] animate-pulse"></i>
                         </div>
                         
                         <!-- Tables Container - Right of stage -->
@@ -552,18 +552,12 @@
                 drinks: allDrinks,
                 tables: [
                     {
-                        name: "Table A",
+                        name: "诗人阁",
                         id: "t-poetic-1",
                         members: [
                             {id: 'p1', name: 'Luna', img: 'Luna', status: '写诗中 ✍️'},
                             {id: 'p2', name: 'Jasper', img: 'Jasper', status: '灵感 🍷'},
-                            {id: 'p3', name: 'Ivy', img: 'Ivy', status: '沉思 🌿'}
-                        ]
-                    },
-                    {
-                        name: "Table B",
-                        id: "t-poetic-2",
-                        members: [
+                            {id: 'p3', name: 'Ivy', img: 'Ivy', status: '沉思 🌿'},
                             {id: 'p4', name: 'Echo', img: 'Echo', status: '低吟 🎵'}
                         ]
                     }
@@ -582,21 +576,13 @@
                 drinks: allDrinks,
                 tables: [
                     {
-                        name: "DJ 舞池",
+                        name: "电音区",
                         id: "t-electro-1",
                         members: [
                             {id: 'e1', name: 'Vibe', img: 'Vibe', status: 'Raving 🕺'},
                             {id: 'e2', name: 'Neon', img: 'Neon', status: '打碟 🎧'},
                             {id: 'e3', name: 'Flash', img: 'Flash', status: '蹦迪 💥'},
                             {id: 'e4', name: 'Bass', img: 'Bass', status: '低音 🔊'}
-                        ]
-                    },
-                    {
-                        name: "VIP Booth",
-                        id: "t-electro-2",
-                        members: [
-                            {id: 'e5', name: 'Rex', img: 'Rex', status: '舞伴 💃'},
-                            {id: 'e6', name: 'Zoe', img: 'Zoe', status: 'Energy ⚡'}
                         ]
                     }
                 ]
@@ -614,20 +600,13 @@
                 drinks: allDrinks,
                 tables: [
                     {
-                        name: "VIP 888",
+                        name: "VIP包厢",
                         id: "t-whisper-1",
                         members: [
                             {id: 'w1', name: 'Boss', img: 'Boss', status: '洽谈 💼'},
                             {id: 'w2', name: 'Jean', img: 'Jean', status: '静听 🤔'},
                             {id: 'w3', name: 'Mark', img: 'Mark', status: '签约 ✍️'},
                             {id: 'w4', name: 'Lisa', img: 'Lisa', status: '谈判 💬'}
-                        ]
-                    },
-                    {
-                        name: "Private",
-                        id: "t-whisper-2",
-                        members: [
-                            {id: 'w5', name: 'Hanks', img: 'Hanks', status: '名片 🤝'}
                         ]
                     }
                 ]
@@ -645,19 +624,12 @@
                 drinks: allDrinks,
                 tables: [
                     {
-                        name: "Bar Area",
+                        name: "静谧角",
                         id: "t-solo-1",
                         members: [
-                            {id: 's1', name: 'Ghost', img: 'Ghost', status: '放空 😶'}
-                        ]
-                    },
-                    {
-                        name: "Terrace",
-                        id: "t-solo-2",
-                        members: [
+                            {id: 's1', name: 'Ghost', img: 'Ghost', status: '放空 😶'},
                             {id: 's2', name: 'Blue', img: 'Blue', status: '听歌 🎧'},
-                            {id: 's3', name: 'Rain', img: 'Rain', status: '看雨 🌧️'},
-                            {id: 's4', name: 'Daze', img: 'Daze', status: '发呆 💭'}
+                            {id: 's3', name: 'Rain', img: 'Rain', status: '看雨 🌧️'}
                         ]
                     }
                 ]
@@ -674,20 +646,21 @@
                 drinks: allDrinks,
                 tables: [
                     {
-                        name: "Gaming A",
+                        name: "游戏桌",
                         id: "t-gamer-1",
                         members: [
                             {id: 'g1', name: 'Player1', img: 'P1', status: 'Rank Up 🎮'},
                             {id: 'g2', name: 'Player2', img: 'P2', status: 'Carry 🏆'},
-                            {id: 'g3', name: 'Pro', img: 'Pro', status: '开黑 🎯'}
+                            {id: 'g3', name: 'Pro', img: 'Pro', status: '开黑 🎯'},
+                            {id: 'g4', name: 'Ace', img: 'Ace', status: 'MVP 🏅'}
                         ]
                     },
                     {
-                        name: "Board Game",
+                        name: "桌游区",
                         id: "t-gamer-2",
                         members: [
-                            {id: 'g4', name: 'Ace', img: 'Ace', status: 'MVP 🏅'},
-                            {id: 'g5', name: 'Storm', img: 'Storm', status: '连胜 🔥'}
+                            {id: 'g5', name: 'Storm', img: 'Storm', status: '连胜 🔥'},
+                            {id: 'g6', name: 'Knight', img: 'Knight', status: '策略 ⚔️'}
                         ]
                     }
                 ]
@@ -704,20 +677,13 @@
                 drinks: allDrinks,
                 tables: [
                     {
-                        name: "Tasting",
+                        name: "美食角",
                         id: "t-foodie-1",
                         members: [
                             {id: 'fd1', name: 'Chef', img: 'Chef1', status: 'Cooking 🍳'},
                             {id: 'fd2', name: 'Critic', img: 'Critic1', status: 'Tasting 🍷'},
                             {id: 'fd3', name: 'Foodie', img: 'Foodie', status: '品尝 😋'},
                             {id: 'fd4', name: 'Wine', img: 'Wine', status: '配酒 🍷'}
-                        ]
-                    },
-                    {
-                        name: "BBQ Zone",
-                        id: "t-foodie-2",
-                        members: [
-                            {id: 'fd5', name: 'Grill', img: 'Grill', status: '烧烤 🍖'}
                         ]
                     }
                 ]
@@ -891,15 +857,14 @@
             const container = document.getElementById('tables-container');
             container.innerHTML = '';
             
-            // Define fixed positions for tables (stage is on left)
-            // Layout: 6 tribes x 2 tables = 12 tables to the right of stage
+            // Define fixed positions for 6 tables (one per tribe)
             const tablePositions = [
-                // Row 1 (below bar) - 4 tables
-                {x: '25%', y: '25%'}, {x: '45%', y: '22%'}, {x: '65%', y: '22%'}, {x: '85%', y: '25%'},
-                // Row 2 (middle) - 4 tables
-                {x: '25%', y: '50%'}, {x: '45%', y: '48%'}, {x: '65%', y: '48%'}, {x: '85%', y: '50%'},
-                // Row 3 (bottom) - 4 tables
-                {x: '25%', y: '75%'}, {x: '45%', y: '73%'}, {x: '65%', y: '73%'}, {x: '85%', y: '75%'}
+                // Row 1 - 3 tables (staggered)
+                {x: '28%', y: '34%'}, {x: '46%', y: '36%'}, {x: '82%', y: '30%'},
+                // Row 2 - 2 tables (offset)
+                {x: '45%', y: '76%'}, {x: '65%', y: '52%'},
+                // Row 3 - 2 tables (游戏桌在右下角)
+                {x: '25%', y: '80%'}, {x: '80%', y: '78%'}
             ];
             
             // Collect all tables with their tribe info
@@ -947,7 +912,7 @@
                 const seatsHTML = table.members.map((u, i) => {
                     const isSelected = selectedMemberIds.has(u.id);
                     const angle = angles[i % angles.length];
-                    const radius = 28; // Larger radius for bigger spacing
+                    const radius = 38; // Larger radius for bigger spacing
                     const x = Math.cos(angle * Math.PI / 180) * radius;
                     const y = Math.sin(angle * Math.PI / 180) * radius;
                     
@@ -960,16 +925,16 @@
                     return `
                     <div id="seat-${u.id}" ${clickable}
                          class="absolute transition-all duration-300 ${cursorStyle} group/seat ${grayFilter} ${selectedScale}"
-                         style="left: calc(50% + ${x}px - 10px); top: calc(50% + ${y}px - 10px); z-index: ${isSelected ? '30' : '10'};">
+                         style="left: calc(50% + ${x}px - 12px); top: calc(50% + ${y}px - 12px); z-index: ${isSelected ? '30' : '10'};">
                         <div class="relative">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=${u.img}&backgroundColor=b6e3f4" 
-                                 class="w-6 h-6 rounded-full bg-slate-700 border-2 ${isSelected && isCurrentTribe ? `border-${tribeColor}-400` : 'border-slate-600'} ${selectedRing} transition-all shadow-md ${isSelected && isCurrentTribe ? `shadow-md shadow-${tribeColor}-500/50` : ''}">
+                                 class="w-7 h-7 rounded-full bg-slate-700 border-2 ${isSelected && isCurrentTribe ? `border-${tribeColor}-400` : 'border-slate-600'} ${selectedRing} transition-all shadow-md ${isSelected && isCurrentTribe ? `shadow-md shadow-${tribeColor}-500/50` : ''}">
                             ${isSelected && isCurrentTribe ? `
                             <div class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-${tribeColor}-500 rounded-full border border-white flex items-center justify-center">
                                 <i class="fa-solid fa-check text-[5px] text-white"></i>
                             </div>` : ''}
                             ${isCurrentTribe ? `
-                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 bg-slate-800/95 rounded text-[7px] whitespace-nowrap opacity-0 group-hover/seat:opacity-100 transition-opacity pointer-events-none border border-white/10 z-40">
+                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 bg-slate-800/95 rounded text-[8px] whitespace-nowrap opacity-0 group-hover/seat:opacity-100 transition-opacity pointer-events-none border border-white/10 z-40">
                                 <div class="font-bold text-white">${u.name}</div>
                             </div>` : ''}
                         </div>
@@ -989,19 +954,19 @@
                 const tableNameColor = allMembersSelected ? `text-white` : (isCurrentTribe ? `text-${tribeColor}-400` : 'text-slate-600');
                 
                 container.innerHTML += `
-                <div class="absolute ${tableOpacity} transition-all duration-300" style="left: ${pos.x}; top: ${pos.y}; transform: translate(-50%, -50%); width: 80px; height: 80px;">
+                <div class="absolute ${tableOpacity} transition-all duration-300" style="left: ${pos.x}; top: ${pos.y}; transform: translate(-50%, -50%); width: 110px; height: 110px;">
                     <!-- Table Surface -->
-                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full ${tableBg} border-2 ${tableBorder} ${tableGlow} flex items-center justify-center ${isCurrentTribe ? 'cursor-pointer hover:scale-110' : ''} transition-all shadow-lg ${tableScale}"
+                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full ${tableBg} border-2 ${tableBorder} ${tableGlow} flex items-center justify-center ${isCurrentTribe ? 'cursor-pointer hover:scale-110' : ''} transition-all shadow-lg ${tableScale}"
                          ${clickableTable}>
                         ${allMembersSelected ? `<div class="absolute inset-0 rounded-full bg-${tribeColor}-500/20 animate-pulse"></div>` : ''}
                         <div class="text-center relative z-10">
-                            ${allMembersSelected ? `<i class="fa-solid fa-check text-[8px] text-${tribeColor}-300 mb-0.5 block"></i>` : ''}
-                            <div class="text-[6px] ${tableNameColor} font-bold leading-none">${table.name.length > 5 ? table.name.substring(0,4) : table.name}</div>
-                            ${someMembersSelected && !allMembersSelected ? `<div class="text-[5px] text-${tribeColor}-400 mt-0.5">${table.members.filter(m => selectedMemberIds.has(m.id)).length}/${table.members.length}</div>` : ''}
+                            ${allMembersSelected ? `<i class="fa-solid fa-check text-[10px] text-${tribeColor}-300 mb-0.5 block"></i>` : ''}
+                            <div class="text-[7px] ${tableNameColor} font-bold leading-none">${table.name.length > 5 ? table.name.substring(0,4) : table.name}</div>
+                            ${someMembersSelected && !allMembersSelected ? `<div class="text-[6px] text-${tribeColor}-400 mt-0.5">${table.members.filter(m => selectedMemberIds.has(m.id)).length}/${table.members.length}</div>` : ''}
                         </div>
                     </div>
                     <!-- Tribe color dot / Selection indicator -->
-                    <div class="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-${tribeColor}-500 ${isCurrentTribe ? '' : 'opacity-30'} border border-white/30 ${allMembersSelected ? 'animate-bounce' : ''}"></div>
+                    <div class="absolute top-0 right-0 w-3 h-3 rounded-full bg-${tribeColor}-500 ${isCurrentTribe ? '' : 'opacity-30'} border border-white/30 ${allMembersSelected ? 'animate-bounce' : ''}"></div>
                     <!-- Seats -->
                     ${seatsHTML}
                 </div>
