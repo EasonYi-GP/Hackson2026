@@ -205,7 +205,7 @@
         </aside>
 
         <!-- LEFT COLUMN: TRIBE SELECTOR -->
-        <div class="w-full md:w-48 flex flex-col gap-1.5 shrink-0 md:max-h-[calc(100vh-2rem)] md:overflow-y-auto px-0.5 py-1">
+        <div class="w-full md:w-48 flex flex-col gap-1 shrink-0 md:max-h-[calc(100vh-2rem)] md:overflow-y-auto px-0.5 py-1">
             <header class="mb-0.5 shrink-0">
                 <h1 class="text-base font-bold italic tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">
                     选择你的风味频率
@@ -214,18 +214,20 @@
             </header>
 
             <!-- Card 1: Poetic (Violet) -->
-            <div onclick="selectTribe('poetic')" id="tribe-poetic" class="relative group cursor-pointer h-20 rounded-2xl bg-violet-900/40 border border-violet-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden tribe-selected hover:border-violet-400/50">
+            <div onclick="selectTribe('poetic')" id="tribe-poetic" class="relative group cursor-pointer h-24 rounded-2xl bg-violet-900/40 border border-violet-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden tribe-selected hover:border-violet-400/50 hover:shadow-lg hover:shadow-violet-500/30 hover:-translate-y-0.5">
                 <div class="effect-container">
                     <div class="absolute inset-0 bg-gradient-to-t from-violet-900/90 via-transparent to-transparent"></div>
                     <div class="absolute top-0 right-0 w-full h-full opacity-30 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+                    <div class="absolute top-2 left-2 w-1 h-1 bg-violet-300 rounded-full animate-ping opacity-75"></div>
+                    <div class="absolute top-4 right-6 w-0.5 h-0.5 bg-violet-200 rounded-full animate-pulse"></div>
                 </div>
                 
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-0.5">
-                            <div class="text-violet-300 font-mono text-[9px] mb-0.5 bg-violet-900/50 inline-block px-1 rounded">#灵感 #月光 #诗意</div>
+                <div class="relative z-10 h-full flex items-end">
+                    <div class="flex justify-between items-end w-full">
+                        <div class="flex flex-col justify-between h-16">
+                            <div class="text-violet-300 font-mono text-[9px] bg-violet-900/50 inline-block px-1 rounded w-fit">#灵感 #月光 #诗意</div>
                             <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">微醺诗人</h2>
-                            <p class="text-violet-100/70 text-[9px] mt-0.5 line-clamp-1">笔尖流淌的不仅是墨水，还有月光与酒香。</p>
+                            <p class="text-violet-100/70 text-[9px] line-clamp-1">笔尖流淌的不仅是墨水，还有月光与酒香。</p>
                         </div>
                         <i class="fa-solid fa-feather-pointed text-xl text-violet-400 drop-shadow-[0_0_10px_rgba(167,139,250,0.5)] group-hover:scale-110 group-hover:-rotate-12 transition-transform"></i>
                     </div>
@@ -233,96 +235,113 @@
             </div>
 
             <!-- Card 2: Electro (Rose) -->
-            <div onclick="selectTribe('electro')" id="tribe-electro" class="relative group cursor-pointer h-20 rounded-2xl bg-rose-900/40 border border-rose-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-rose-400/50">
+            <div onclick="selectTribe('electro')" id="tribe-electro" class="relative group cursor-pointer h-28 rounded-2xl bg-rose-900/40 border border-rose-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-rose-400/50 hover:shadow-lg hover:shadow-rose-500/30 hover:-translate-y-0.5">
                 <div class="effect-container">
                     <div class="ember left-[20%] top-[90%] animate-ember-fly" style="animation-delay: 0.1s"></div>
                     <div class="ember left-[50%] top-[80%] animate-ember-fly" style="animation-delay: 0.5s"></div>
+                    <div class="ember left-[70%] top-[85%] animate-ember-fly" style="animation-delay: 0.8s"></div>
+                    <div class="ember left-[35%] top-[95%] animate-ember-fly" style="animation-delay: 1.2s"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-rose-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-rose-500/10 via-transparent to-rose-500/10 animate-pulse"></div>
                 </div>
 
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-0.5">
-                            <div class="text-rose-300 font-mono text-[9px] mb-0.5 bg-rose-900/50 inline-block px-1 rounded">#Rave #能量 #释放</div>
-                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">燥热电音</h2>
-                            <p class="text-rose-100/70 text-[9px] mt-0.5 line-clamp-1">跟随强劲的律动，释放体内所有的多巴胺。</p>
+                <div class="relative z-10 h-full flex items-end">
+                    <div class="flex justify-between items-end w-full">
+                        <div class="flex flex-col justify-between h-20">
+                            <div class="text-rose-300 font-mono text-[9px] bg-rose-900/50 inline-block px-1 rounded w-fit">#Rave #能量 #释放</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">燥热电音</h2>
+                            <p class="text-rose-100/70 text-[9px] line-clamp-1">跟随强劲的律动，释放体内所有的多巴胺。</p>
                         </div>
-                        <i class="fa-solid fa-bolt text-xl text-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)] group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-bolt text-2xl text-rose-500 drop-shadow-[0_0_15px_rgba(244,63,94,0.8)] group-hover:scale-110 transition-transform animate-pulse"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 3: Whisper (Amber) -->
-            <div onclick="selectTribe('whisper')" id="tribe-whisper" class="relative group cursor-pointer h-20 rounded-2xl bg-amber-900/40 border border-amber-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-amber-400/50">
+            <div onclick="selectTribe('whisper')" id="tribe-whisper" class="relative group cursor-pointer h-28 rounded-2xl bg-amber-900/40 border border-amber-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-amber-400/50 hover:shadow-lg hover:shadow-amber-500/30 hover:-translate-y-0.5">
                 <div class="effect-container">
                     <div class="absolute -bottom-1/2 -left-1/2 w-[200%] h-[200%] bg-amber-600/30 rounded-[40%] animate-liquid-sway filter blur-2xl opacity-60"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-amber-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-3 right-3 w-2 h-2 bg-amber-400/50 rounded-full blur-sm animate-pulse"></div>
+                    <div class="absolute top-5 left-4 w-1 h-1 bg-amber-300/60 rounded-full animate-ping" style="animation-duration: 2s"></div>
                 </div>
 
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-0.5">
-                            <div class="text-amber-300 font-mono text-[9px] mb-0.5 bg-amber-900/50 inline-block px-1 rounded">#机遇 #合作 #连接</div>
-                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">商务洽谈</h2>
-                            <p class="text-amber-100/70 text-[9px] mt-0.5 line-clamp-1">在杯酒之间交换视野，于谈笑之中达成共识。</p>
+                <div class="relative z-10 h-full flex items-end">
+                    <div class="flex justify-between items-end w-full">
+                        <div class="flex flex-col justify-between h-20">
+                            <div class="text-amber-300 font-mono text-[9px] bg-amber-900/50 inline-block px-1 rounded w-fit">#机遇 #合作 #连接</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">商务洽谈</h2>
+                            <p class="text-amber-100/70 text-[9px] line-clamp-1">在杯酒之间交换视野，于谈笑之中达成共识。</p>
                         </div>
-                        <i class="fa-solid fa-handshake text-xl text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-handshake text-2xl text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)] group-hover:scale-110 transition-transform"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 4: Solo (Cyan) -->
-            <div onclick="selectTribe('solo')" id="tribe-solo" class="relative group cursor-pointer h-20 rounded-2xl bg-cyan-900/40 border border-cyan-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-cyan-400/50">
+            <div onclick="selectTribe('solo')" id="tribe-solo" class="relative group cursor-pointer h-28 rounded-2xl bg-cyan-900/40 border border-cyan-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-500/30 hover:-translate-y-0.5">
                 <div class="effect-container">
                     <div class="bubble w-2 h-2 left-[20%] animate-bubble-rise" style="animation-delay: 0s"></div>
                     <div class="bubble w-3 h-3 left-[70%] animate-bubble-rise" style="animation-delay: 0.5s"></div>
+                    <div class="bubble w-1.5 h-1.5 left-[45%] animate-bubble-rise" style="animation-delay: 1s"></div>
+                    <div class="bubble w-2 h-2 left-[85%] animate-bubble-rise" style="animation-delay: 1.5s"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-cyan-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-cyan-400/5 to-transparent"></div>
                 </div>
 
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-0.5">
-                            <div class="text-cyan-300 font-mono text-[9px] mb-0.5 bg-cyan-900/50 inline-block px-1 rounded">#独处 #白噪音 #自在</div>
-                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">独自放空</h2>
-                            <p class="text-cyan-100/70 text-[9px] mt-0.5 line-clamp-1">享受一个人的宁静，与世界保持微醺的距离。</p>
+                <div class="relative z-10 h-full flex items-end">
+                    <div class="flex justify-between items-end w-full">
+                        <div class="flex flex-col justify-between h-20">
+                            <div class="text-cyan-300 font-mono text-[9px] bg-cyan-900/50 inline-block px-1 rounded w-fit">#独处 #白噪音 #自在</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">独自放空</h2>
+                            <p class="text-cyan-100/70 text-[9px] line-clamp-1">享受一个人的宁静，与世界保持微醺的距离。</p>
                         </div>
-                        <i class="fa-solid fa-wind text-xl text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-wind text-2xl text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 5: Gamer (Indigo) -->
-            <div onclick="selectTribe('gamer')" id="tribe-gamer" class="relative group cursor-pointer h-20 rounded-2xl bg-indigo-900/40 border border-indigo-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-indigo-400/50">
+            <div onclick="selectTribe('gamer')" id="tribe-gamer" class="relative group cursor-pointer h-28 rounded-2xl bg-indigo-900/40 border border-indigo-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-indigo-400/50 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5">
                 <div class="effect-container">
                     <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-2 right-4 w-1 h-1 bg-indigo-400 rounded-full animate-ping" style="animation-duration: 2s"></div>
+                    <div class="absolute top-4 left-3 w-0.5 h-0.5 bg-indigo-300 rounded-full animate-pulse"></div>
+                    <div class="absolute bottom-6 right-8 w-0.5 h-0.5 bg-indigo-200 rounded-full animate-ping" style="animation-duration: 1.5s"></div>
+                    <div class="absolute top-6 right-12 w-1 h-1 bg-indigo-500/80 rounded-full animate-bounce" style="animation-duration: 2s"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-transparent to-indigo-500/5"></div>
                 </div>
 
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-0.5">
-                            <div class="text-indigo-300 font-mono text-[9px] mb-0.5 bg-indigo-900/50 inline-block px-1 rounded">#开黑 #上分 #竞技</div>
-                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">游戏人生</h2>
-                            <p class="text-indigo-100/70 text-[9px] mt-0.5 line-clamp-1">在虚拟世界主宰全场，在现实碰杯同庆。</p>
+                <div class="relative z-10 h-full flex items-end">
+                    <div class="flex justify-between items-end w-full">
+                        <div class="flex flex-col justify-between h-20">
+                            <div class="text-indigo-300 font-mono text-[9px] bg-indigo-900/50 inline-block px-1 rounded w-fit">#开黑 #上分 #竞技</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">游戏人生</h2>
+                            <p class="text-indigo-100/70 text-[9px] line-clamp-1">在虚拟世界主宰全场，在现实碰杯同庆。</p>
                         </div>
-                        <i class="fa-solid fa-gamepad text-xl text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)] group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-gamepad text-2xl text-indigo-400 drop-shadow-[0_0_10px_rgba(129,140,248,0.5)] group-hover:scale-110 group-hover:rotate-6 transition-transform"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Card 6: Foodie (Emerald) -->
-            <div onclick="selectTribe('foodie')" id="tribe-foodie" class="relative group cursor-pointer h-20 rounded-2xl bg-emerald-900/40 border border-emerald-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-emerald-400/50">
+            <div onclick="selectTribe('foodie')" id="tribe-foodie" class="relative group cursor-pointer h-28 rounded-2xl bg-emerald-900/40 border border-emerald-500/30 p-2 flex flex-col justify-end transition-all duration-300 overflow-hidden opacity-60 scale-95 hover:border-emerald-400/50 hover:shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-0.5">
                 <div class="effect-container">
                     <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-transparent to-transparent"></div>
+                    <div class="absolute top-2 left-4 text-[10px] opacity-50 animate-bounce" style="animation-duration: 3s">🍽️</div>
+                    <div class="absolute top-3 right-10 text-[8px] opacity-40 animate-pulse">✨</div>
+                    <div class="absolute top-5 left-10 text-[6px] opacity-30 animate-ping" style="animation-duration: 2s">🍷</div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-transparent"></div>
                 </div>
 
-                <div class="relative z-10">
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-0.5">
-                            <div class="text-emerald-300 font-mono text-[9px] mb-0.5 bg-emerald-900/50 inline-block px-1 rounded">#探店 #尝鲜 #老饕</div>
-                            <h2 class="text-lg font-bold text-white leading-none drop-shadow-lg">美食探店</h2>
-                            <p class="text-emerald-100/70 text-[9px] mt-0.5 line-clamp-1">唯有美食与爱不可辜负，味蕾的极致探索。</p>
+                <div class="relative z-10 h-full flex items-end">
+                    <div class="flex justify-between items-end w-full">
+                        <div class="flex flex-col justify-between h-20">
+                            <div class="text-emerald-300 font-mono text-[9px] bg-emerald-900/50 inline-block px-1 rounded w-fit">#探店 #尝鲜 #老饕</div>
+                            <h2 class="text-xl font-bold text-white leading-none drop-shadow-lg">美食探店</h2>
+                            <p class="text-emerald-100/70 text-[9px] line-clamp-1">唯有美食与爱不可辜负，味蕾的极致探索。</p>
                         </div>
-                        <i class="fa-solid fa-utensils text-xl text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)] group-hover:scale-110 transition-transform"></i>
+                        <i class="fa-solid fa-utensils text-2xl text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)] group-hover:scale-110 group-hover:rotate-12 transition-transform"></i>
                     </div>
                 </div>
             </div>
@@ -376,17 +395,17 @@
                     <!-- Bar Floor Plan - Realistic Layout -->
                     <div id="bar-floor-plan" class="relative w-full h-full min-h-[320px]">
                         <!-- Bar Counter at Top -->
-                        <div class="absolute top-1 left-1/2 -translate-x-1/2 w-[35%] h-12 bg-gradient-to-b from-amber-900/60 to-amber-950/40 rounded-b-xl border-b border-x border-amber-600/30 flex items-center justify-center gap-1 shadow-md z-30">
-                            <i class="fa-solid fa-wine-bottle text-amber-500/60 text-[10px]"></i>
-                            <span class="text-[10px] text-amber-400/80 font-bold">BAR</span>
-                            <i class="fa-solid fa-champagne-glasses text-amber-500/60 text-[10px]"></i>
+                        <div class="absolute top-1 left-1/2 -translate-x-1/2 w-[35%] h-12 bg-gradient-to-b from-amber-900/60 to-amber-950/40 rounded-b-xl border-b border-x border-amber-600/30 flex items-center justify-center gap-2 shadow-md z-30">
+                            <i class="fa-solid fa-wine-bottle text-amber-500/60 text-sm"></i>
+                            <span class="text-lg font-black italic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" style="font-family: 'Georgia', serif;">BAR</span>
+                            <i class="fa-solid fa-champagne-glasses text-amber-500/60 text-sm"></i>
                         </div>
                         
                         <!-- Stage at Left Side -->
                         <div class="absolute left-1 top-1/2 -translate-y-1/2 w-16 h-[70%] rounded-r-xl bg-gradient-to-r from-purple-900/80 to-indigo-900/60 border-r border-y border-purple-500/50 flex flex-col items-center justify-center gap-2 shadow-lg shadow-purple-500/40 z-30">
-                            <i class="fa-solid fa-microphone-lines text-purple-400 text-[14px]"></i>
-                            <span class="text-[10px] text-purple-300 font-bold tracking-wider vertical-text">STAGE</span>
-                            <i class="fa-solid fa-music text-purple-400 text-[14px] animate-pulse"></i>
+                            <i class="fa-solid fa-microphone-lines text-purple-400 text-base"></i>
+                            <span class="text-lg font-black italic tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-purple-300 via-pink-400 to-purple-500 drop-shadow-[0_0_8px_rgba(168,85,247,0.6)] vertical-text rotate-180" style="font-family: 'Georgia', serif;">STAGE</span>
+                            <i class="fa-solid fa-music text-purple-400 text-base animate-pulse"></i>
                         </div>
                         
                         <!-- Tables Container - Right of stage -->
@@ -560,6 +579,15 @@
                             {id: 'p3', name: 'Ivy', img: 'Ivy', status: '沉思 🌿'},
                             {id: 'p4', name: 'Echo', img: 'Echo', status: '低吟 🎵'}
                         ]
+                    },
+                    {
+                        name: "月光序",
+                        id: "t-poetic-2",
+                        members: [
+                            {id: 'p5', name: 'Poem', img: 'Poem', status: '吟诵 🌙'},
+                            {id: 'p6', name: 'Muse', img: 'Muse', status: '酷撼 ✨'},
+                            {id: 'p7', name: 'Star', img: 'Star', status: '入神 🌟'}
+                        ]
                     }
                 ]
             },
@@ -653,6 +681,15 @@
                             {id: 'g2', name: 'Player2', img: 'P2', status: 'Carry 🏆'},
                             {id: 'g3', name: 'Pro', img: 'Pro', status: '开黑 🎯'},
                             {id: 'g4', name: 'Ace', img: 'Ace', status: 'MVP 🏅'}
+                        ]
+                    },
+                    {
+                        name: "竞技区",
+                        id: "t-gamer-2",
+                        members: [
+                            {id: 'g5', name: 'Nova', img: 'Nova', status: '练习 🔥'},
+                            {id: 'g6', name: 'King', img: 'King', status: '上分 👑'},
+                            {id: 'g7', name: 'Rush', img: 'Rush', status: '冲刺 ⚡'}
                         ]
                     }
                 ]
@@ -849,14 +886,14 @@
             const container = document.getElementById('tables-container');
             container.innerHTML = '';
             
-            // Define fixed positions for 6 tables (one per tribe)
+            // Define fixed positions for 8 tables
             const tablePositions = [
                 // Row 1 - 3 tables (staggered)
                 {x: '26%', y: '52%'}, {x: '46%', y: '36%'}, {x: '82%', y: '30%'},
                 // Row 2 - 2 tables (offset)
-                {x: '80%', y: '78%'}, {x: '45%', y: '76%'},
-                // Row 3 - 1 table
-                {x: '65%', y: '52%'}
+                {x: '80%', y: '78%'}, {x: '50%', y: '70%'},
+                // Row 3 - 3 tables
+                {x: '65%', y: '52%'}, {x: '28%', y: '22%'}, {x: '28%', y: '88%'}
             ];
             
             // Collect all tables with their tribe info
